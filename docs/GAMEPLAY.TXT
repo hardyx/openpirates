@@ -1,0 +1,69 @@
+General Play:
+  openPirates operates in 2 main modes. A window mode and a navgation mode. In the window mode the mouse cursor can be used
+  to make selections given by windows. If words start changeing color as the cursor hovers over them then an item is selectable.
+  Navagation mode mainly involves directing your ship in the direction you want to go. This mode will include ship/land battles
+  in the future. A third mode will involve the fencing part of the game.
+
+Start a game:
+  At the start menu there are 3 options:
+    1. Start (Quick) a new career?		This option will drop you instantly into the action, and career/timeline decisions are defaults
+    2. Start (Normal) a new career?		This option will walk you through the process of starting your career
+    3. Continue a saved career?			(NOT IMPLEMENTED)
+
+Begin your career:
+    1. Select a time period.			this the timeperiod you will start in. Different times mean different conditions for the nations.
+    2. Select a nation.				this is the nationality you originate, but you can always switch sides.
+    3. Give a name.				this is the name you will be addressed by. If nothing is given you will go by Incognito.
+    4. Select a difficutly level.		this is the starting difficulty, this can be adjusted lower or higher during a divide the plunder event.
+    5. Select a special ability.		this is a one time special ability that can give you a advantage in thier respective areas.
+
+Navagation Mode:
+    Once youve started a career you will be droped into the navgation mode. You can rotate the ship with the directional keys left and right.
+    If you hit land the crew will disembark from the ship and walk on the land. The crew can be moved with the directional keys up/down/left/right.
+    When you want to sail again just move the crew into the ship and the ship will begin sailing in the oppisite direction.
+    The ship and crew can also enter towns. Simply move them into the town and the town dialog will begin.
+    Also during the navgation mode escape can be used to being up the main menu. This will allow you to restart the game, save or load a game (NOT IMPLEMENTED)
+    or exit the program.
+
+Outside a Town:
+    Once arriving at a town a dialog will ask you what you intend to do at the town.
+    1. Sail/March into Harbor			enter the town, beware if the nation the town belongs to has a negative view of you it may fire on your ship.
+    2. Attack the Town				use your flagship and attempt to land your crew near the town for a battle in the fort. (NOT IMPLEMENTED)
+    3. Sneak into Town				if a town views you negatively you can attempt to sneak in and visit some of the towns buildings.
+    4. Leave the Town				turn around and begin sailing or marching in the navagation mode.
+
+Inside a Town:
+    Inside the town (depending how you entered) a dialog will ask you what your buisness in the town will be.
+    1. Governor					visiting the governor can result in a number of events.
+	a. rewards for past activity that this nation view positivly (also might be an offer for marque or amnesty)
+	b. reports of the nation's current relations with other nations (war. peace. allied)
+	c. some time with the governor's daughter
+    2. Tavern					a source of crew and information
+	a. sailors ask to join your crew
+	b. traveller with another towns information
+	c. seller with pirate treasure map
+	d. current events up that point in time (prirate/indian attacks, malaria, gold rush, ... etc)
+    3. Merchant					here you can sell goods acquired from trading or privateering
+    4. Shipwright				fix and sell ships
+    5. Divide the Plunder			once you decide the current cruise is at its end, divide the plunder and begin a new cruise or retire
+    6. Information				central area for reviewing all the information regarding your current knowledge of the world and your crew
+    7. Leave					return to navgation mode
+
+Information Window:
+    1. Continue Travels				leave this menu and return to the previous mode
+    2. Party Status				all information related to the crew
+    3. Personal Status				current results of your career
+    4. Ship's Log				a list of recent events (both world and personal)
+    5. Maps					treasure maps (NOT IMPLEMENTED)
+    6. Cities					a list of all cities and their current status
+    7. Take Sun Sight				lost then use this method to determine your location (NOT IMPLEMENTED)
+    8. Search					search the current location for an important item (treasure, fmaily) (NOT IMPLEMENTED)
+    9. Save Game				(NOT IMPLEMENTED)
+    
+Battle Modes
+    Sea:
+      (NOT IMPLEMENTED)
+    Land
+      (NOT IMPLEMENTED)
+    Fencing
+      (NOT IMPLEMENTED)

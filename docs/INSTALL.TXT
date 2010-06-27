@@ -1,0 +1,15 @@
+Supported Compile Methods:
+
+  Codeblocks
+  Makefile (TBD)
+
+Dependencies
+To compile the source code you need the development libraries:
+ - SDL (http://www.libsdl.org/download-1.2.php) and
+ - SDL_image (http://www.libsdl.org/projects/SDL_image/)
+ - SDL_mixer (http://www.libsdl.org/projects/SDL_mixer/)
+ - SDL_ttf (http://www.libsdl.org/projects/SDL_ttf/)
+
+Install
+
+  Files can be installed anywhere, with the data placed in the data folder.
