@@ -30,9 +30,6 @@ class CMenumain
 
         int8_t Run( void );
 
-        //CMenumain(const CMenumain &);
-       // CMenumain & operator=(const CMenumain&);
-
     private:
         CResources&         mResources;
         CGraphic&           mScreen;

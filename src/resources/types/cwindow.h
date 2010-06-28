@@ -20,6 +20,7 @@
 #define CWINDOW_H
 
 #include "global.h"
+#include "resources/cresources.h"
 #include "resources/ccontrols.h"
 #include "resources/coptions.h"
 #include "resources/types/cgraphic.h"
@@ -83,7 +84,7 @@ class CWindow
         void UpdateBackgroundImage( CGraphic* bkgnd_image );
         void UpdateBackgroundColor( SDL_Color* bkgnd_color );
         void Reprocess( void );
-        int8_t Activate( CGraphic& screen, CGraphic* border_gfx, CSpriteDynamic& pointer, TTF_Font* font, CFontOptions& fontoptions );
+        int8_t Activate( CResources& resources, CGraphic* border_gfx, CSpriteDynamic& pointer, TTF_Font* font );
 
     protected:
         CControls&      mControls;
@@ -109,7 +110,7 @@ class CWindow
 		int8_t  Draw( SDL_Surface* screen, TTF_Font* font, SDL_Color* fontcolor, CGraphic* border_gfx, CSpriteDynamic& pointer, int8_t pointer_select = 0 );
         int8_t  DrawText( SDL_Surface* screen, TTF_Font* font, SDL_Color* fontcolor, SDL_Rect* dimensions, CSpriteDynamic& pointer, int8_t pointer_select );
         void    DrawBorder( SDL_Surface* screen, CGraphic* border_gfx );
-        int8_t  HandleEvents( CSpriteDynamic& pointer );
+        int8_t  HandleEvents( CResources& resources, CSpriteDynamic& pointer );
         void    FadeFontColor( void );
         void    FadeColor( uint8_t& colorcomp, int8_t delta );
 

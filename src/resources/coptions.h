@@ -26,26 +26,34 @@ class CScreenOptions
 {
     public:
         CScreenOptions() :
-            mWidth  (0),
-            mHeight (0),
-            mBpp    (0)
+            mWidth      (SCREEN_WIDTH),
+            mHeight     (SCREEN_HEIGHT),
+            mBpp        (SCREEN_BPP),
+            mFullscreen (FULLSCREEN),
+            mDoublebuf  (DOUBLEBUF)
         {
         }
         virtual ~CScreenOptions() {}
 
         // Getters
-        uint16_t Width( void )      { return mWidth; }
-        uint16_t Height( void )     { return mHeight; }
-        uint8_t Bpp( void )         { return mBpp; }
+        uint16_t    Width( void )       { return mWidth; }
+        uint16_t    Height( void )      { return mHeight; }
+        uint8_t     Bpp( void )         { return mBpp; }
+        bool        Fullscreen( void )  { return mFullscreen; }
+        bool        Doublebuf( void )   { return mDoublebuf; }
         // Setters
         void Width( uint16_t v )    { mWidth = v; }
         void Height( uint16_t v )   { mHeight = v; }
         void Bpp( uint8_t v )       { mBpp = v; }
+        void Fullscreen( bool v )   { mFullscreen = v; }
+        void Doublebuf( bool v )    { mDoublebuf = v; }
 
     private:
         uint16_t    mWidth;
         uint16_t    mHeight;
         uint8_t     mBpp;
+        bool        mFullscreen;
+        bool        mDoublebuf;
 };
 
 class CSoundOptions

@@ -21,6 +21,7 @@
 
 #include "global.h"
 #include "managers/cmanagerwindow.h"
+#include "menus/cmenuoptions.h"
 
 class CMenustart
 {
@@ -37,6 +38,7 @@ class CMenustart
         CManager<CString>&  mStrings;
         CManager<CGraphic>& mGraphics;
         CManagerWindow      mManagerwindow;
+        CMenuOptions        mMenuOptions;
         bool mAutoselect;
 
 		int8_t NewCareer( bool autoselect );

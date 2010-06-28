@@ -225,20 +225,23 @@ int8_t CModeBattle::HandleEvents( void )
                     case CTRL_QUIT:
                         result = SIG_FAIL;
                         break;
+                    case CTRL_FULLSCREEN:
+                        mResources.ToggleFullscreen();
+                        break;;
                     case CTRL_MENU:
                         result = mMainmenu.Run();
                         break;
                     case CTRL_UP:
-                        VelocityP1( -1, YAXIS );
+                        VelocityP1( -P1_BATTLE_SPEED, YAXIS );
                         break;
                     case CTRL_DOWN:
-                        VelocityP1( 1, YAXIS );
+                        VelocityP1( P1_BATTLE_SPEED, YAXIS );
                         break;
                     case CTRL_RIGHT:
-                        VelocityP1( 1, XAXIS );
+                        VelocityP1( P1_BATTLE_SPEED, XAXIS );
                         break;
                     case CTRL_LEFT:
-                        VelocityP1( -1, XAXIS );
+                        VelocityP1( -P1_BATTLE_SPEED, XAXIS );
                         break;
                     case CTRL_ACTION:
                         if ( mBattleMode==SEA_VS_SEA || mBattleMode==SEA_VS_LAND )

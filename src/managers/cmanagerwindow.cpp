@@ -18,12 +18,11 @@
 
 #include "managers/cmanagerwindow.h"
 
-CManagerWindow::CManagerWindow(CGraphic& screen, CControls& events, CFontOptions& fontoptions ) :
-    mScreen     (screen),
-    mEvents     (events),
+CManagerWindow::CManagerWindow( CResources& resources ) :
+    mResources  (resources),
+    mEvents     (mResources.Controls()),
     mpBorder    (NULL),
     mpFont      (NULL),
-    mFontOptions(fontoptions),
     mPointer    (),
     mWindows    ()
 {
@@ -41,7 +40,7 @@ int8_t CManagerWindow::LoadResources( TTF_Font* font, CGraphic* border, CGraphic
 
     if (font!=NULL)
     {
-        mpFont          = font;
+        mpFont = font;
     }
     else
     {
@@ -163,11 +162,7 @@ uint8_t CManagerWindow::ActivateWindow( uint8_t index )
 
     if ( index <= mWindows.size()-1 )
     {
-        result = mWindows.at(index)->Activate( mScreen,
-                                               mpBorder,
-                                               mPointer,
-                                               mpFont,
-                                               mFontOptions );
+        result = mWindows.at(index)->Activate( mResources, mpBorder, mPointer, mpFont );
     }
     else
     {

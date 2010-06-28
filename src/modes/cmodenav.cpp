@@ -107,20 +107,23 @@ int8_t CModeNav::HandleEvents( void )
                     case CTRL_QUIT:
                         result = SIG_FAIL;
                         break;
+                    case CTRL_FULLSCREEN:
+                        mResources.ToggleFullscreen();
+                        break;
                     case CTRL_MENU:
                         result = mMainmenu.Run();
                         break;
                     case CTRL_UP:
-                        PlayerVelocity( -1, YAXIS );
+                        PlayerVelocity( -P1_NAV_SPEED, YAXIS );
                         break;
                     case CTRL_DOWN:
-                        PlayerVelocity( 1, YAXIS );
+                        PlayerVelocity( P1_NAV_SPEED, YAXIS );
                         break;
                     case CTRL_RIGHT:
-                        PlayerVelocity( 1, XAXIS );
+                        PlayerVelocity( P1_NAV_SPEED, XAXIS );
                         break;
                     case CTRL_LEFT:
-                        PlayerVelocity( -1, XAXIS );
+                        PlayerVelocity( -P1_NAV_SPEED, XAXIS );
                         break;
 #ifdef DEBUG
                     case CTRL_DBG_BOXES:

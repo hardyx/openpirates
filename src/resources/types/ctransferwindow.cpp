@@ -81,11 +81,10 @@ int8_t CTransferWindow::Run( int type, const std::string& namea, const std::stri
         // Start with a dark blue background
         SDL_FillRect(mScreen.Image(), NULL, SDL_MapRGB( mScreen.Image()->format, 0x00, 0x00, 0x40 ) );
 
-        result = Activate( mScreen,
+        result = Activate( mResources,
                            mpBorder,
                            mPointer,
-                           mResources.Font(),
-                           mResources.Options().Font() );
+                           mResources.Font() );
 
         switch( result )
         {

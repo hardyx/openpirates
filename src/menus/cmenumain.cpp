@@ -24,9 +24,7 @@ CMenumain::CMenumain( CResources& resources ) :
     mPlayer         (mResources.Data().Player()),
     mStrings        (mResources.Data().Strings()),
     mGraphics       (mResources.Data().Graphics()),
-    mManagerwindow  (mScreen,
-                     mResources.Controls(),
-                     mResources.Options().Font())
+    mManagerwindow  (mResources)
 {
 }
 

@@ -70,7 +70,8 @@ class CResources
         void Joystick( SDL_Joystick* v )    { mpJoystick = v; }
         void Font( TTF_Font* v )            { mpFont = v; }
 
-        void AssignScreenImage( SDL_Surface* v );
+        int8_t SetVideoMode( void );
+        int8_t ToggleFullscreen( void );
         int8_t LoadResources( const std::string& file_path );
         int8_t LoadFont( void );
         int8_t LoadActiveRole( void );

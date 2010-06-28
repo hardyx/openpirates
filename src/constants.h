@@ -39,6 +39,8 @@
 #define SCREEN_WIDTH    640
 #define SCREEN_HEIGHT   480
 #define SCREEN_BPP      16
+#define FULLSCREEN      true
+#define DOUBLEBUF       true
 #define FRAME_LIMIT     true
 #define FRAME_CALC      true
 #define SOUND_FREQ      44100
@@ -51,6 +53,9 @@
 #define CLOUD_COUNT     5
 #define WAVE_COUNT      40
 #define WAVE_SPEED      15
+#define P1_NAV_SPEED    1
+#define P1_BATTLE_SPEED 1
+#define POINTER_SPEED   5
 
 // Frame Control/Defaults
 #define SYNC_FRAME          3
@@ -86,6 +91,8 @@
 #define CFG_SCREEN_WIDTH    "*screen_width"
 #define CFG_SCREEN_HEIGHT   "*screen_height"
 #define CFG_SCREEN_BPP      "*screen_bpp"
+#define CFG_FULLSCREEN      "*fullscreen"
+#define CFG_DOUBLEBUF       "*doublebuf"
 #define CFG_SOUND_FREQ      "*sound_frequency"
 #define CFG_SOUND_CHAN      "*sound_channels"
 #define CFG_SOUND_SAMPLE    "*sound_sample"
@@ -215,18 +222,19 @@ enum strings_list_t
 
 enum controls_list_t
 {
-    CTRL_UNKNOWN=0 ,
-    CTRL_UP        ,
-    CTRL_DOWN      ,
-    CTRL_LEFT      ,
-    CTRL_RIGHT     ,
-    CTRL_ACTION    ,
-    CTRL_MOTION    ,
-    CTRL_MENU      ,
+    CTRL_UNKNOWN=0  ,
+    CTRL_UP         ,
+    CTRL_DOWN       ,
+    CTRL_LEFT       ,
+    CTRL_RIGHT      ,
+    CTRL_ACTION     ,
+    CTRL_MOTION     ,
+    CTRL_MENU       ,
 #ifdef DEBUG
-    CTRL_DBG_BOXES ,
+    CTRL_DBG_BOXES  ,
 #endif
-    CTRL_QUIT
+    CTRL_QUIT       ,
+    CTRL_FULLSCREEN
 };
 
 enum diffs_list_t

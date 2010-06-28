@@ -34,37 +34,40 @@ CControls::CControls() :
     mSysMaps.resize( mSysMaps.size()+1, new CControlMap(CTRL_QUIT,   SDL_QUIT) );
 
     // SDL key event maps
-    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_QUIT,   SDL_KEYDOWN, SDLK_c, (SDLMod)KMOD_CTRL) );
-    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_UP,     SDL_KEYDOWN, SDLK_UP) );
-    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_UP,     SDL_KEYUP,   SDLK_UP) );
-    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_DOWN,   SDL_KEYDOWN, SDLK_DOWN) );
-    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_DOWN,   SDL_KEYUP,   SDLK_DOWN) );
-    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_LEFT,   SDL_KEYDOWN, SDLK_LEFT) );
-    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_LEFT,   SDL_KEYUP,   SDLK_LEFT) );
-    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_RIGHT,  SDL_KEYDOWN, SDLK_RIGHT) );
-    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_RIGHT,  SDL_KEYUP,   SDLK_RIGHT) );
-    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_ACTION, SDL_KEYDOWN, SDLK_SPACE) );
-    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_ACTION, SDL_KEYUP,   SDLK_SPACE) );
-    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_MENU,   SDL_KEYDOWN, SDLK_ESCAPE) );
-    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_MENU,   SDL_KEYUP,   SDLK_ESCAPE) );
+    //                                                  Internal Event      SDL Event type  SDL key/button  SDL Modifier
+    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_QUIT,          SDL_KEYDOWN,    SDLK_c,         (SDLMod)KMOD_CTRL) );
+    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_FULLSCREEN,    SDL_KEYDOWN,    SDLK_RETURN,    (SDLMod)KMOD_ALT) );
+
+    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_UP,            SDL_KEYDOWN,    SDLK_UP) );
+    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_UP,            SDL_KEYUP,      SDLK_UP) );
+    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_DOWN,          SDL_KEYDOWN,    SDLK_DOWN) );
+    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_DOWN,          SDL_KEYUP,      SDLK_DOWN) );
+    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_LEFT,          SDL_KEYDOWN,    SDLK_LEFT) );
+    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_LEFT,          SDL_KEYUP,      SDLK_LEFT) );
+    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_RIGHT,         SDL_KEYDOWN,    SDLK_RIGHT) );
+    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_RIGHT,         SDL_KEYUP,      SDLK_RIGHT) );
+    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_ACTION,        SDL_KEYDOWN,    SDLK_SPACE) );
+    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_ACTION,        SDL_KEYUP,      SDLK_SPACE) );
+    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_MENU,          SDL_KEYDOWN,    SDLK_ESCAPE) );
+    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_MENU,          SDL_KEYUP,      SDLK_ESCAPE) );
 
     // SDL joy event maps
-    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_UP,     SDL_JOYBUTTONDOWN, JOYBUTTON_UP ) );
-    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_UP,     SDL_JOYBUTTONUP,   JOYBUTTON_UP) );
-    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_DOWN,   SDL_JOYBUTTONDOWN, JOYBUTTON_DOWN) );
-    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_DOWN,   SDL_JOYBUTTONUP,   JOYBUTTON_DOWN) );
-    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_LEFT,   SDL_JOYBUTTONDOWN, JOYBUTTON_LEFT) );
-    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_LEFT,   SDL_JOYBUTTONUP,   JOYBUTTON_LEFT) );
-    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_RIGHT,  SDL_JOYBUTTONDOWN, JOYBUTTON_RIGHT) );
-    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_RIGHT,  SDL_JOYBUTTONUP,   JOYBUTTON_RIGHT) );
-    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_ACTION, SDL_JOYBUTTONDOWN, JOYBUTTON_ACTION) );
-    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_ACTION, SDL_JOYBUTTONUP,   JOYBUTTON_ACTION) );
-    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_MENU,   SDL_JOYBUTTONDOWN, JOYBUTTON_ESCAPE) );
-    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_MENU,   SDL_JOYBUTTONUP,   JOYBUTTON_ESCAPE) );
+    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_UP,            SDL_JOYBUTTONDOWN, JOYBUTTON_UP ) );
+    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_UP,            SDL_JOYBUTTONUP,   JOYBUTTON_UP) );
+    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_DOWN,          SDL_JOYBUTTONDOWN, JOYBUTTON_DOWN) );
+    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_DOWN,          SDL_JOYBUTTONUP,   JOYBUTTON_DOWN) );
+    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_LEFT,          SDL_JOYBUTTONDOWN, JOYBUTTON_LEFT) );
+    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_LEFT,          SDL_JOYBUTTONUP,   JOYBUTTON_LEFT) );
+    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_RIGHT,         SDL_JOYBUTTONDOWN, JOYBUTTON_RIGHT) );
+    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_RIGHT,         SDL_JOYBUTTONUP,   JOYBUTTON_RIGHT) );
+    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_ACTION,        SDL_JOYBUTTONDOWN, JOYBUTTON_ACTION) );
+    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_ACTION,        SDL_JOYBUTTONUP,   JOYBUTTON_ACTION) );
+    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_MENU,          SDL_JOYBUTTONDOWN, JOYBUTTON_ESCAPE) );
+    mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_MENU,          SDL_JOYBUTTONUP,   JOYBUTTON_ESCAPE) );
 
     // SDL mouse event maps
-    mMouseMaps.resize( mMouseMaps.size()+1, new CControlMap(CTRL_ACTION, SDL_MOUSEBUTTONDOWN, SDL_BUTTON_LEFT) );
-    mMouseMaps.resize( mMouseMaps.size()+1, new CControlMap(CTRL_ACTION, SDL_MOUSEBUTTONUP,   SDL_BUTTON_LEFT) );
+    mMouseMaps.resize( mMouseMaps.size()+1, new CControlMap(CTRL_ACTION,    SDL_MOUSEBUTTONDOWN, SDL_BUTTON_LEFT) );
+    mMouseMaps.resize( mMouseMaps.size()+1, new CControlMap(CTRL_ACTION,    SDL_MOUSEBUTTONUP,   SDL_BUTTON_LEFT) );
 
 #ifdef DEBUG
     mKeyMaps.resize( mKeyMaps.size()+1, new CControlMap(CTRL_DBG_BOXES, SDL_KEYDOWN, SDLK_b, (SDLMod)KMOD_CTRL) );
@@ -103,6 +106,7 @@ void CControls::ClearControls( void )
 int8_t CControls::Poll(CControl& event)
 {
     int8_t result;
+    uint16_t x, y;
     SDL_Event sdl_event;
 
 	/* Check for events */

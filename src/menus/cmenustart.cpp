@@ -24,9 +24,8 @@ CMenustart::CMenustart( CResources& resources ) :
     mPlayer         (mResources.Data().Player()),
     mStrings        (mResources.Data().Strings()),
     mGraphics       (mResources.Data().Graphics()),
-    mManagerwindow  (mScreen,
-                     mResources.Controls(),
-                     mResources.Options().Font()),
+    mManagerwindow  (mResources),
+    mMenuOptions    (mResources),
     mAutoselect     (false)
 {
 }
@@ -62,16 +61,19 @@ int8_t CMenustart::Run( void )
             switch ( result )
             {
                 case 1:
-                    result = NewCareer(true);   // Quick Start
+                    result = NewCareer(true);       // Quick Start
                     break;
                 case 2:
-                    result = NewCareer(false);  // Normal Start
+                    result = NewCareer(false);      // Normal Start
                     break;
                 case 3:
-                    result = LoadCareer();      // Load a game
+                    result = LoadCareer();          // Load a game
                     break;
                 case 4:
-                    result = SIG_QUIT;          // Quit
+                    result = mMenuOptions.Run();    // Game options
+                    break;
+                case 5:
+                    result = SIG_QUIT;              // Quit
                     break;
                 default:
                     Error( __FILE__, __LINE__, "menu index out of range\n" );

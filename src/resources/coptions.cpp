@@ -66,6 +66,14 @@ int8_t COptions::Load( const std::string& file_path )
                         {
                             mScreen.Bpp( ReadInteger(line) );
                         }
+                        else if ( line.find( CFG_FULLSCREEN ) == 0 )
+                        {
+                            mScreen.Fullscreen( ReadInteger(line) ? true : false );
+                        }
+                        else if ( line.find( CFG_DOUBLEBUF ) == 0 )
+                        {
+                            mScreen.Doublebuf( ReadInteger(line) ? true : false );
+                        }
                         else if ( line.find( CFG_SOUND_FREQ ) == 0 )
                         {
                             mSound.Frequency( ReadInteger(line) );

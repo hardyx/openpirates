@@ -33,10 +33,68 @@ CResources::~CResources()
   	Log( "CResources Released!\n" );
 }
 
-void CResources::AssignScreenImage( SDL_Surface* pimage )
+int8_t CResources::SetVideoMode( void )
 {
-    mScreen.AssignImage(pimage, false);
-    Log( "CResources::AssignScreenImage Screen Loaded!\n" );
+    SDL_Surface* screen;
+    int8_t result = SIG_NONE;
+    uint32_t flags = 0;
+
+    // Assign video mode flags
+    flags = SDL_HWSURFACE;
+    if ( mOptions.Screen().Fullscreen() == true )
+    {
+        flags |= SDL_FULLSCREEN;
+    }
+    if ( mOptions.Screen().Doublebuf() == true )
+    {
+        flags |= SDL_DOUBLEBUF;
+    }
+
+    screen = SDL_SetVideoMode( mOptions.Screen().Width(),
+                               mOptions.Screen().Height(),
+                               mOptions.Screen().Bpp(),
+                               flags );
+    if ( screen == NULL)
+    {
+        Error( __FILE__, __LINE__, "Couldn't set SDL video mode with %dx%dx%d with flags %X: %s\n",
+               mOptions.Screen().Width(),
+               mOptions.Screen().Height(),
+               mOptions.Screen().Bpp(),
+               flags,
+               SDL_GetError() );
+        result = SIG_FAIL;
+    }
+    else
+    {
+        mScreen.AssignImage(screen, false);
+        Log( "CResources::AssignScreenImage Screen Loaded!\n" );
+
+        SDL_ShowCursor( SDL_DISABLE );
+
+        #if defined(WIN32) || defined(LINUX)
+            SDL_WM_SetCaption( TITLE, NULL );
+        #endif
+    }
+
+	return result;
+}
+
+int8_t CResources::ToggleFullscreen( void )
+{
+    int8_t result = SIG_NONE;
+    bool fmode;
+
+    // Invert the current state
+    fmode = mOptions.Screen().Fullscreen();
+    mOptions.Screen().Fullscreen(!fmode);
+
+    // Set video mode
+	if ( result == SIG_NONE )
+	{
+        result = SetVideoMode();
+	}
+
+	return result;
 }
 
 void CResources::Free_Font( void )

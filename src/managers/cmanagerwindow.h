@@ -27,7 +27,7 @@
 class CManagerWindow
 {
 	public:
-        CManagerWindow(CGraphic& screen, CControls& events, CFontOptions& fontoptions );
+        CManagerWindow( CResources& resources );
         virtual ~CManagerWindow();
 
         int8_t LoadResources( TTF_Font* font, CGraphic* border, CGraphic* pointer );
@@ -58,11 +58,10 @@ class CManagerWindow
         void UpdateWindowBackGroundColor( uint8_t index, SDL_Color* bkgnd_color );
 
     private:
-        CGraphic&       mScreen;
+        CResources&     mResources;
         CControls&      mEvents;
         CGraphic*       mpBorder;
         TTF_Font*       mpFont;
-        CFontOptions&   mFontOptions;
         CSpriteDynamic  mPointer;
         vec_window_t    mWindows;
 

@@ -45,14 +45,14 @@ class CControls
         int8_t Poll(CControl& event);
 
     private:
-        vec_ctrlmap_t mSysMaps;
-        vec_ctrlmap_t mKeyMaps;
-        vec_ctrlmap_t mJoyMaps;
-        vec_ctrlmap_t mMouseMaps;
-        bool mEnabledSys;
-        bool mEnabledKey;
-        bool mEnabledJoy;
-        bool mEnabledMouse;
+        vec_ctrlmap_t   mSysMaps;
+        vec_ctrlmap_t   mKeyMaps;
+        vec_ctrlmap_t   mJoyMaps;
+        vec_ctrlmap_t   mMouseMaps;
+        bool            mEnabledSys;
+        bool            mEnabledKey;
+        bool            mEnabledJoy;
+        bool            mEnabledMouse;
 
         void ClearControls( void );
 };

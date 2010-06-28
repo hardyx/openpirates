@@ -101,7 +101,6 @@ int8_t CModeMain::Run( int argc, char *argv[] )
 
 int8_t CModeMain::OpenSystem( const std::string& file_path, int argc, char *argv[] )
 {
-    SDL_Surface* screen;
     int8_t result = SIG_NONE;
 
     if ( file_path.length() > 0 ) mFileOptions = file_path;
@@ -129,28 +128,7 @@ int8_t CModeMain::OpenSystem( const std::string& file_path, int argc, char *argv
     // Set video mode
 	if ( result == SIG_NONE )
 	{
-        screen = SDL_SetVideoMode( mResources.Options().Screen().Width(),
-                                   mResources.Options().Screen().Height(),
-                                   mResources.Options().Screen().Bpp(),
-                                   SDL_HWSURFACE | SDL_DOUBLEBUF );
-        if ( screen == NULL)
-        {
-            Error( __FILE__, __LINE__, "Couldn't set SDL video mode with %dx%dx%d: %s\n"
-                   , mResources.Options().Screen().Width()
-                   , mResources.Options().Screen().Height()
-                   , mResources.Options().Screen().Bpp()
-                   , SDL_GetError() );
-            result = SIG_FAIL;
-        }
-        else
-        {
-            mResources.AssignScreenImage(screen);
-            SDL_ShowCursor( SDL_DISABLE );
-
-            #if defined(WIN32) || defined(LINUX)
-                SDL_WM_SetCaption( TITLE, NULL );
-            #endif
-        }
+        result = mResources.SetVideoMode();
 	}
 
 	// Initialize SDL_ttf
@@ -220,6 +198,9 @@ int8_t CModeMain::OpenSystem( const std::string& file_path, int argc, char *argv
 #define ARGL_DEPTH      "--depth"
 #define ARGS_DEPTH      "-D"
 #define ARGD_DEPTH      "pixel depth of the screen"
+#define ARGL_FULLSCREEN "--fullscreen"
+#define ARGS_FULLSCREEN "-F"
+#define ARGD_FULLSCREEN "view mode of the screen"
 
 #define ARGL_FREQ       "--frequency"
 #define ARGS_FREQ       "-f"
@@ -246,13 +227,14 @@ int8_t CModeMain::ProcessArguments( int argc, char *argv[] )
         {
             printf( "Usage: pirates [OPTIONS]...\n\n" );
             printf( "Options:\n" );
-            printf( "%s, %s%s %s\n",     ARGS_HELP,    ARGL_HELP,   Spaces(ARG_LEN-strlen(ARGL_HELP)).c_str(),   ARGD_HELP   );
-            printf( "%s, %s [v]%s %s\n", ARGS_WIDTH,   ARGL_WIDTH,  Spaces(ARG_LEN-strlen(ARGL_WIDTH)).c_str(),  ARGD_WIDTH  );
-            printf( "%s, %s [v]%s %s\n", ARGS_HEIGHT,  ARGL_HEIGHT, Spaces(ARG_LEN-strlen(ARGL_HEIGHT)).c_str(), ARGD_HEIGHT );
-            printf( "%s, %s [v]%s %s\n", ARGS_DEPTH,   ARGL_DEPTH,  Spaces(ARG_LEN-strlen(ARGL_DEPTH)).c_str(),  ARGD_DEPTH  );
-            printf( "%s, %s [v]%s %s\n", ARGS_FREQ,    ARGL_FREQ,   Spaces(ARG_LEN-strlen(ARGL_FREQ)).c_str(),   ARGD_FREQ   );
-            printf( "%s, %s [v]%s %s\n", ARGS_CHAN,    ARGL_CHAN,   Spaces(ARG_LEN-strlen(ARGL_CHAN)).c_str(),   ARGD_CHAN   );
-            printf( "%s, %s [v]%s %s\n", ARGS_SAMPLE,  ARGL_SAMPLE, Spaces(ARG_LEN-strlen(ARGL_SAMPLE)).c_str(), ARGD_SAMPLE );
+            printf( "%s, %s%s %s\n",     ARGS_HELP,         ARGL_HELP,          Spaces(ARG_LEN-strlen(ARGL_HELP)).c_str(),          ARGD_HELP   );
+            printf( "%s, %s [v]%s %s\n", ARGS_WIDTH,        ARGL_WIDTH,         Spaces(ARG_LEN-strlen(ARGL_WIDTH)).c_str(),         ARGD_WIDTH  );
+            printf( "%s, %s [v]%s %s\n", ARGS_HEIGHT,       ARGL_HEIGHT,        Spaces(ARG_LEN-strlen(ARGL_HEIGHT)).c_str(),        ARGD_HEIGHT );
+            printf( "%s, %s [v]%s %s\n", ARGS_DEPTH,        ARGL_DEPTH,         Spaces(ARG_LEN-strlen(ARGL_DEPTH)).c_str(),         ARGD_DEPTH  );
+            printf( "%s, %s [v]%s %s\n", ARGS_FULLSCREEN,   ARGL_FULLSCREEN,    Spaces(ARG_LEN-strlen(ARGL_FULLSCREEN)).c_str(),    ARGD_FULLSCREEN  );
+            printf( "%s, %s [v]%s %s\n", ARGS_FREQ,         ARGL_FREQ,          Spaces(ARG_LEN-strlen(ARGL_FREQ)).c_str(),          ARGD_FREQ   );
+            printf( "%s, %s [v]%s %s\n", ARGS_CHAN,         ARGL_CHAN,          Spaces(ARG_LEN-strlen(ARGL_CHAN)).c_str(),          ARGD_CHAN   );
+            printf( "%s, %s [v]%s %s\n", ARGS_SAMPLE,       ARGL_SAMPLE,        Spaces(ARG_LEN-strlen(ARGL_SAMPLE)).c_str(),        ARGD_SAMPLE );
             printf( "\n" );
             result = SIG_QUIT;
             break;
@@ -273,6 +255,12 @@ int8_t CModeMain::ProcessArguments( int argc, char *argv[] )
         {
             value = a_to_i(argv[index+1]);
             mResources.Options().Screen().Bpp(value);
+            index+=2;
+        }
+        else if (arg.compare(ARGL_FULLSCREEN) == 0 || arg.compare(ARGS_FULLSCREEN) == 0)
+        {
+            value = a_to_i(argv[index+1]);
+            mResources.Options().Screen().Fullscreen(value);
             index+=2;
         }
         else

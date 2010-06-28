@@ -243,11 +243,14 @@ void CWindow::Reprocess( void )
     ProcessText();
 }
 
-int8_t CWindow::Activate( CGraphic& screen, CGraphic* border_gfx, CSpriteDynamic& pointer, TTF_Font* font, CFontOptions& fontoptions )
+int8_t CWindow::Activate( CResources& resources, CGraphic* border_gfx, CSpriteDynamic& pointer, TTF_Font* font )
 {
     int8_t paragraph_result = SIG_NONE;
     bool user_interactive = false;
     int8_t user_result = EVENT_NONE;
+
+    CGraphic& screen            = resources.Screen();
+    CFontOptions& fontoptions   = resources.Options().Font();
 #ifdef DEBUG
     #define SIZE 100
     CGraphic debug_message;
@@ -282,7 +285,7 @@ int8_t CWindow::Activate( CGraphic& screen, CGraphic* border_gfx, CSpriteDynamic
             mBackground.ApplyImage( 0, 0, screen.Image() );
 
             // Check events
-            user_result = HandleEvents( pointer );
+            user_result = HandleEvents( resources, pointer );
 
             if ( EVENT_NONE     == user_result ||
                  EVENT_PRESSED  == user_result ||
@@ -601,9 +604,9 @@ int8_t CWindow::DrawText( SDL_Surface* screen, TTF_Font* font, SDL_Color* fontco
             // Tab Alignment
             if ( mWords.at(t)->mTabAlign > 0 )
             {
-                uint16_t div = SCREEN_WIDTH/(SCREEN_WIDTH/(10*mWords.at(t)->mTabAlign));
+                uint16_t div = screen->w/(screen->w/(10*mWords.at(t)->mTabAlign));
 
-                for( int i=0; i<SCREEN_WIDTH; i+=div )
+                for( int i=0; i<screen->w; i+=div )
                 {
                     if (i > x)
                     {
@@ -738,7 +741,7 @@ void CWindow::DrawBorder( SDL_Surface* screen, CGraphic* border_gfx )
     border_gfx->ApplyImage( mDimensions.x + mDimensions.w, mDimensions.y + border_clip.h + mDimensions.h, screen, &border_clip ); // The filler
 }
 
-int8_t CWindow::HandleEvents( CSpriteDynamic& pointer )
+int8_t CWindow::HandleEvents( CResources& resources, CSpriteDynamic& pointer )
 {
     int8_t result = EVENT_NONE;
     CControl control;
@@ -760,9 +763,12 @@ int8_t CWindow::HandleEvents( CSpriteDynamic& pointer )
                     case CTRL_QUIT:
                         result = SIG_FAIL;
                         break;
-                    //case CTRLMENU:
-                    //    result = mMainmenu.Run();
-                    //    break;
+                    case CTRL_FULLSCREEN:
+                        resources.ToggleFullscreen();
+                        break;
+                    case CTRL_MENU:
+                        // Do Nothing
+                        break;
                     case CTRL_MOTION:
                         pointer.XPos( control.X() );
                         pointer.YPos( control.Y() );
@@ -771,16 +777,16 @@ int8_t CWindow::HandleEvents( CSpriteDynamic& pointer )
                         result = EVENT_PRESSED;
                         break;
                     case CTRL_UP:
-                        pointer.YVel( -1 );
+                        pointer.YVel( -POINTER_SPEED );
                         break;
                     case CTRL_DOWN:
-                        pointer.YVel( 1 );
+                        pointer.YVel( POINTER_SPEED );
                         break;
                     case CTRL_RIGHT:
-                        pointer.XVel( 1 );
+                        pointer.XVel( POINTER_SPEED );
                         break;
                     case CTRL_LEFT:
-                        pointer.XVel( -1 );
+                        pointer.XVel( -POINTER_SPEED );
                         break;
 #ifdef DEBUG
                     case CTRL_DBG_BOXES:
@@ -819,6 +825,27 @@ int8_t CWindow::HandleEvents( CSpriteDynamic& pointer )
 		}
 	}
     pointer.Move();
+
+    // Keep pointer in window
+    if ( pointer.XPos() < 0 )
+    {
+        pointer.XPos(0);
+    }
+    int16_t widthlimit = resources.Options().Screen().Width()-(pointer.ClipBox().w/2);
+    if ( pointer.XPos() > widthlimit )
+    {
+        pointer.XPos( widthlimit );
+    }
+
+    if ( pointer.YPos() < 0 )
+    {
+        pointer.YPos(0);
+    }
+    int16_t heightlimit = resources.Options().Screen().Height()-(pointer.ClipBox().w/2);
+    if ( pointer.YPos() > heightlimit )
+    {
+        pointer.YPos( heightlimit );
+    }
 
     if (EVENT_PRESSED == result )
     {
