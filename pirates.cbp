@@ -7,8 +7,8 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="WIN32 Debug">
-				<Option output="./built/pirates_debug" prefix_auto="0" extension_auto="1" />
-				<Option working_dir="./built/" />
+				<Option output="./build/pirates_debug" prefix_auto="0" extension_auto="1" />
+				<Option working_dir="./build/" />
 				<Option object_output="./obj/win32/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -21,8 +21,8 @@
 				</Linker>
 			</Target>
 			<Target title="WIN32 Release">
-				<Option output="./built/pirates_release" prefix_auto="0" extension_auto="1" />
-				<Option working_dir="./built/" />
+				<Option output="./build/pirates_release" prefix_auto="0" extension_auto="1" />
+				<Option working_dir="./build/" />
 				<Option object_output="./obj/win32/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -37,8 +37,8 @@
 				</Linker>
 			</Target>
 			<Target title="DevkitGP2X GPL Release">
-				<Option output="./built/pirates.gpe" prefix_auto="0" extension_auto="0" />
-				<Option working_dir="./built/" />
+				<Option output="./build/pirates.gpe" prefix_auto="0" extension_auto="0" />
+				<Option working_dir="./build/" />
 				<Option object_output="./obj/DevKitGP2X/Release" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -53,8 +53,8 @@
 				</Linker>
 			</Target>
 			<Target title="Open2x LGPL Release">
-				<Option output="./built/pirates_o2x.gpe" prefix_auto="0" extension_auto="0" />
-				<Option working_dir="./built/" />
+				<Option output="./build/pirates_o2x.gpe" prefix_auto="0" extension_auto="0" />
+				<Option working_dir="./build/" />
 				<Option object_output="./obj/GP2X/Release" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -69,8 +69,8 @@
 				</Linker>
 			</Target>
 			<Target title="Linux Debug">
-				<Option output="./built/pirates_debug" prefix_auto="0" extension_auto="0" />
-				<Option working_dir="./built/" />
+				<Option output="./build/pirates_debug" prefix_auto="0" extension_auto="0" />
+				<Option working_dir="./build/" />
 				<Option object_output="./obj/linux/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -100,8 +100,8 @@
 				</Linker>
 			</Target>
 			<Target title="Linux Release">
-				<Option output="./built/pirates_release" prefix_auto="0" extension_auto="0" />
-				<Option working_dir="./built/" />
+				<Option output="./build/pirates_release" prefix_auto="0" extension_auto="0" />
+				<Option working_dir="./build/" />
 				<Option object_output="./obj/linux/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -117,9 +117,9 @@
 				</Linker>
 			</Target>
 			<Target title="Pandora Release">
-				<Option output="./built/pirates_debug" prefix_auto="0" extension_auto="0" />
-				<Option working_dir="./built/" />
-				<Option object_output="./obj/GP2X/Release" />
+				<Option output="./build/pirates_debug" prefix_auto="0" extension_auto="0" />
+				<Option working_dir="./build/" />
+				<Option object_output="./obj/pnd/Release" />
 				<Option type="1" />
 				<Option compiler="pandora_omap3" />
 				<Option use_console_runner="0" />
