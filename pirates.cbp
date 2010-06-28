@@ -7,8 +7,8 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="WIN32 Debug">
-				<Option output="./build/pirates_debug" prefix_auto="0" extension_auto="1" />
-				<Option working_dir="./build/" />
+				<Option output="./built/pirates_debug" prefix_auto="0" extension_auto="1" />
+				<Option working_dir="./built/" />
 				<Option object_output="./obj/win32/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -21,8 +21,8 @@
 				</Linker>
 			</Target>
 			<Target title="WIN32 Release">
-				<Option output="./build/pirates_release" prefix_auto="0" extension_auto="1" />
-				<Option working_dir="./build/" />
+				<Option output="./built/pirates_release" prefix_auto="0" extension_auto="1" />
+				<Option working_dir="./built/" />
 				<Option object_output="./obj/win32/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -37,8 +37,8 @@
 				</Linker>
 			</Target>
 			<Target title="DevkitGP2X GPL Release">
-				<Option output="./build/pirates.gpe" prefix_auto="0" extension_auto="0" />
-				<Option working_dir="./build/" />
+				<Option output="./built/pirates.gpe" prefix_auto="0" extension_auto="0" />
+				<Option working_dir="./built/" />
 				<Option object_output="./obj/DevKitGP2X/Release" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -53,8 +53,8 @@
 				</Linker>
 			</Target>
 			<Target title="Open2x LGPL Release">
-				<Option output="./build/pirates_o2x.gpe" prefix_auto="0" extension_auto="0" />
-				<Option working_dir="./build/" />
+				<Option output="./built/pirates_o2x.gpe" prefix_auto="0" extension_auto="0" />
+				<Option working_dir="./built/" />
 				<Option object_output="./obj/GP2X/Release" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -69,8 +69,8 @@
 				</Linker>
 			</Target>
 			<Target title="Linux Debug">
-				<Option output="./build/pirates_debug" prefix_auto="0" extension_auto="0" />
-				<Option working_dir="./build/" />
+				<Option output="./built/pirates_debug" prefix_auto="0" extension_auto="0" />
+				<Option working_dir="./built/" />
 				<Option object_output="./obj/linux/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -100,8 +100,8 @@
 				</Linker>
 			</Target>
 			<Target title="Linux Release">
-				<Option output="./build/pirates_release" prefix_auto="0" extension_auto="0" />
-				<Option working_dir="./build/" />
+				<Option output="./built/pirates_release" prefix_auto="0" extension_auto="0" />
+				<Option working_dir="./built/" />
 				<Option object_output="./obj/linux/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -117,8 +117,8 @@
 				</Linker>
 			</Target>
 			<Target title="Pandora Release">
-				<Option output="./build/pirates_debug" prefix_auto="0" extension_auto="0" />
-				<Option working_dir="./build/" />
+				<Option output="./built/pirates_debug" prefix_auto="0" extension_auto="0" />
+				<Option working_dir="./built/" />
 				<Option object_output="./obj/GP2X/Release" />
 				<Option type="1" />
 				<Option compiler="pandora_omap3" />
@@ -127,11 +127,12 @@
 					<Add option="-O2" />
 					<Add option="-Wall" />
 					<Add option="-DPLATFORM_PC" />
-					<Add directory="/usr/include/SDL" />
+					<Add directory="../../../../../home/pickle/smb4k/Sempron/media/devel/toolchains/pandora/arm-2007q3/include/SDL" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add option="-lSDLmain -lSDL -lSDL_image -lSDL_gfx -lSDL_mixer -lSDL_ttf" />
+					<Add option="-lSDL -lSDL_image -lSDL_gfx -lSDL_mixer -lSDL_ttf -ljpeg -lmad -lfreetype -ltiff -lz -lpng12 -lts" />
+					<Add directory="../../../../../home/pickle/smb4k/Sempron/media/devel/toolchains/pandora/arm-2007q3/lib" />
 				</Linker>
 			</Target>
 		</Build>
@@ -152,6 +153,8 @@
 		<Unit filename="src/menus/cinformation.h" />
 		<Unit filename="src/menus/cmenumain.cpp" />
 		<Unit filename="src/menus/cmenumain.h" />
+		<Unit filename="src/menus/cmenuoptions.cpp" />
+		<Unit filename="src/menus/cmenuoptions.h" />
 		<Unit filename="src/menus/cmenustart.cpp" />
 		<Unit filename="src/menus/cmenustart.h" />
 		<Unit filename="src/menus/cmenutownin.cpp" />
