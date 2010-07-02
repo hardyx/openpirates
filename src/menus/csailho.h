@@ -32,7 +32,7 @@ enum sailhomodes_t {
 class CSailho
 {
     public:
-        CSailho( CResources& resources, CManagerWindow& wmanager );
+        CSailho( CResources& resources, CManagerWindow& winmanager );
         virtual ~CSailho();
 
         int8_t Run( void );

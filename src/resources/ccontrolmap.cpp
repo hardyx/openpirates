@@ -18,20 +18,9 @@
 
 #include "ccontrolmap.h"
 
-// System Events
-CControlMap::CControlMap( uint8_t action, uint8_t type ) :
-    mAction (action),
-    mType   (type),
-    mButton (0),
-    mSym    (SDLK_UNKNOWN),
-    mMod    (KMOD_NONE)
-{
-}
-
 // Keyboard Keys Events
-CControlMap::CControlMap( uint8_t action, uint8_t type, SDLKey key, SDLMod mod ) :
+CControlMap::CControlMap( uint8_t action, SDLKey key, SDLMod mod ) :
     mAction (action),
-    mType   (type),
     mButton (0),
     mSym    (key),
     mMod    (mod)
@@ -39,9 +28,8 @@ CControlMap::CControlMap( uint8_t action, uint8_t type, SDLKey key, SDLMod mod )
 }
 
 // Joystick and Mouse Button Events
-CControlMap::CControlMap( uint8_t action, uint8_t type, uint8_t button ) :
+CControlMap::CControlMap( uint8_t action, uint8_t button ) :
     mAction (action),
-    mType   (type),
     mButton (button),
     mSym    (SDLK_UNKNOWN),
     mMod    (KMOD_NONE)

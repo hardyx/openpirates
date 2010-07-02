@@ -173,6 +173,21 @@ uint8_t CManagerWindow::ActivateWindow( uint8_t index )
     return result;
 }
 
+void CManagerWindow::ResetWindows( void )
+{
+    if ( mWindows.size() > 0 )
+    {
+        for ( int8_t i=mWindows.size()-1; i>=0; i-- )
+        {
+            if ( mWindows.at(i) != NULL )
+            {
+                mWindows.at(i)->ResetWindow();
+                mWindows.at(i)->Reprocess();
+            }
+        }
+    }
+}
+
 void CManagerWindow::ReprocessWindow( uint8_t index )
 {
     mWindows.at(index)->Reprocess();

@@ -26,7 +26,7 @@
 class CTavern
 {
     public:
-        CTavern( CResources& resources, CManagerWindow& wmanager, CDyntown* dyntown );
+        CTavern( CResources& resources, CManagerWindow& winmanager, CDyntown* dyntown );
         virtual ~CTavern();
 
         int8_t Run( void );
@@ -37,8 +37,8 @@ class CTavern
         CManagerWindow&     mManagerwindow;
         CDyntown*           mpDynTown;
 
-        CTavern(const CTavern &);
-        CTavern & operator=(const CTavern&);
+        CTavern(const CTavern&);
+        CTavern& operator=(const CTavern&);
         int8_t Sailors( void );
         int8_t Traveler( void );
         int8_t TreasureMap( void );

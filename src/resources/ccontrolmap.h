@@ -24,27 +24,23 @@
 class CControlMap
 {
     public:
-        CControlMap( uint8_t action, uint8_t type );
-        CControlMap( uint8_t action, uint8_t type, SDLKey key, SDLMod mod=KMOD_NONE );
-        CControlMap( uint8_t action, uint8_t type, uint8_t button );
+        CControlMap( uint8_t action, SDLKey key, SDLMod mod=KMOD_NONE );
+        CControlMap( uint8_t action, uint8_t button );
         virtual ~CControlMap();
 
         // Getters
         uint8_t Action( void )      { return mAction; }
-        uint8_t Type( void )        { return mType; }
         uint8_t Button( void )      { return mButton; }
         const SDLKey& Sym( void )   { return mSym; }
         const SDLMod& Mod( void )   { return mMod; }
         // Setters
         void Action( uint8_t v )    { mAction = v; }
-        void Type( uint8_t v )      { mType = v; }
         void Button( uint8_t v )    { mButton = v; }
         void Sym( SDLKey v )        { mSym = v; }
         void Mod( SDLMod v )        { mMod = v; }
 
     private:
         uint8_t mAction;
-        uint8_t mType;
         uint8_t mButton;
         SDLKey  mSym;
         SDLMod  mMod;

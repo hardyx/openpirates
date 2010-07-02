@@ -18,12 +18,12 @@
 
 #include "cmodenav.h"
 
-CModeNav::CModeNav( CResources& resources, CMenumain& mainmenu ) :
+CModeNav::CModeNav( CResources& resources, CManagerWindow& winmanager, CMenumain& mainmenu ) :
     CModeWorld          (resources),
     tmrSimulate         (),
     mPlayership         (),
     mPlayercrew         (),
-    mMenutownout        (mResources),
+    mMenutownout        (mResources, winmanager),
     mMainmenu           (mainmenu),
     mPlayershipIndex    (-1),
     mPlayercrewIndex    (-1),
@@ -114,16 +114,16 @@ int8_t CModeNav::HandleEvents( void )
                         result = mMainmenu.Run();
                         break;
                     case CTRL_UP:
-                        PlayerVelocity( -P1_NAV_SPEED, YAXIS );
+                        PlayerVelocity( -DEF_P1_NAV_SPEED, YAXIS );
                         break;
                     case CTRL_DOWN:
-                        PlayerVelocity( P1_NAV_SPEED, YAXIS );
+                        PlayerVelocity( DEF_P1_NAV_SPEED, YAXIS );
                         break;
                     case CTRL_RIGHT:
-                        PlayerVelocity( P1_NAV_SPEED, XAXIS );
+                        PlayerVelocity( DEF_P1_NAV_SPEED, XAXIS );
                         break;
                     case CTRL_LEFT:
-                        PlayerVelocity( -P1_NAV_SPEED, XAXIS );
+                        PlayerVelocity( -DEF_P1_NAV_SPEED, XAXIS );
                         break;
 #ifdef DEBUG
                     case CTRL_DBG_BOXES:

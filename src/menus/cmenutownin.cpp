@@ -18,12 +18,12 @@
 
 #include "cmenutownin.h"
 
-CMenutownin::CMenutownin( CResources& resources, CDyntown* dyntown, CTown* town ) :
+CMenutownin::CMenutownin( CResources& resources, CManagerWindow& winmanager, CDyntown* dyntown, CTown* town ) :
     mResources      (resources),
     mScreen         (mResources.Screen()),
     mStrings        (mResources.Data().Strings()),
     mGraphics       (mResources.Data().Graphics()),
-    mManagerwindow  (mResources),
+    mManagerwindow  (winmanager),
     mpDynTown       (dyntown),
     mpTown          (town),
     mGovernor       (mResources, mManagerwindow, mpDynTown),

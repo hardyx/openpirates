@@ -26,7 +26,7 @@
 class CGovernor
 {
     public:
-        CGovernor( CResources& resources, CManagerWindow& wmanager, CDyntown* dyntown );
+        CGovernor( CResources& resources, CManagerWindow& winmanager, CDyntown* dyntown );
         virtual ~CGovernor();
 
         int8_t Run( void );
@@ -34,11 +34,11 @@ class CGovernor
     private:
         CResources&         mResources;
         CManager<CString>&  mStrings;
-        CManagerWindow &    mManagerwindow;
+        CManagerWindow&    mManagerwindow;
         CDyntown*           mpDynTown;
 
         CGovernor(const CGovernor &);
-        CGovernor & operator=(const CGovernor&);
+        CGovernor& operator=(const CGovernor&);
         int8_t VerifyPointers( void );
         int8_t StateOfWar( void );
         int8_t Prisoner( void );

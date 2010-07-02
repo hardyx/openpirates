@@ -18,13 +18,13 @@
 
 #include "cmenumain.h"
 
-CMenumain::CMenumain( CResources& resources ) :
+CMenumain::CMenumain( CResources& resources, CManagerWindow& winmanager ) :
     mResources      (resources),
     mScreen         (mResources.Screen()),
     mPlayer         (mResources.Data().Player()),
     mStrings        (mResources.Data().Strings()),
     mGraphics       (mResources.Data().Graphics()),
-    mManagerwindow  (mResources)
+    mManagerwindow  (winmanager)
 {
 }
 

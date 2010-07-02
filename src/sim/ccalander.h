@@ -37,8 +37,8 @@ class CCalander
     private:
         CManager<CStringValue>& mMonths;
 
-        CCalander(const CCalander &);
-        CCalander & operator=(const CCalander&);
+        CCalander(const CCalander&);
+        CCalander& operator=(const CCalander&);
 };
 
 #endif // CCALANDER_H

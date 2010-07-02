@@ -18,10 +18,10 @@
 
 #include "cshipwright.h"
 
-CShipwright::CShipwright( CResources& resources, CManagerWindow& wmanager ) :
+CShipwright::CShipwright( CResources& resources, CManagerWindow& winmanager ) :
     mResources      (resources),
     mStrings        (mResources.Data().Strings()),
-    mManagerwindow  (wmanager),
+    mManagerwindow  (winmanager),
     mShips          (0),
     mIndices        (0),
     mPrices         (0)

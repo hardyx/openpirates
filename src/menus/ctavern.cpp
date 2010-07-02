@@ -18,10 +18,10 @@
 
 #include "ctavern.h"
 
-CTavern::CTavern( CResources& resources, CManagerWindow& wmanager, CDyntown* dyntown ) :
+CTavern::CTavern( CResources& resources, CManagerWindow& winmanager, CDyntown* dyntown ) :
     mResources      (resources),
     mStrings        (mResources.Data().Strings()),
-    mManagerwindow  (wmanager),
+    mManagerwindow  (winmanager),
     mpDynTown       (dyntown)
 {
 }

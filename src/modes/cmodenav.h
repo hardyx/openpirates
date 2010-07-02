@@ -28,7 +28,7 @@
 class CModeNav : public CModeWorld
 {
 	public:
-        CModeNav( CResources& resources, CMenumain& mainmenu );
+        CModeNav( CResources& resources, CManagerWindow& winmanager, CMenumain& mainmenu );
 		virtual ~CModeNav();
 
 		int8_t Run( void );

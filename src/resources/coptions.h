@@ -22,36 +22,56 @@
 #include "global.h"
 #include "resources/cini.h"
 
+#define SCREEN_MODES    10
+#define SCREEN_DEPTHS   3
+extern uint16_t limitsScreenWidth[SCREEN_MODES];
+extern uint16_t limitsScreenHeight[SCREEN_MODES];
+extern uint16_t limitsScreenDepth[SCREEN_DEPTHS];
+
+#define SOUND_FREQ      4
+#define SOUND_CHANNELS  2
+#define SOUND_SAMPLE    6
+extern uint16_t limitsSoundFreq[SOUND_FREQ];
+extern uint16_t limitsSoundChannels[SOUND_CHANNELS];
+extern uint16_t limitsSoundSamples[SOUND_SAMPLE];
+
+#define VERIFY_RANGE(val,cur,max) (val<max) ? val : cur
+
 class CScreenOptions
 {
     public:
         CScreenOptions() :
-            mWidth      (SCREEN_WIDTH),
-            mHeight     (SCREEN_HEIGHT),
-            mBpp        (SCREEN_BPP),
-            mFullscreen (FULLSCREEN),
-            mDoublebuf  (DOUBLEBUF)
+            mVideoMode  (DEF_SCREEN_VMODE),
+            mDepthMode  (DEF_SCREEN_BPP),
+            mFullscreen (DEF_FULLSCREEN),
+            mDoublebuf  (DEF_DOUBLEBUF)
         {
         }
         virtual ~CScreenOptions() {}
 
         // Getters
-        uint16_t    Width( void )       { return mWidth; }
-        uint16_t    Height( void )      { return mHeight; }
-        uint8_t     Bpp( void )         { return mBpp; }
+        uint8_t     VideoMode( void )   { return mVideoMode; }
+        uint8_t     DepthMode( void )   { return mDepthMode; }
+        uint16_t    Width( void )       { return limitsScreenWidth[mVideoMode]; }
+        uint16_t    Height( void )      { return limitsScreenHeight[mVideoMode]; }
+        uint8_t     Depth( void )       { return limitsScreenDepth[mDepthMode]; }
         bool        Fullscreen( void )  { return mFullscreen; }
         bool        Doublebuf( void )   { return mDoublebuf; }
         // Setters
-        void Width( uint16_t v )    { mWidth = v; }
-        void Height( uint16_t v )   { mHeight = v; }
-        void Bpp( uint8_t v )       { mBpp = v; }
-        void Fullscreen( bool v )   { mFullscreen = v; }
-        void Doublebuf( bool v )    { mDoublebuf = v; }
+        void VideoMode( uint8_t v )     { mVideoMode = VERIFY_RANGE( v, mVideoMode, SCREEN_MODES ); }
+        void DepthMode( uint8_t v )     { mDepthMode = VERIFY_RANGE( v, mDepthMode, SCREEN_DEPTHS ); }
+        void Fullscreen( bool v )       { mFullscreen = v; }
+        void Doublebuf( bool v )        { mDoublebuf = v; }
+        void CustomMode( uint16_t w, uint16_t h )
+        {
+            mVideoMode = 0;
+            limitsScreenWidth[0]  = w;
+            limitsScreenHeight[0] = h;
+        }
 
     private:
-        uint16_t    mWidth;
-        uint16_t    mHeight;
-        uint8_t     mBpp;
+        uint8_t     mVideoMode;
+        uint8_t     mDepthMode;
         bool        mFullscreen;
         bool        mDoublebuf;
 };
@@ -60,26 +80,29 @@ class CSoundOptions
 {
     public:
         CSoundOptions() :
-            mChannels   (0),
-            mFrequency  (0),
-            mSampleSize (0)
+            mChannelsMode   (DEF_SOUND_CHAN),
+            mFrequencyMode  (DEF_SOUND_FREQ),
+            mSampleSizeMode (DEF_SOUND_SAMPLE)
         {
         }
         virtual ~CSoundOptions() {}
 
         // Getters
-        uint8_t Channels( void )        { return mChannels; }
-        uint16_t Frequency( void )      { return mFrequency; }
-        uint16_t SampleSize( void )     { return mSampleSize; }
+        uint8_t ChannelsMode( void )    { return mChannelsMode; }
+        uint8_t FrequencyMode( void )   { return mFrequencyMode; }
+        uint8_t SampleSizeMode( void )  { return mSampleSizeMode; }
+        uint8_t Channels( void )        { return limitsSoundChannels[mChannelsMode]; }
+        uint16_t Frequency( void )      { return limitsSoundFreq[mFrequencyMode]; }
+        uint16_t SampleSize( void )     { return limitsSoundSamples[mSampleSizeMode]; }
         // Setters
-        void Channels( uint8_t v )      { mChannels = v; }
-        void Frequency( uint16_t v )    { mFrequency = v; }
-        void SampleSize( uint16_t v )   { mSampleSize = v; }
+        void ChannelsMode( uint8_t v )      { mChannelsMode   = VERIFY_RANGE(v, mChannelsMode,   SOUND_CHANNELS ); }
+        void FrequencyMode( uint16_t v )    { mFrequencyMode  = VERIFY_RANGE(v, mFrequencyMode,  SOUND_FREQ ); }
+        void SampleSizeMode( uint16_t v )   { mSampleSizeMode = VERIFY_RANGE(v, mSampleSizeMode, SOUND_SAMPLE ); }
 
     private:
-        uint8_t     mChannels;
-        uint16_t    mFrequency;
-        uint16_t    mSampleSize;
+        uint8_t     mChannelsMode;
+        uint16_t    mFrequencyMode;
+        uint16_t    mSampleSizeMode;
 };
 
 class CFontOptions
@@ -185,6 +208,7 @@ class COptions : public CIni
         CMapOptions&        Map( void )     { return mMap; }
 
         int8_t Load( const std::string& file_path );
+        int8_t VerifyOption( uint16_t value, uint16_t* values, uint8_t size );
 
     private:
         CScreenOptions  mScreen;

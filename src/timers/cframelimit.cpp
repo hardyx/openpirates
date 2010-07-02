@@ -68,7 +68,7 @@ void CFramelimit::ControlFPS( bool limit, bool calc )
                 mFrameskipped   = 0;
                 tmrFPSCalculate.start();
 #ifdef DEBUG
-                printf( "FPS Total: %d Drawn: %d Skipped: %d", mFps+mFskip, mFps, mFskip );
+                printf( "FPS Total: %d Drawn: %d Skipped: %d\n", mFps+mFskip, mFps, mFskip );
 #endif
             }
         }

@@ -18,10 +18,10 @@
 
 #include "csailho.h"
 
-CSailho::CSailho( CResources& resources, CManagerWindow& wmanager ) :
+CSailho::CSailho( CResources& resources, CManagerWindow& winmanager ) :
     mResources          (resources),
     mStrings            (mResources.Data().Strings()),
-    mManagerwindow      (wmanager)
+    mManagerwindow      (winmanager)
 {
 }
 

@@ -77,8 +77,8 @@ class CModeBattle : public CModeWorld
         CSpriteDynamic      mCannonP1;
         CSpriteDynamic      mCannonAI;
 
-        CModeBattle(const CModeBattle &);
-        CModeBattle & operator=(const CModeBattle&);
+        CModeBattle(const CModeBattle&);
+        CModeBattle& operator=(const CModeBattle&);
         void OpenShipP1( void );
         void OpenShipAI( void );
         void OpenArmyP1( void );

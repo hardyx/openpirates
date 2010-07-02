@@ -25,7 +25,7 @@
 class CInformation
 {
     public:
-        CInformation(CResources& resources, CManagerWindow& wmanager);
+        CInformation( CResources& resources, CManagerWindow& winmanager );
         virtual ~CInformation();
 
         int8_t Run( void );

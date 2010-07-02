@@ -25,7 +25,7 @@
 class CShipwright
 {
     public:
-        CShipwright( CResources& resources, CManagerWindow& wmanager );
+        CShipwright( CResources& resources, CManagerWindow& winmanager );
         virtual ~CShipwright();
 
         int8_t Run( void );

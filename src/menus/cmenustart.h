@@ -26,7 +26,7 @@
 class CMenustart
 {
 	public:
-        CMenustart( CResources& resources );
+        CMenustart( CResources& resources, CManagerWindow& winmanager );
 		virtual ~CMenustart();
 
         int8_t Run( void );
@@ -37,7 +37,7 @@ class CMenustart
         CRole&              mPlayer;
         CManager<CString>&  mStrings;
         CManager<CGraphic>& mGraphics;
-        CManagerWindow      mManagerwindow;
+        CManagerWindow&     mManagerwindow;
         CMenuOptions        mMenuOptions;
         bool mAutoselect;
 

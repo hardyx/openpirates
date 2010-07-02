@@ -87,8 +87,8 @@ class CSpriteStatic
         virtual void Animate( void );
 
     private:
-        CSpriteStatic(const CSpriteStatic &);
-        CSpriteStatic & operator=(const CSpriteStatic&);
+        CSpriteStatic(const CSpriteStatic&);
+        CSpriteStatic& operator=(const CSpriteStatic&);
 };
 
 typedef std::vector<CSpriteStatic*> vec_spritestatic_t;

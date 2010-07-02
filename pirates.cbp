@@ -195,6 +195,7 @@
 		<Unit filename="src/resources/coptions.h" />
 		<Unit filename="src/resources/cresources.cpp" />
 		<Unit filename="src/resources/cresources.h" />
+		<Unit filename="src/resources/keystrings.h" />
 		<Unit filename="src/resources/types/cbattlearmystats.cpp" />
 		<Unit filename="src/resources/types/cbattlearmystats.h" />
 		<Unit filename="src/resources/types/cbattleshipstats.cpp" />

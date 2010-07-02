@@ -28,7 +28,7 @@
 class CPlunder
 {
     public:
-        CPlunder( CResources& resources, CManagerWindow& wmanager );
+        CPlunder( CResources& resources, CManagerWindow& winmanager );
         virtual ~CPlunder();
 
         int8_t Run( void );

@@ -18,9 +18,9 @@
 
 #include "cplunder.h"
 
-CPlunder::CPlunder( CResources& resources, CManagerWindow& wmanager ) :
+CPlunder::CPlunder( CResources& resources, CManagerWindow& winmanager ) :
     mResources     (resources),
-    mManagerwindow (wmanager),
+    mManagerwindow (winmanager),
     mStrings       (mResources.Data().Strings())
 {
 }

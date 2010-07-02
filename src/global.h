@@ -50,7 +50,7 @@ int8_t VerifyPointer( const char* file, int line, void* ptr );
 int16_t getRandomValue( int16_t min, int16_t max );
 bool getProbability( uint16_t prob );
 int32_t a_to_i( const std::string& line );
-std::string i_to_a( int16_t num );
+std::string i_to_a( int32_t num );
 std::string Spaces( int count );
 
 #endif // GLOBAL_H

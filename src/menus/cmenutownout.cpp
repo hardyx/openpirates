@@ -18,12 +18,12 @@
 
 #include "cmenutownout.h"
 
-CMenutownout::CMenutownout( CResources& resources ) :
+CMenutownout::CMenutownout( CResources& resources, CManagerWindow& winmanager ) :
     mResources      (resources),
     mScreen         (mResources.Screen()),
     mStrings        (mResources.Data().Strings()),
     mGraphics       (mResources.Data().Graphics()),
-    mManagerwindow  (mResources),
+    mManagerwindow  (winmanager),
     mpDyntown       (NULL),
     mpTown          (NULL),
     mpMenutownin    (NULL),
@@ -53,7 +53,7 @@ int8_t CMenutownout::Run( int8_t entertype, int16_t town_index )
         mEntertype      = entertype;
         mpDyntown       = mResources.Data().TownsDyn().At(town_index);
         mpTown          = mResources.Data().Towns().At( mpDyntown->DataTag() );
-        mpMenutownin    = new CMenutownin( mResources, mpDyntown, mpTown );
+        mpMenutownin    = new CMenutownin( mResources, mManagerwindow, mpDyntown, mpTown );
 
         // Start with a dark blue background
         SDL_FillRect( mScreen.Image(), NULL, SDL_MapRGB( mScreen.Image()->format, 0x00, 0x00, 0x40 ) );

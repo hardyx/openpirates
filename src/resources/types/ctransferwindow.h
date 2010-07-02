@@ -55,9 +55,6 @@ class CTransferWindow : public CWindow
                     CCargo& cargoa , CCargo& cargob );
 
     private:
-        CTransferWindow(const CTransferWindow &);
-        CTransferWindow & operator=(const CTransferWindow&);
-
         CResources&         mResources;
         CGraphic&           mScreen;
         CManager<CString>&  mStrings;
@@ -87,6 +84,9 @@ class CTransferWindow : public CWindow
                        uint32_t& gold_src, uint32_t& gold_dst,
                        int16_t& space_src, int16_t& space_dst,
                        CGood& good_src, CGood& good_dst );
+
+        CTransferWindow(const CTransferWindow&);
+        CTransferWindow& operator=(const CTransferWindow&);
 };
 
 #endif // CTRANSFERWINDOW_H

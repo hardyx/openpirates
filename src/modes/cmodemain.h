@@ -38,14 +38,14 @@ class CModeMain
         std::string     mFileOptions;
         std::string     mFileResources;
         // Pointers to structures for game data
-        CResources      mResources;  // Data/System Resources
-        CMenustart      mStartmenu;  // Start Menu
-        CMenumain       mMainmenu;   // Main Menu
-        CModeNav        mModenav;    // Navagation loop
+        CResources      mResources;     // Data/System Resources
+        CManagerWindow  mManagerwindow; // Window Manager
+        CMenumain       mMainmenu;      // Main Menu
+        CMenustart      mStartmenu;     // Start Menu
+        CModeNav        mModenav;       // Navagation loop
 
         int8_t OpenSystem( const std::string& file_path, int argc, char *argv[] );
         int8_t ProcessArguments( int argc, char *argv[] );
-        void VerifySettings( void );
         int8_t LoadResources( const std::string& file_path );
 };
 

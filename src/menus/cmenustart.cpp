@@ -18,14 +18,14 @@
 
 #include "cmenustart.h"
 
-CMenustart::CMenustart( CResources& resources ) :
+CMenustart::CMenustart( CResources& resources, CManagerWindow& winmanager ) :
     mResources      (resources),
     mScreen         (mResources.Screen()),
     mPlayer         (mResources.Data().Player()),
     mStrings        (mResources.Data().Strings()),
     mGraphics       (mResources.Data().Graphics()),
-    mManagerwindow  (mResources),
-    mMenuOptions    (mResources),
+    mManagerwindow  (winmanager),
+    mMenuOptions    (mResources, mManagerwindow),
     mAutoselect     (false)
 {
 }
@@ -39,6 +39,7 @@ int8_t CMenustart::Run( void )
 {
     int8_t result = SIG_NONE;
     int8_t index;
+    bool done;
     SDL_Rect rectMain = { 20, 20, 400, 110 };
     SDL_Color colrMainColor = { 0, 0, 0, 0 };
 
@@ -48,26 +49,31 @@ int8_t CMenustart::Run( void )
 
     if (result==SIG_NONE)
     {
-        // Start with a dark blue background
-        SDL_FillRect( mScreen.Image(), NULL, SDL_MapRGB( mScreen.Image()->format, 0x00, 0x00, 0x40 ) );
-
         index = mManagerwindow.CreateNewWindow( rectMain,
                                                 mStrings.Find( STR_INTRO )->Text(),
                                                 &colrMainColor, NULL );
-        result = mManagerwindow.ActivateWindow( index );
 
-        if (result>SIG_NONE)
+        done = false;
+        while ( done == false && result >= SIG_NONE )
         {
+            // Start with a dark blue background
+            SDL_FillRect( mScreen.Image(), NULL, SDL_MapRGB( mScreen.Image()->format, 0x00, 0x00, 0x40 ) );
+
+            result = mManagerwindow.ActivateWindow( index );
+
             switch ( result )
             {
                 case 1:
                     result = NewCareer(true);       // Quick Start
+                    done = true;
                     break;
                 case 2:
                     result = NewCareer(false);      // Normal Start
+                    done = true;
                     break;
                 case 3:
                     result = LoadCareer();          // Load a game
+                    done = true;
                     break;
                 case 4:
                     result = mMenuOptions.Run();    // Game options
@@ -80,11 +86,6 @@ int8_t CMenustart::Run( void )
                     result = SIG_FAIL;
                     break;
             }
-        }
-        else
-        {
-            Error( __FILE__, __LINE__, "menu index out of range\n" );
-            result = SIG_FAIL;
         }
     }
 
@@ -181,7 +182,7 @@ int8_t CMenustart::GetTimePeriod( void )
             else
             {
                 Error( __FILE__, __LINE__, "menu index out of range\n" );
-                result = SIG_FAIL ;
+                result = SIG_FAIL;
             }
 
             for ( uint16_t t=0; t<names.size(); t++ )
@@ -233,7 +234,7 @@ int8_t CMenustart::GetNation( void )
             else
             {
                 Error( __FILE__, __LINE__, "menu index out of range\n" );
-                result = SIG_FAIL ;
+                result = SIG_FAIL;
             }
 
             for ( uint16_t t=0; t<names.size(); t++ )
@@ -383,7 +384,7 @@ int8_t CMenustart::GetDifficulty( void )
         else
         {
             Error( __FILE__, __LINE__, "menu index out of range\n" );
-            result = SIG_FAIL ;
+            result = SIG_FAIL;
         }
     }
 
@@ -418,7 +419,7 @@ int8_t CMenustart::GetSkill( void )
         else
         {
             Error( __FILE__, __LINE__, "menu index out of range\n" );
-            result = SIG_FAIL ;
+            result = SIG_FAIL;
         }
     }
 

@@ -33,6 +33,40 @@ CResources::~CResources()
   	Log( "CResources Released!\n" );
 }
 
+int8_t CResources::CheckVideoMode( int16_t width, int16_t height, int8_t depth, uint32_t flags )
+{
+    int8_t result = SIG_NONE;
+
+    result = SDL_VideoModeOK( width, height, depth, flags );
+
+    if ( result == 0 )
+    {
+        Log( "CResources::CheckVideoMode SDL mode verification FAILED %d x %d %d %X\n",
+             width,
+             height,
+             depth,
+             flags );
+        result = SIG_FAIL;
+    }
+    else if ( result != mOptions.Screen().Depth() )
+    {
+        Log( "CResources::CheckVideoMode SDL mode recommends switching from %d bpp to %d bpp\n",
+             depth,
+             result);
+    }
+    else
+    {
+        Log( "CResources::CheckVideoMode SDL mode verified OK %d x %d %d %X\n",
+             width,
+             height,
+             depth,
+             flags );
+        result = SIG_NONE;
+    }
+
+    return result;
+}
+
 int8_t CResources::SetVideoMode( void )
 {
     SDL_Surface* screen;
@@ -52,14 +86,14 @@ int8_t CResources::SetVideoMode( void )
 
     screen = SDL_SetVideoMode( mOptions.Screen().Width(),
                                mOptions.Screen().Height(),
-                               mOptions.Screen().Bpp(),
+                               mOptions.Screen().Depth(),
                                flags );
     if ( screen == NULL)
     {
         Error( __FILE__, __LINE__, "Couldn't set SDL video mode with %dx%dx%d with flags %X: %s\n",
                mOptions.Screen().Width(),
                mOptions.Screen().Height(),
-               mOptions.Screen().Bpp(),
+               mOptions.Screen().Depth(),
                flags,
                SDL_GetError() );
         result = SIG_FAIL;
@@ -67,7 +101,11 @@ int8_t CResources::SetVideoMode( void )
     else
     {
         mScreen.AssignImage(screen, false);
-        Log( "CResources::AssignScreenImage Screen Loaded!\n" );
+        Log( "CResources::AssignScreenImage Screen Loaded at %d x %d %d %X\n",
+             mOptions.Screen().Width(),
+             mOptions.Screen().Height(),
+             mOptions.Screen().Depth(),
+             flags );
 
         SDL_ShowCursor( SDL_DISABLE );
 
@@ -95,6 +133,56 @@ int8_t CResources::ToggleFullscreen( void )
 	}
 
 	return result;
+}
+
+int8_t CResources::OpenAudio( void )
+{
+    int8_t result = SIG_NONE;
+
+    if ( Mix_OpenAudio( mOptions.Sound().Frequency(),
+                        MIX_DEFAULT_FORMAT,
+                        mOptions.Sound().Channels(),
+                        mOptions.Sound().SampleSize() ) == -1 )
+    {
+        Error( __FILE__, __LINE__, "Couldn't start SDL_MIXER: %s\n", SDL_GetError() );
+        result = SIG_FAIL;
+    }
+
+    return result;
+}
+
+int8_t CResources::OpenJoystick( void )
+{
+    int8_t result = SIG_NONE;
+
+    if ( SDL_NumJoysticks()>0 )
+    {
+        mpJoystick = SDL_JoystickOpen(0);
+        if ( mpJoystick == NULL )
+        {
+            Error( __FILE__, __LINE__, "Couldn't open joystick 0: %s\n", SDL_GetError() );
+            result = SIG_FAIL;
+        }
+    }
+    else
+    {
+        Log( "WARNING No joysticks detected\n" );
+    }
+
+    return result;
+}
+
+void CResources::CloseJoystick( void )
+{
+    if ( SDL_JoystickOpened(0) )
+    {
+        SDL_JoystickClose( mpJoystick );
+    }
+}
+
+void CResources::CloseAudio( void )
+{
+    Mix_CloseAudio();	        //Quit SDL_mixer
 }
 
 void CResources::Free_Font( void )

@@ -22,9 +22,10 @@ CModeMain::CModeMain() :
     mFileOptions    (FILE_OPTIONS),
     mFileResources  (FILE_RESOURCES),
     mResources      (),
-    mStartmenu      (mResources),
-    mMainmenu       (mResources),
-    mModenav        (mResources, mMainmenu)
+    mManagerwindow  (mResources),
+    mMainmenu       (mResources, mManagerwindow),
+    mStartmenu      (mResources, mManagerwindow),
+    mModenav        (mResources, mManagerwindow, mMainmenu)
 {
 }
 
@@ -32,11 +33,11 @@ CModeMain::~CModeMain()
 {
     // Free the joystick
     Log( "Close Joystick\n" );
-    if ( SDL_JoystickOpened(0) ) SDL_JoystickClose( mResources.Joystick() );
+    mResources.CloseJoystick();
 
     // Free the mixer
     Log( "Close Mixer!\n" );
-    Mix_CloseAudio();	        //Quit SDL_mixer
+    mResources.CloseAudio();
 
     // Free font and TTF
     Log( "Close Font!\n" );
@@ -60,7 +61,7 @@ int8_t CModeMain::Run( int argc, char *argv[] )
     std::string path;
 
     done = false;
-    while ( done == false && result == SIG_NONE )
+    while ( done == false && result >= SIG_NONE )
     {
         switch ( state )
         {
@@ -115,9 +116,6 @@ int8_t CModeMain::OpenSystem( const std::string& file_path, int argc, char *argv
     // Setting any overrides set by arguments
     result = ProcessArguments( argc, argv );
 
-    // Make sure settings are set to allowed states
-    VerifySettings();
-
 	// Initialize SDL
     if ( SDL_Init( SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK ) < 0 )
     {
@@ -141,6 +139,7 @@ int8_t CModeMain::OpenSystem( const std::string& file_path, int argc, char *argv
         }
 	}
 
+    // Load the ttf font
     if ( result == SIG_NONE )
     {
         result = mResources.LoadFont();
@@ -153,32 +152,13 @@ int8_t CModeMain::OpenSystem( const std::string& file_path, int argc, char *argv
     // Initialize SDL_mixer
 	if ( result == SIG_NONE )
 	{
-        if ( Mix_OpenAudio( mResources.Options().Sound().Frequency(),
-                            MIX_DEFAULT_FORMAT,
-                            mResources.Options().Sound().Channels(),
-                            mResources.Options().Sound().SampleSize() ) == -1 )
-        {
-            Error( __FILE__, __LINE__, "Couldn't start SDL_MIXER: %s\n", SDL_GetError() );
-            result = SIG_FAIL;
-        }
+        result = mResources.OpenAudio();
 	}
 
 	// Check and open joystick device
 	if ( result == SIG_NONE )
 	{
-        if ( SDL_NumJoysticks()>0 )
-        {
-            mResources.Joystick( SDL_JoystickOpen(0) );
-            if ( mResources.Joystick() == NULL )
-            {
-                Error( __FILE__, __LINE__, "Couldn't open joystick 0: %s\n", SDL_GetError() );
-                result = SIG_FAIL;
-            }
-        }
-        else
-        {
-            Log( "WARNING No joysticks detected\n" );
-        }
+        result = mResources.OpenJoystick();
 	}
 
   	Log( "CModeMain::OpenSystem Complete!\n" );
@@ -189,18 +169,21 @@ int8_t CModeMain::OpenSystem( const std::string& file_path, int argc, char *argv
 #define ARGL_HELP       "--help"
 #define ARGS_HELP       "-h"
 #define ARGD_HELP       "prints this menu"
+#define ARGL_VMODE      "--vmode"
+#define ARGS_VMODE      "-V"
+#define ARGD_VMODE      "standard video mode resolutions"
 #define ARGL_WIDTH      "--width"
 #define ARGS_WIDTH      "-W"
-#define ARGD_WIDTH      "pixel width of the screen"
+#define ARGD_WIDTH      "custom pixel width of the screen"
 #define ARGL_HEIGHT     "--height"
 #define ARGS_HEIGHT     "-H"
-#define ARGD_HEIGHT     "pixel height of the screen"
+#define ARGD_HEIGHT     "custom pixel height of the screen"
 #define ARGL_DEPTH      "--depth"
 #define ARGS_DEPTH      "-D"
 #define ARGD_DEPTH      "pixel depth of the screen"
-#define ARGL_FULLSCREEN "--fullscreen"
-#define ARGS_FULLSCREEN "-F"
-#define ARGD_FULLSCREEN "view mode of the screen"
+#define ARGL_FS         "--fullscreen"
+#define ARGS_FS         "-F"
+#define ARGD_FS         "view mode of the screen"
 
 #define ARGL_FREQ       "--frequency"
 #define ARGS_FREQ       "-f"
@@ -216,6 +199,8 @@ int8_t CModeMain::ProcessArguments( int argc, char *argv[] )
 {
     int8_t result = SIG_NONE;
     int16_t index;
+    int16_t custom_width = 0;
+    int16_t custom_height = 0;
     int32_t value;
     std::string arg;
 
@@ -228,36 +213,63 @@ int8_t CModeMain::ProcessArguments( int argc, char *argv[] )
             printf( "Usage: pirates [OPTIONS]...\n\n" );
             printf( "Options:\n" );
             printf( "%s, %s%s %s\n",     ARGS_HELP,         ARGL_HELP,          Spaces(ARG_LEN-strlen(ARGL_HELP)).c_str(),          ARGD_HELP   );
+            printf( "%s, %s [v]%s %s\n", ARGS_VMODE,        ARGL_VMODE,         Spaces(ARG_LEN-strlen(ARGL_VMODE)).c_str(),         ARGD_VMODE  );
+            for ( index=1; index<SCREEN_MODES; index++ )
+            {
+                printf( "    Mode %d %d x %d\n", index, limitsScreenWidth[index], limitsScreenHeight[index] );
+            }
             printf( "%s, %s [v]%s %s\n", ARGS_WIDTH,        ARGL_WIDTH,         Spaces(ARG_LEN-strlen(ARGL_WIDTH)).c_str(),         ARGD_WIDTH  );
             printf( "%s, %s [v]%s %s\n", ARGS_HEIGHT,       ARGL_HEIGHT,        Spaces(ARG_LEN-strlen(ARGL_HEIGHT)).c_str(),        ARGD_HEIGHT );
             printf( "%s, %s [v]%s %s\n", ARGS_DEPTH,        ARGL_DEPTH,         Spaces(ARG_LEN-strlen(ARGL_DEPTH)).c_str(),         ARGD_DEPTH  );
-            printf( "%s, %s [v]%s %s\n", ARGS_FULLSCREEN,   ARGL_FULLSCREEN,    Spaces(ARG_LEN-strlen(ARGL_FULLSCREEN)).c_str(),    ARGD_FULLSCREEN  );
+            for ( index=0; index<SCREEN_DEPTHS; index++ )
+            {
+                printf( "    Mode %d %d bpp\n", index, limitsScreenDepth[index] );
+            }
+            printf( "%s, %s [v]%s %s\n", ARGS_FS,           ARGL_FS,            Spaces(ARG_LEN-strlen(ARGL_FS)).c_str(),            ARGD_FS     );
             printf( "%s, %s [v]%s %s\n", ARGS_FREQ,         ARGL_FREQ,          Spaces(ARG_LEN-strlen(ARGL_FREQ)).c_str(),          ARGD_FREQ   );
+            for ( index=0; index<SOUND_FREQ; index++ )
+            {
+                printf( "    Mode %d %d Hz\n", index, limitsSoundFreq[index] );
+            }
             printf( "%s, %s [v]%s %s\n", ARGS_CHAN,         ARGL_CHAN,          Spaces(ARG_LEN-strlen(ARGL_CHAN)).c_str(),          ARGD_CHAN   );
+            for ( index=0; index<SOUND_CHANNELS; index++ )
+            {
+                printf( "    Mode %d %d Channels\n", index, limitsSoundChannels[index] );
+            }
             printf( "%s, %s [v]%s %s\n", ARGS_SAMPLE,       ARGL_SAMPLE,        Spaces(ARG_LEN-strlen(ARGL_SAMPLE)).c_str(),        ARGD_SAMPLE );
+            for ( index=0; index<SOUND_SAMPLE; index++ )
+            {
+                printf( "    Mode %d %d samples\n", index, limitsSoundSamples[index] );
+            }
             printf( "\n" );
             result = SIG_QUIT;
             break;
         }
+        else if (arg.compare(ARGL_VMODE) == 0 || arg.compare(ARGS_VMODE) == 0)
+        {
+            value = a_to_i(argv[index+1]);
+            mResources.Options().Screen().VideoMode(value);
+            index+=2;
+        }
         else if (arg.compare(ARGL_WIDTH) == 0 || arg.compare(ARGS_WIDTH) == 0)
         {
             value = a_to_i(argv[index+1]);
-            mResources.Options().Screen().Width(value);
+            custom_width = value;
             index+=2;
         }
         else if (arg.compare(ARGL_HEIGHT) == 0 || arg.compare(ARGS_HEIGHT) == 0)
         {
             value = a_to_i(argv[index+1]);
-            mResources.Options().Screen().Height(value);
+            custom_height = value;
             index+=2;
         }
         else if (arg.compare(ARGL_DEPTH) == 0 || arg.compare(ARGS_DEPTH) == 0)
         {
             value = a_to_i(argv[index+1]);
-            mResources.Options().Screen().Bpp(value);
+            mResources.Options().Screen().DepthMode(value);
             index+=2;
         }
-        else if (arg.compare(ARGL_FULLSCREEN) == 0 || arg.compare(ARGS_FULLSCREEN) == 0)
+        else if (arg.compare(ARGL_FS) == 0 || arg.compare(ARGS_FS) == 0)
         {
             value = a_to_i(argv[index+1]);
             mResources.Options().Screen().Fullscreen(value);
@@ -269,68 +281,14 @@ int8_t CModeMain::ProcessArguments( int argc, char *argv[] )
             index++;
         }
     }
+
+    // Custom video mode
+    if ( mResources.Options().Screen().VideoMode() == 0 && custom_width>0 && custom_height>0 )
+    {
+        mResources.Options().Screen().CustomMode( custom_width, custom_height );
+    }
+
     return result;
-}
-
-void CModeMain::VerifySettings( void )
-{
-    int32_t value;
-    SDL_Color defcolor = { FONTCOLOR_R, FONTCOLOR_G, FONTCOLOR_B, 0 };
-
-    mResources.Options().Font().Color(defcolor); // White
-
-    value = mResources.Options().Screen().Width();
-    if ( value < 320 || value > 1024 ) {
-        Error( __FILE__, __LINE__, "Unsupported value for screen width %d\n", value );
-        mResources.Options().Screen().Width(        SCREEN_WIDTH    );
-    }
-    value = mResources.Options().Screen().Height();
-    if ( value < 240 || value > 768 ) {
-        Error( __FILE__, __LINE__, "Unsupported value for screen height %d\n", value );
-        mResources.Options().Screen().Height(       SCREEN_HEIGHT   );
-    }
-    value = mResources.Options().Screen().Bpp();
-    if ( value != 16 && value != 24 && value != 32 ) {
-        Error( __FILE__, __LINE__, "Unsupported value for screen depth %d\n", value );
-        mResources.Options().Screen().Bpp(          SCREEN_BPP      );
-    }
-
-    value = mResources.Options().Sound().Frequency();
-    if ( value != 11025 && value != 22050 && value != 44100 && value != 48000 ) {
-        Error( __FILE__, __LINE__, "Unsupported value for sound frequency %d\n", value );
-        mResources.Options().Sound().Frequency(     SOUND_FREQ      );
-    }
-    value = mResources.Options().Sound().Channels();
-    if ( value != 1 && value != 2 ) {
-        Error( __FILE__, __LINE__, "Unsupported value for sound channels %d\n", value );
-        mResources.Options().Sound().Channels(      SOUND_CHAN      );
-    }
-    value = mResources.Options().Sound().SampleSize();
-    if ( value != 256 && value != 512 && value != 1024 && value != 2048 && value != 4096 ) {
-        Error( __FILE__, __LINE__, "Unsupported value for sound sample size %d\n", value );
-        mResources.Options().Sound().SampleSize(    SOUND_SAMPLE    );
-    }
-
-    value = mResources.Options().Cloud().Count();
-    if ( value < 0 && value > 20 ) {
-        Error( __FILE__, __LINE__, "Unsupported value for cloud size %d\n", value );
-        mResources.Options().Cloud().Count(         CLOUD_COUNT     );
-    }
-    value = mResources.Options().Wave().Count();
-    if ( value < 0 && value > 100 ) {
-        Error( __FILE__, __LINE__, "Unsupported value for wave size %d\n", value );
-        mResources.Options().Wave().Count(          WAVE_COUNT      );
-    }
-    value = mResources.Options().Wave().Speed();
-    if ( value < 0 && value > 50 ) {
-        Error( __FILE__, __LINE__, "Unsupported value for wave speed %d\n", value );
-        mResources.Options().Wave().Speed(          WAVE_SPEED      );
-    }
-    value = mResources.Options().Font().Size();
-    if ( value < 0 && value > 24 ) {
-        Error( __FILE__, __LINE__, "Unsupported value for font size %d\n", value );
-        mResources.Options().Font().Size(           FONT_SIZE       );
-    }
 }
 
 int8_t CModeMain::LoadResources( const std::string& file_path )

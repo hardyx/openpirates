@@ -232,16 +232,16 @@ int8_t CModeBattle::HandleEvents( void )
                         result = mMainmenu.Run();
                         break;
                     case CTRL_UP:
-                        VelocityP1( -P1_BATTLE_SPEED, YAXIS );
+                        VelocityP1( -DEF_P1_BATTLE_SPEED, YAXIS );
                         break;
                     case CTRL_DOWN:
-                        VelocityP1( P1_BATTLE_SPEED, YAXIS );
+                        VelocityP1( DEF_P1_BATTLE_SPEED, YAXIS );
                         break;
                     case CTRL_RIGHT:
-                        VelocityP1( P1_BATTLE_SPEED, XAXIS );
+                        VelocityP1( DEF_P1_BATTLE_SPEED, XAXIS );
                         break;
                     case CTRL_LEFT:
-                        VelocityP1( -P1_BATTLE_SPEED, XAXIS );
+                        VelocityP1( -DEF_P1_BATTLE_SPEED, XAXIS );
                         break;
                     case CTRL_ACTION:
                         if ( mBattleMode==SEA_VS_SEA || mBattleMode==SEA_VS_LAND )

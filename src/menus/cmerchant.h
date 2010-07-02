@@ -36,8 +36,8 @@ class CMerchant
         CDyntown*           mpDynTown;
         CTransferWindow     mTransferWindow;
 
-        CMerchant(const CMerchant &);
-        CMerchant & operator=(const CMerchant&);
+        CMerchant(const CMerchant&);
+        CMerchant& operator=(const CMerchant&);
 };
 
 #endif // CMERCHANT_H

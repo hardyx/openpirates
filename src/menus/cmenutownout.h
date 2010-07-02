@@ -26,14 +26,14 @@
 class CMenutownout
 {
     public:
-        CMenutownout( CResources& resources );
+        CMenutownout( CResources& resources, CManagerWindow& winmanager );
         virtual ~CMenutownout();
 
         int8_t Run( int8_t entertype, int16_t town_index );
 
     private:
-        CMenutownout(const CMenutownout &);
-        CMenutownout & operator=(const CMenutownout&);
+        CMenutownout(const CMenutownout&);
+        CMenutownout& operator=(const CMenutownout&);
         int8_t EnterTown( void );
         int8_t AttackTown( void );
         int8_t SneakTown( void );
@@ -42,7 +42,7 @@ class CMenutownout
         CGraphic&           mScreen;
         CManager<CString>&  mStrings;
         CManager<CGraphic>& mGraphics;
-        CManagerWindow      mManagerwindow;
+        CManagerWindow&     mManagerwindow;
         CDyntown*           mpDyntown;
         CTown*              mpTown;
         CMenutownin*        mpMenutownin;

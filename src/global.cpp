@@ -82,7 +82,7 @@ int32_t a_to_i( const std::string& line )
     return number;
 }
 
-std::string i_to_a( int16_t num )
+std::string i_to_a( int32_t num )
 {
     std::string str;
     std::stringstream ss;

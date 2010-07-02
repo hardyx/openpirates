@@ -31,7 +31,7 @@
 class CMenutownin
 {
     public:
-        CMenutownin( CResources& resources, CDyntown* dyntown, CTown* town);
+        CMenutownin( CResources& resources, CManagerWindow& winmanager, CDyntown* dyntown, CTown* town);
         virtual ~CMenutownin();
 
 		int8_t Run( bool sneak );
@@ -41,7 +41,7 @@ class CMenutownin
         CGraphic&           mScreen;
         CManager<CString>&  mStrings;
         CManager<CGraphic>& mGraphics;
-        CManagerWindow      mManagerwindow;
+        CManagerWindow&     mManagerwindow;
         CDyntown*           mpDynTown;
         CTown*              mpTown;
         CGovernor           mGovernor;
@@ -52,7 +52,7 @@ class CMenutownin
         CInformation        mInformation;
 
         CMenutownin(const CMenutownin &);
-        CMenutownin & operator=(const CMenutownin&);
+        CMenutownin& operator=(const CMenutownin&);
 };
 
 #endif // CMENUTOWNIN_H

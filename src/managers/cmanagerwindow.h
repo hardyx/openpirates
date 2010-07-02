@@ -20,7 +20,6 @@
 #define CMANAGERWINDOW_H
 
 #include "global.h"
-#include "resources/cresources.h"
 #include "resources/types/cwindow.h"
 
 // Class that provides a window for showing text and getting user input
@@ -49,6 +48,7 @@ class CManagerWindow
         void MoveWindow( uint8_t index, int16_t x, int16_t y );
         uint8_t ActivateWindow( uint8_t index );
         void ReprocessWindow( uint8_t index );
+        void ResetWindows( void );
         void UpdateWindowPosition( uint8_t index, int16_t x, int16_t y );
         void UpdateWindowSize( uint8_t index, uint16_t w, uint16_t h );
         void UpdateWindowText( uint8_t index, std::string& text );
@@ -57,6 +57,9 @@ class CManagerWindow
         void UpdateWindowBackgroundImage( uint8_t index, CGraphic* bkgnd_image );
         void UpdateWindowBackGroundColor( uint8_t index, SDL_Color* bkgnd_color );
 
+        CManagerWindow(const CManagerWindow&);
+        CManagerWindow& operator=(const CManagerWindow&);
+
     private:
         CResources&     mResources;
         CControls&      mEvents;
@@ -64,9 +67,6 @@ class CManagerWindow
         TTF_Font*       mpFont;
         CSpriteDynamic  mPointer;
         vec_window_t    mWindows;
-
-        CManagerWindow(const CManagerWindow &);
-        CManagerWindow & operator=(const CManagerWindow&);
 };
 
 #endif // CMANAGERWINDOW_H

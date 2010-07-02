@@ -32,24 +32,26 @@ class CControls
         virtual ~CControls();
 
         // Getters
-        bool SysEventsEnabled( void )       { return mEnabledSys; }
         bool KeyEventsEnabled( void )       { return mEnabledKey; }
         bool JoyEventsEnabled( void )       { return mEnabledJoy; }
         bool MouseEventsEnabled( void )     { return mEnabledMouse; }
         // Setters
-        void SysEventsEnabled( bool v )     { mEnabledSys = v; }
         void KeyEventsEnabled( bool v )     { mEnabledKey = v; }
         void JoyEventsEnabled( bool v )     { mEnabledJoy = v; }
         void MouseEventsEnabled( bool v )   { mEnabledMouse = v; }
 
-        int8_t Poll(CControl& event);
+        int8_t      Poll(CControl& event);
+        SDLKey      WaitForKeyPress( SDLKey oldkey );
+        uint8_t     WaitForJoyPress( uint8_t oldbutton );
+        SDLKey      GetKeyMapping( uint8_t internalevent );
+        uint16_t    GetJoyMapping( uint8_t internalevent );
+        int8_t      SetKeyMapping( uint8_t internalevent, SDLKey newkey );
+        int8_t      SetJoyMapping( uint8_t internalevent, uint8_t newbutton );
 
     private:
-        vec_ctrlmap_t   mSysMaps;
         vec_ctrlmap_t   mKeyMaps;
         vec_ctrlmap_t   mJoyMaps;
         vec_ctrlmap_t   mMouseMaps;
-        bool            mEnabledSys;
         bool            mEnabledKey;
         bool            mEnabledJoy;
         bool            mEnabledMouse;

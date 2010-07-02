@@ -18,9 +18,9 @@
 
 #include "cinformation.h"
 
-CInformation::CInformation( CResources& resources, CManagerWindow& wmanager ) :
+CInformation::CInformation( CResources& resources, CManagerWindow& winmanager ) :
     mResources      (resources),
-    mManagerwindow  (wmanager),
+    mManagerwindow  (winmanager),
     mStrings        (resources.Data().Strings())
 {
 }

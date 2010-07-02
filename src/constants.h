@@ -36,26 +36,25 @@
 #define EVENT_RELEASED  2
 
 // Game Control/Defaults
-#define SCREEN_WIDTH    640
-#define SCREEN_HEIGHT   480
-#define SCREEN_BPP      16
-#define FULLSCREEN      true
-#define DOUBLEBUF       true
-#define FRAME_LIMIT     true
-#define FRAME_CALC      true
-#define SOUND_FREQ      44100
-#define SOUND_CHAN      2
-#define SOUND_SAMPLE    4096
-#define FONT_SIZE       12
-#define FONTCOLOR_R     255
-#define FONTCOLOR_G     255
-#define FONTCOLOR_B     255
-#define CLOUD_COUNT     5
-#define WAVE_COUNT      40
-#define WAVE_SPEED      15
-#define P1_NAV_SPEED    1
-#define P1_BATTLE_SPEED 1
-#define POINTER_SPEED   5
+#define DEF_SCREEN_VMODE    2       // 640x480
+#define DEF_SCREEN_BPP      1       // 16 bpp
+#define DEF_FULLSCREEN      true
+#define DEF_DOUBLEBUF       true
+#define DEF_FRAME_LIMIT     true
+#define DEF_FRAME_CALC      true
+#define DEF_SOUND_FREQ      2       // 44100 Hz
+#define DEF_SOUND_CHAN      1       // 2 channels
+#define DEF_SOUND_SAMPLE    5       // 4096 samples
+#define DEF_FONT_SIZE       12
+#define DEF_FONTCOLOR_R     255
+#define DEF_FONTCOLOR_G     255
+#define DEF_FONTCOLOR_B     255
+#define DEF_CLOUD_COUNT     5
+#define DEF_WAVE_COUNT      40
+#define DEF_WAVE_SPEED      15
+#define DEF_P1_NAV_SPEED    1
+#define DEF_P1_BATTLE_SPEED 1
+#define DEF_POINTER_SPEED   5
 
 // Frame Control/Defaults
 #define SYNC_FRAME          3
@@ -88,6 +87,7 @@
 #define GAME_MAXCOMMODITIES 4
 
 // Config file identifiers
+#define CFG_SCREEN_VMODE    "*screen_videomode"
 #define CFG_SCREEN_WIDTH    "*screen_width"
 #define CFG_SCREEN_HEIGHT   "*screen_height"
 #define CFG_SCREEN_BPP      "*screen_bpp"

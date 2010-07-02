@@ -25,7 +25,7 @@
 class CMenumain
 {
     public:
-        CMenumain( CResources& resources );
+        CMenumain( CResources& resources, CManagerWindow& winmanager );
 		virtual ~CMenumain();
 
         int8_t Run( void );
@@ -36,7 +36,7 @@ class CMenumain
         CRole&              mPlayer;
         CManager<CString>&  mStrings;
         CManager<CGraphic>& mGraphics;
-        CManagerWindow      mManagerwindow;
+        CManagerWindow&     mManagerwindow;
 
 		int8_t EndGame( void );
 		int8_t SaveCareer( void );

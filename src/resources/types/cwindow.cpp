@@ -180,6 +180,8 @@ void CWindow::SetDefaults( void )
 
 void CWindow::ResetWindow( void )
 {
+    mActive = false;
+
     if ( mWords.size() > 0 )
     {
         if ( mWords.size() > 0 )
@@ -314,7 +316,7 @@ int8_t CWindow::Activate( CResources& resources, CGraphic* border_gfx, CSpriteDy
                         break;
                     }
                 }
-                mFrameControl.ControlFPS( FRAME_LIMIT, FRAME_CALC );
+                mFrameControl.ControlFPS( DEF_FRAME_LIMIT, DEF_FRAME_CALC );
 #ifdef DEBUG
                 mFps   = mFrameControl.FramesDrawn();
                 mFskip = mFrameControl.FramesSkipped();
@@ -331,6 +333,13 @@ int8_t CWindow::Activate( CResources& resources, CGraphic* border_gfx, CSpriteDy
     else
     {
         Draw( screen.Image(), font, fontoptions.Color(), border_gfx, pointer );
+
+        // Send the final frame to the screen
+        if ( SDL_Flip( screen.Image() ) == -1 )
+        {
+            Error( __FILE__, __LINE__, "CWindow: SDL_Flip failed\n" );
+            paragraph_result = SIG_FAIL;
+        }
     }
 
     return paragraph_result;
@@ -777,16 +786,16 @@ int8_t CWindow::HandleEvents( CResources& resources, CSpriteDynamic& pointer )
                         result = EVENT_PRESSED;
                         break;
                     case CTRL_UP:
-                        pointer.YVel( -POINTER_SPEED );
+                        pointer.YVel( -DEF_POINTER_SPEED );
                         break;
                     case CTRL_DOWN:
-                        pointer.YVel( POINTER_SPEED );
+                        pointer.YVel( DEF_POINTER_SPEED );
                         break;
                     case CTRL_RIGHT:
-                        pointer.XVel( POINTER_SPEED );
+                        pointer.XVel( DEF_POINTER_SPEED );
                         break;
                     case CTRL_LEFT:
-                        pointer.XVel( -POINTER_SPEED );
+                        pointer.XVel( -DEF_POINTER_SPEED );
                         break;
 #ifdef DEBUG
                     case CTRL_DBG_BOXES:

@@ -48,8 +48,8 @@ CModeWorld::CModeWorld( CResources& resources ) :
     mSpritesSta     (),
     mFps            (0),
     mFskip          (0),
-    mFpscap         (FRAME_LIMIT),
-    mFpscalc        (FRAME_CALC)
+    mFpscap         (DEF_FRAME_LIMIT),
+    mFpscalc        (DEF_FRAME_CALC)
 {
 }
 

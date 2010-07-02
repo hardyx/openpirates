@@ -47,9 +47,6 @@ class CGraphic
         void ApplyImage( int16_t x, int16_t y, SDL_Surface* destination, SDL_Rect* clip = NULL );
 
     private:
-        CGraphic(const CGraphic &);
-        CGraphic & operator=(const CGraphic&);
-
         SDL_Surface*    mpImage;
         SDL_Rect        mClipbox;
         std::string     mPath;
@@ -60,6 +57,9 @@ class CGraphic
 
         void SetupClipbox( void );
         SDL_Surface* LoadImage( const std::string& filename );    // Loads the mImage frome file in an optimized format
+
+        CGraphic(const CGraphic&);
+        CGraphic& operator=(const CGraphic&);
 };
 
 #endif // CGRAPHIC_H

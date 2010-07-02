@@ -115,8 +115,8 @@ class CWindow
         void    FadeColor( uint8_t& colorcomp, int8_t delta );
 
     private:
-        CWindow(const CWindow &);
-        CWindow & operator=(const CWindow&);
+        CWindow(const CWindow&);
+        CWindow& operator=(const CWindow&);
 };
 
 typedef std::vector<CWindow*> vec_window_t;

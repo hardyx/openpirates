@@ -18,10 +18,10 @@
 
 #include "cgovernor.h"
 
-CGovernor::CGovernor( CResources& resources, CManagerWindow& wmanager, CDyntown* dyntown ) :
+CGovernor::CGovernor( CResources& resources, CManagerWindow& winmanager, CDyntown* dyntown ) :
     mResources      (resources),
     mStrings        (resources.Data().Strings()),
-    mManagerwindow  (wmanager),
+    mManagerwindow  (winmanager),
     mpDynTown       (dyntown)
 {
 }

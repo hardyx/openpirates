@@ -85,7 +85,7 @@ void CGraphic::AssignImage( SDL_Surface* pimage, bool release, uint16_t tag, uin
 
 void CGraphic::ReleaseImage( void )
 {
-    if ( mpImage != NULL )
+    if ( mRelease == true && mpImage != NULL )
     {
         SDL_FreeSurface( mpImage );
         mpImage = NULL;

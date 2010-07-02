@@ -37,6 +37,7 @@
 #include "resources/types/cmaplocation.h"
 #include "resources/types/crole.h"
 
+
 enum types_t {
     TYPE_NUL=0,
     TYPE_STR,
@@ -60,18 +61,23 @@ class CResources
         virtual ~CResources();
 
         // Getters
-        CGraphic&       Screen( void )      { return mScreen; }
-        CData&          Data( void )        { return mData; }
-        COptions&       Options( void )     { return mOptions; }
-        CControls&      Controls( void )    { return mControls; }
-        SDL_Joystick*   Joystick( void )    { return mpJoystick; }
-        TTF_Font*       Font( void )        { return mpFont; }
+        CGraphic&       Screen( void )          { return mScreen; }
+        CData&          Data( void )            { return mData; }
+        COptions&       Options( void )         { return mOptions; }
+        CControls&      Controls( void )        { return mControls; }
+        SDL_Joystick*   Joystick( void )        { return mpJoystick; }
+        TTF_Font*       Font( void )            { return mpFont; }
         // Setters
         void Joystick( SDL_Joystick* v )    { mpJoystick = v; }
         void Font( TTF_Font* v )            { mpFont = v; }
 
+        int8_t CheckVideoMode( int16_t width, int16_t height, int8_t depth, uint32_t flags );
         int8_t SetVideoMode( void );
         int8_t ToggleFullscreen( void );
+        int8_t OpenAudio( void );
+        void   CloseAudio( void );
+        int8_t OpenJoystick( void );
+        void   CloseJoystick( void );
         int8_t LoadResources( const std::string& file_path );
         int8_t LoadFont( void );
         int8_t LoadActiveRole( void );
@@ -101,8 +107,8 @@ class CResources
         CMapLocation*       LoadTownMapLocation     ( const std::string& line );
         CRole*              LoadRole                ( const std::string& line );
 
-        CResources(const CResources &);
-        CResources & operator=(const CResources&);
+        CResources(const CResources&);
+        CResources& operator=(const CResources&);
 };
 
 #endif // CRESOURCES_H
