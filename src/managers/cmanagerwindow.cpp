@@ -20,7 +20,7 @@
 
 CManagerWindow::CManagerWindow( CResources& resources ) :
     mResources  (resources),
-    mEvents     (mResources.Controls()),
+    mEvents     (mResources.Options().Controls()),
     mpBorder    (NULL),
     mpFont      (NULL),
     mPointer    (),

@@ -3,9 +3,9 @@
 #include "resources/keystrings.h"
 
 #define STR_OPT_MAIN    "Select...\\n\\t01Video Options\\s\\t01Sound Options\\s\\t01Keyboard Control Options\\s\\t01Joystick Control Options\\s\\t01Back\\s"
-#define STR_OPT_VIDEO   "Video Options\\n\\t01Resolution: %1x%2\\u Change Resolution\\s\\t01Depth: %3\\u -\\z +\\s\\t01Fullscreen:\\u %4\\s\\t01Doublebuffer:\\u %5\\s \\nApply\\z\\t10Cancel\\s"
-#define STR_OPT_SOUND   "Sound Options\\n\\t01Frequency: %1\\u -\\z +\\s\\t01Channels: %2\\u -\\z +\\s\\t01Sample size: %3\\u -\\z +\\s\\nApply\\z\\t10Cancel\\s"
-#define STR_OPT_CTRLS   "Control Options\\n\\t01Up:\\u %1\\s\\t01Down:\\u %2\\s\\t01Left:\\u %3\\s\\t01Right:\\u %4\\s\\t01Action:\\u %5\\s\\t01Menu:\\u %6\\s\\nBack\\s"
+#define STR_OPT_VIDEO   "Video Options\\n\\t01Resolution:\\u\\c10%1x%2\\u\\c20Change Resolution\\s\\t01Depth:\\u\\c10%3\\u\\c20- \\z +\\s\\t01Fullscreen:\\u\\c10%4\\s\\t01Doublebuffer:\\u\\c10%5\\s \\nApply\\z\\t10Back\\s"
+#define STR_OPT_SOUND   "Sound Options\\n\\t01Frequency:\\u\\c10%1\\u\\c20-\\z +\\s\\t01Channels:\\u\\c10%2\\u\\c20-\\z +\\s\\t01Sample size:\\u\\c10%3\\u\\c20-\\z +\\s \\nApply\\z\\t10Back\\s"
+#define STR_OPT_CTRLS   "Control Options\\n\\t01Up:\\u\\c10%1\\s\\t01Down:\\u\\c10%2\\s\\t01Left:\\u\\c10%3\\s\\t01Right:\\u\\c10%4\\s\\t01Action:\\u\\c10%5\\s\\t01Menu:\\u\\c10%6\\s\\nBack\\s"
 #define STR_OPT_RES     "Select a resolution:\\n%aCancel\\s"
 #define STR_OPT_CHG     "SDL is recommends switching the screen depth from %1 bpp to %2 bpp.\\nSelecting yes will switch to that depth and attempt to set\\nSelecting no will keep the current depth and and attempt to set\\nYes\\sNo\\s"
 #define STR_OPT_FAILED  "The current selection failed to set.\\nOk\\s"
@@ -33,7 +33,7 @@ int8_t CMenuOptions::Run( void )
 {
     int8_t result = SIG_NONE;
     int8_t index;
-    SDL_Rect rectMain = { 20, 20, 400, 110 };
+    SDL_Rect rectWindow = { 20, 20, 400, 110 };
     SDL_Color colrMainColor = { 0, 0, 0, 0 };
     std::string strFormat = STR_OPT_MAIN;
     bool done;
@@ -44,7 +44,7 @@ int8_t CMenuOptions::Run( void )
 
     if (result==SIG_NONE)
     {
-        index = mManagerwindow.CreateNewWindow( rectMain,
+        index = mManagerwindow.CreateNewWindow( rectWindow,
                                                 strFormat,
                                                 &colrMainColor, NULL );
 
@@ -92,7 +92,7 @@ int8_t CMenuOptions::Video( void )
     int8_t result = SIG_NONE;
     int8_t index;
     int8_t i;
-    SDL_Rect rectMain = { 20, 20, 500, 500 };
+    SDL_Rect rectWindow = { 200, 200, 400, 200 };
     SDL_Color colrMainColor = { 0, 0, 0, 0 };
 
     vec_string_t variables;
@@ -106,7 +106,7 @@ int8_t CMenuOptions::Video( void )
     done            = false;
     video_updated   = false;
 
-    index = mManagerwindow.CreateNewWindow( rectMain,
+    index = mManagerwindow.CreateNewWindow( rectWindow,
                                             strFormat,
                                             variables,
                                             &colrMainColor, NULL );
@@ -230,7 +230,7 @@ int8_t CMenuOptions::Video( void )
                     }
                     result = SIG_NONE;
                     break;
-                case 7: // Cancel
+                case 7: // Back
                     result = SIG_NONE;
                     done = true;
                     break;
@@ -256,7 +256,7 @@ int8_t CMenuOptions::ChangeResolution( int8_t current_mode )
 {
     int8_t result = SIG_NONE;
     int8_t index;
-    SDL_Rect rectWindow = { 200, 200, 200, 100 };
+    SDL_Rect rectWindow = { 200, 200, 150, 100 };
     SDL_Color colrMainColor = { 0, 0, 0, 0 };
 
     vec_string_t resolutions;
@@ -309,7 +309,7 @@ int8_t CMenuOptions::Sound( void )
 {
     int8_t result = SIG_NONE;
     int8_t index;
-    SDL_Rect rectMain = { 20, 20, 500, 500 };
+    SDL_Rect rectWindow = { 200, 200, 250, 100 };
     SDL_Color colrMainColor = { 0, 0, 0, 0 };
 
     vec_string_t variables;
@@ -321,7 +321,7 @@ int8_t CMenuOptions::Sound( void )
     done            = false;
     sound_updated   = false;
 
-    index = mManagerwindow.CreateNewWindow( rectMain,
+    index = mManagerwindow.CreateNewWindow( rectWindow,
                                             strFormat,
                                             variables,
                                             &colrMainColor, NULL );
@@ -415,7 +415,7 @@ int8_t CMenuOptions::Sound( void )
                     }
                     result = SIG_NONE;
                     break;
-                case 8: // Cancel
+                case 8: // Back
                     result = SIG_NONE;
                     done = true;
                     break;
@@ -441,7 +441,7 @@ int8_t CMenuOptions::KeyControls( void )
 {
     int8_t result = SIG_NONE;
     int8_t index;
-    SDL_Rect rectMain = { 20, 20, 500, 500 };
+    SDL_Rect rectWindow = { 200, 200, 200, 150 };
     SDL_Color colrMainColor = { 0, 0, 0, 0 };
 
     vec_string_t variables;
@@ -452,7 +452,7 @@ int8_t CMenuOptions::KeyControls( void )
     done            = false;
     ctrls_updated   = false;
 
-    index = mManagerwindow.CreateNewWindow( rectMain,
+    index = mManagerwindow.CreateNewWindow( rectWindow,
                                             strFormat,
                                             variables,
                                             &colrMainColor, NULL );
@@ -461,12 +461,12 @@ int8_t CMenuOptions::KeyControls( void )
     {
         if ( ctrls_updated == false )
         {
-            Up[OLD]     = Up[NEW]       = mResources.Controls().GetKeyMapping( CTRL_UP );
-            Down[OLD]   = Down[NEW]     = mResources.Controls().GetKeyMapping( CTRL_DOWN );
-            Left[OLD]   = Left[NEW]     = mResources.Controls().GetKeyMapping( CTRL_LEFT );
-            Right[OLD]  = Right[NEW]    = mResources.Controls().GetKeyMapping( CTRL_RIGHT );
-            Action[OLD] = Action[NEW]   = mResources.Controls().GetKeyMapping( CTRL_ACTION );
-            Menu[OLD]   = Menu[NEW]     = mResources.Controls().GetKeyMapping( CTRL_MENU );
+            Up[OLD]     = Up[NEW]       = mResources.Options().Controls().GetKeyMapping( CTRL_UP );
+            Down[OLD]   = Down[NEW]     = mResources.Options().Controls().GetKeyMapping( CTRL_DOWN );
+            Left[OLD]   = Left[NEW]     = mResources.Options().Controls().GetKeyMapping( CTRL_LEFT );
+            Right[OLD]  = Right[NEW]    = mResources.Options().Controls().GetKeyMapping( CTRL_RIGHT );
+            Action[OLD] = Action[NEW]   = mResources.Options().Controls().GetKeyMapping( CTRL_ACTION );
+            Menu[OLD]   = Menu[NEW]     = mResources.Options().Controls().GetKeyMapping( CTRL_MENU );
         }
 
         variables.clear();
@@ -487,50 +487,50 @@ int8_t CMenuOptions::KeyControls( void )
             {
                 case 1: // Up
                     PressAnyKey();
-                    Up[NEW] = mResources.Controls().WaitForKeyPress( Up[NEW] );
+                    Up[NEW] = mResources.Options().Controls().WaitForKeyPress( Up[NEW] );
                     if ( Up[NEW] != Up[OLD] )
                     {
-                        mResources.Controls().SetKeyMapping( CTRL_UP, Up[NEW] );
+                        mResources.Options().Controls().SetKeyMapping( CTRL_UP, Up[NEW] );
                     }
                     break;
                 case 2: // Down
                     PressAnyKey();
-                    Down[NEW] = mResources.Controls().WaitForKeyPress( Down[NEW] );
+                    Down[NEW] = mResources.Options().Controls().WaitForKeyPress( Down[NEW] );
                     if ( Down[NEW] != Down[OLD] )
                     {
-                        mResources.Controls().SetKeyMapping( CTRL_DOWN, Down[NEW] );
+                        mResources.Options().Controls().SetKeyMapping( CTRL_DOWN, Down[NEW] );
                     }
                     break;
                 case 3: // Left
                     PressAnyKey();
-                    Left[NEW] = mResources.Controls().WaitForKeyPress( Left[NEW] );
+                    Left[NEW] = mResources.Options().Controls().WaitForKeyPress( Left[NEW] );
                     if ( Left[NEW] != Left[OLD] )
                     {
-                        mResources.Controls().SetKeyMapping( CTRL_LEFT, Left[NEW] );
+                        mResources.Options().Controls().SetKeyMapping( CTRL_LEFT, Left[NEW] );
                     }
                     break;
                 case 4: // Right
                     PressAnyKey();
-                    Right[NEW] = mResources.Controls().WaitForKeyPress( Right[NEW] );
+                    Right[NEW] = mResources.Options().Controls().WaitForKeyPress( Right[NEW] );
                     if ( Right[NEW] != Right[OLD] )
                     {
-                        mResources.Controls().SetKeyMapping( CTRL_RIGHT, Right[NEW] );
+                        mResources.Options().Controls().SetKeyMapping( CTRL_RIGHT, Right[NEW] );
                     }
                     break;
                 case 5: // Action
                     PressAnyKey();
-                    Action[NEW] = mResources.Controls().WaitForKeyPress( Action[NEW] );
+                    Action[NEW] = mResources.Options().Controls().WaitForKeyPress( Action[NEW] );
                     if ( Action[NEW] != Action[OLD] )
                     {
-                        mResources.Controls().SetKeyMapping( CTRL_ACTION, Action[NEW] );
+                        mResources.Options().Controls().SetKeyMapping( CTRL_ACTION, Action[NEW] );
                     }
                     break;
                 case 6: // Menu
                     PressAnyKey();
-                    Menu[NEW] = mResources.Controls().WaitForKeyPress( Menu[NEW] );
+                    Menu[NEW] = mResources.Options().Controls().WaitForKeyPress( Menu[NEW] );
                     if ( Menu[NEW] != Menu[OLD] )
                     {
-                        mResources.Controls().SetKeyMapping( CTRL_MENU, Menu[NEW] );
+                        mResources.Options().Controls().SetKeyMapping( CTRL_MENU, Menu[NEW] );
                     }
                     break;
                 case 7: // Cancel
@@ -560,7 +560,7 @@ int8_t CMenuOptions::JoyControls( void )
 {
     int8_t result = SIG_NONE;
     int8_t index;
-    SDL_Rect rectMain = { 20, 20, 500, 500 };
+    SDL_Rect rectWindow = { 200, 200, 200, 100 };
     SDL_Color colrMainColor = { 0, 0, 0, 0 };
 
     vec_string_t variables;
@@ -572,7 +572,7 @@ int8_t CMenuOptions::JoyControls( void )
     done            = false;
     ctrls_updated   = false;
 
-    index = mManagerwindow.CreateNewWindow( rectMain,
+    index = mManagerwindow.CreateNewWindow( rectWindow,
                                             strFormat,
                                             variables,
                                             &colrMainColor, NULL );
@@ -581,12 +581,12 @@ int8_t CMenuOptions::JoyControls( void )
     {
         if ( ctrls_updated == false )
         {
-            Up[OLD]     = Up[NEW]       = mResources.Controls().GetJoyMapping( CTRL_UP );
-            Down[OLD]   = Down[NEW]     = mResources.Controls().GetJoyMapping( CTRL_DOWN );
-            Left[OLD]   = Left[NEW]     = mResources.Controls().GetJoyMapping( CTRL_LEFT );
-            Right[OLD]  = Right[NEW]    = mResources.Controls().GetJoyMapping( CTRL_RIGHT );
-            Action[OLD] = Action[NEW]   = mResources.Controls().GetJoyMapping( CTRL_ACTION );
-            Menu[OLD]   = Menu[NEW]     = mResources.Controls().GetJoyMapping( CTRL_MENU );
+            Up[OLD]     = Up[NEW]       = mResources.Options().Controls().GetJoyMapping( CTRL_UP );
+            Down[OLD]   = Down[NEW]     = mResources.Options().Controls().GetJoyMapping( CTRL_DOWN );
+            Left[OLD]   = Left[NEW]     = mResources.Options().Controls().GetJoyMapping( CTRL_LEFT );
+            Right[OLD]  = Right[NEW]    = mResources.Options().Controls().GetJoyMapping( CTRL_RIGHT );
+            Action[OLD] = Action[NEW]   = mResources.Options().Controls().GetJoyMapping( CTRL_ACTION );
+            Menu[OLD]   = Menu[NEW]     = mResources.Options().Controls().GetJoyMapping( CTRL_MENU );
         }
 
         strUp       = i_to_a(Up[NEW]);
@@ -614,50 +614,50 @@ int8_t CMenuOptions::JoyControls( void )
             {
                 case 1: // Up
                     PressAnyJoy();
-                    Up[NEW] = mResources.Controls().WaitForJoyPress( Up[NEW] );
+                    Up[NEW] = mResources.Options().Controls().WaitForJoyPress( Up[NEW] );
                     if ( Up[NEW] != Up[OLD] )
                     {
-                        mResources.Controls().SetJoyMapping( CTRL_UP, Up[NEW] );
+                        mResources.Options().Controls().SetJoyMapping( CTRL_UP, Up[NEW] );
                     }
                     break;
                 case 2: // Down
                     PressAnyJoy();
-                    Down[NEW] = mResources.Controls().WaitForJoyPress( Down[NEW] );
+                    Down[NEW] = mResources.Options().Controls().WaitForJoyPress( Down[NEW] );
                     if ( Down[NEW] != Down[OLD] )
                     {
-                        mResources.Controls().SetJoyMapping( CTRL_DOWN, Down[NEW] );
+                        mResources.Options().Controls().SetJoyMapping( CTRL_DOWN, Down[NEW] );
                     }
                     break;
                 case 3: // Left
                     PressAnyJoy();
-                    Left[NEW] = mResources.Controls().WaitForJoyPress( Left[NEW] );
+                    Left[NEW] = mResources.Options().Controls().WaitForJoyPress( Left[NEW] );
                     if ( Left[NEW] != Left[OLD] )
                     {
-                        mResources.Controls().SetJoyMapping( CTRL_LEFT, Left[NEW] );
+                        mResources.Options().Controls().SetJoyMapping( CTRL_LEFT, Left[NEW] );
                     }
                     break;
                 case 4: // Right
                     PressAnyJoy();
-                    Right[NEW] = mResources.Controls().WaitForJoyPress( Right[NEW] );
+                    Right[NEW] = mResources.Options().Controls().WaitForJoyPress( Right[NEW] );
                     if ( Right[NEW] != Right[OLD] )
                     {
-                        mResources.Controls().SetJoyMapping( CTRL_RIGHT, Right[NEW] );
+                        mResources.Options().Controls().SetJoyMapping( CTRL_RIGHT, Right[NEW] );
                     }
                     break;
                 case 5: // Action
                     PressAnyJoy();
-                    Action[NEW] = mResources.Controls().WaitForJoyPress( Action[NEW] );
+                    Action[NEW] = mResources.Options().Controls().WaitForJoyPress( Action[NEW] );
                     if ( Action[NEW] != Action[OLD] )
                     {
-                        mResources.Controls().SetJoyMapping( CTRL_ACTION, Action[NEW] );
+                        mResources.Options().Controls().SetJoyMapping( CTRL_ACTION, Action[NEW] );
                     }
                     break;
                 case 6: // Menu
                     PressAnyJoy();
-                    Menu[NEW] = mResources.Controls().WaitForJoyPress( Menu[NEW] );
+                    Menu[NEW] = mResources.Options().Controls().WaitForJoyPress( Menu[NEW] );
                     if ( Menu[NEW] != Menu[OLD] )
                     {
-                        mResources.Controls().SetJoyMapping( CTRL_MENU, Menu[NEW] );
+                        mResources.Options().Controls().SetJoyMapping( CTRL_MENU, Menu[NEW] );
                     }
                     break;
                 case 7: // Cancel
@@ -687,7 +687,7 @@ int8_t CMenuOptions::UseSuggestedSettings( uint8_t cur, uint8_t sug )
 {
     int8_t result = SIG_NONE;
     int8_t index;
-    SDL_Rect rectMain = { 20, 20, 200, 100 };
+    SDL_Rect rectWindow = { 200, 200, 200, 100 };
     SDL_Color colrMainColor = { 0, 0, 0, 0 };
     vec_string_t variables;
     std::string strCurrent, strSuggest;
@@ -700,7 +700,7 @@ int8_t CMenuOptions::UseSuggestedSettings( uint8_t cur, uint8_t sug )
     variables.resize( variables.size()+1, &strCurrent );
     variables.resize( variables.size()+1, &strSuggest );
 
-    index = mManagerwindow.CreateNewWindow( rectMain,
+    index = mManagerwindow.CreateNewWindow( rectWindow,
                                             strFormat,
                                             variables,
                                             &colrMainColor, NULL );
@@ -714,11 +714,11 @@ int8_t CMenuOptions::PressAnyKey( void )
 {
     int8_t result = SIG_NONE;
     int8_t index;
-    SDL_Rect rectMain = { 20, 20, 200, 100 };
+    SDL_Rect rectWindow = { 200, 200, 200, 100 };
     SDL_Color colrMainColor = { 0, 0, 0, 0 };
     std::string strFormat = STR_OPT_NEWKEY;
 
-    index = mManagerwindow.CreateNewWindow( rectMain,
+    index = mManagerwindow.CreateNewWindow( rectWindow,
                                             strFormat,
                                             &colrMainColor, NULL );
     mManagerwindow.ActivateWindow( index );
@@ -731,11 +731,11 @@ int8_t CMenuOptions::PressAnyJoy( void )
 {
     int8_t result = SIG_NONE;
     int8_t index;
-    SDL_Rect rectMain = { 20, 20, 200, 100 };
+    SDL_Rect rectWindow = { 200, 200, 200, 100 };
     SDL_Color colrMainColor = { 0, 0, 0, 0 };
     std::string strFormat = STR_OPT_NEWKEY;
 
-    index = mManagerwindow.CreateNewWindow( rectMain,
+    index = mManagerwindow.CreateNewWindow( rectWindow,
                                             strFormat,
                                             &colrMainColor, NULL );
     mManagerwindow.ActivateWindow( index );
@@ -748,11 +748,11 @@ int8_t CMenuOptions::FailedSettings( void )
 {
     int8_t result = SIG_NONE;
     int8_t index;
-    SDL_Rect rectMain = { 20, 20, 200, 100 };
+    SDL_Rect rectWindow = { 200, 200, 200, 100 };
     SDL_Color colrMainColor = { 0, 0, 0, 0 };
     std::string strFormat = STR_OPT_FAILED;
 
-    index = mManagerwindow.CreateNewWindow( rectMain,
+    index = mManagerwindow.CreateNewWindow( rectWindow,
                                             strFormat,
                                             &colrMainColor, NULL );
     mManagerwindow.ActivateWindow( index );

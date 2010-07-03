@@ -88,7 +88,6 @@ void CVelocity::Apply( CSpriteAngular* sprite, CShip* ship )
     int8_t  sprite_magnitude    = sprite->AngleMag();
     int16_t sprite_angle        = sprite->Angle();
 
-
 }
 
 int16_t CVelocity::CheckAngle( int16_t angle )

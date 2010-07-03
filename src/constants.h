@@ -38,14 +38,15 @@
 // Game Control/Defaults
 #define DEF_SCREEN_VMODE    2       // 640x480
 #define DEF_SCREEN_BPP      1       // 16 bpp
-#define DEF_FULLSCREEN      true
+#define DEF_FULLSCREEN      false
 #define DEF_DOUBLEBUF       true
 #define DEF_FRAME_LIMIT     true
 #define DEF_FRAME_CALC      true
 #define DEF_SOUND_FREQ      2       // 44100 Hz
 #define DEF_SOUND_CHAN      1       // 2 channels
 #define DEF_SOUND_SAMPLE    5       // 4096 samples
-#define DEF_FONT_SIZE       12
+#define DEF_FONT_PATH       "data/font/monotype_corsiva.ttf"
+#define DEF_FONT_SIZE       18
 #define DEF_FONTCOLOR_R     255
 #define DEF_FONTCOLOR_G     255
 #define DEF_FONTCOLOR_B     255
@@ -102,6 +103,19 @@
 #define CFG_CLOUDCNT        "*cloud_count"
 #define CFG_WAVECNT         "*wave_count"
 #define CFG_WAVESPD         "*wave_speed"
+
+#define CFG_CTRLKEY_UP      "*ctrlkey_up"
+#define CFG_CTRLKEY_DOWN    "*ctrlkey_down"
+#define CFG_CTRLKEY_LEFT    "*ctrlkey_left"
+#define CFG_CTRLKEY_RIGHT   "*ctrlkey_right"
+#define CFG_CTRLKEY_ACTION  "*ctrlkey_action"
+#define CFG_CTRLKEY_MENU    "*ctrlkey_menu"
+#define CFG_CTRLJOY_UP      "*ctrljoy_up"
+#define CFG_CTRLJOY_DOWN    "*ctrljoy_down"
+#define CFG_CTRLJOY_LEFT    "*ctrljoy_left"
+#define CFG_CTRLJOY_RIGHT   "*ctrljoy_right"
+#define CFG_CTRLJOY_ACTION  "*ctrljoy_action"
+#define CFG_CTRLJOY_MENU    "*ctrljoy_menu"
 
 #define CFG_STRING          "*string"
 #define CFG_GRAPHIC         "*graphic"

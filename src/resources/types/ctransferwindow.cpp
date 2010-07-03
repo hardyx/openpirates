@@ -19,7 +19,7 @@
 #include "ctransferwindow.h"
 
 CTransferWindow::CTransferWindow( CResources& resources ) :
-    CWindow         (resources.Controls()),
+    CWindow         (resources.Options().Controls()),
     mResources      (resources),
     mScreen         (mResources.Screen()),
     mStrings        (mResources.Data().Strings()),

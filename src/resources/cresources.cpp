@@ -22,7 +22,6 @@ CResources::CResources() :
     mScreen     (),
     mData       (),
     mOptions    (),
-    mControls   (),
     mpJoystick  (NULL),
     mpFont      (NULL)
 {

@@ -22,7 +22,6 @@
 #include "global.h"
 #include "resources/cdata.h"
 #include "resources/coptions.h"
-#include "resources/ccontrols.h"
 #include "resources/types/cstring.h"
 #include "resources/types/cgraphic.h"
 #include "resources/types/csound.h"
@@ -64,7 +63,6 @@ class CResources
         CGraphic&       Screen( void )          { return mScreen; }
         CData&          Data( void )            { return mData; }
         COptions&       Options( void )         { return mOptions; }
-        CControls&      Controls( void )        { return mControls; }
         SDL_Joystick*   Joystick( void )        { return mpJoystick; }
         TTF_Font*       Font( void )            { return mpFont; }
         // Setters
@@ -88,7 +86,6 @@ class CResources
         CGraphic            mScreen;
         CData               mData;
         COptions            mOptions;
-        CControls           mControls;
         SDL_Joystick*       mpJoystick;       // The joystick (if there is one)
         TTF_Font*           mpFont;           // The font
 

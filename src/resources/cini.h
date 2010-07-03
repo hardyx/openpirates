@@ -38,8 +38,9 @@ class CIni
         int32_t ReadSubInteger( const std::string& line, uint16_t pos1, uint16_t pos2 );
         bool ReadSubBool( const std::string& line, uint16_t pos1, uint16_t pos2 );
         std::string ReadString( const std::string& line );
-        std::string ReadSubString( const std::string& line, uint16_t pos1, uint16_t pos2 );
-
+        std::string ReadSubString( const std::string& id, uint16_t pos1, uint16_t pos2 );
+        std::string WriteInteger( const std::string& id, int32_t value );
+        std::string WriteString( const std::string& id, const std::string& value );
 };
 
 #endif // CINI_H

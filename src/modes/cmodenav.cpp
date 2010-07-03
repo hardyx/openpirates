@@ -62,7 +62,12 @@ int8_t CModeNav::Run( void )
                       0, 0, 1 );
     mPlayership.AssignGraphic( mResources.Data().Graphics().Find(18) );
 
-    mPlayership.XPos( 300 );
+
+    mPlayercrew.SetRender(false);
+    mFollowCameraIndex  = mPlayershipIndex;
+    mFollowCameraType   = true; // Angular
+    mShipMode = true;
+    mPlayership.XPos( 500 );
     mPlayership.YPos( 200 );
     mPlayership.Angle( 180 );
 
@@ -96,7 +101,7 @@ int8_t CModeNav::HandleEvents( void )
     CControl event;
 
 	/* Check for events */
-	while ( mResources.Controls().Poll(event) )
+	while ( mResources.Options().Controls().Poll(event) )
 	{
 		switch (event.State())
 		{
@@ -215,7 +220,6 @@ void CModeNav::MovePlayer( void )
         }
     }
 }
-
 
 void CModeNav::PlayerVelocity( int16_t vel, uint8_t axis )
 {

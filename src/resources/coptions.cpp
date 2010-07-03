@@ -28,12 +28,13 @@ uint16_t limitsSoundSamples[SOUND_SAMPLE]    = { 128, 256, 512, 1024, 2048, 4096
 
 COptions::COptions() :
     CIni(),
-    mScreen (),
-    mSound  (),
-    mFont   (),
-    mWave   (),
-    mCloud  (),
-    mMap    ()
+    mScreen     (),
+    mSound      (),
+    mFont       (),
+    mControls   (),
+    mWave       (),
+    mCloud      (),
+    mMap        ()
 {
 }
 
@@ -50,9 +51,6 @@ int8_t COptions::Load( const std::string& file_path )
     int8_t video_mode = DEF_SCREEN_VMODE;
     int16_t custom_width = 0;
     int16_t custom_height = 0;
-    SDL_Color defcolor = { DEF_FONTCOLOR_R, DEF_FONTCOLOR_G, DEF_FONTCOLOR_B, 0 };
-
-    mFont.Color(defcolor); // White
 
     if (result==SIG_NONE)
     {
@@ -124,12 +122,60 @@ int8_t COptions::Load( const std::string& file_path )
                         {
                             mCloud.Count( ReadInteger(line) );
                         }
+                        else if ( line.find( CFG_CTRLKEY_UP ) == 0 )
+                        {
+                            mControls.SetKeyMapping( CTRL_UP, (SDLKey)ReadInteger(line) );
+                        }
+                        else if ( line.find( CFG_CTRLKEY_DOWN ) == 0 )
+                        {
+                            mControls.SetKeyMapping( CTRL_DOWN, (SDLKey)ReadInteger(line) );
+                        }
+                        else if ( line.find( CFG_CTRLKEY_LEFT ) == 0 )
+                        {
+                            mControls.SetKeyMapping( CTRL_LEFT, (SDLKey)ReadInteger(line) );
+                        }
+                        else if ( line.find( CFG_CTRLKEY_RIGHT ) == 0 )
+                        {
+                            mControls.SetKeyMapping( CTRL_RIGHT, (SDLKey)ReadInteger(line) );
+                        }
+                        else if ( line.find( CFG_CTRLKEY_ACTION ) == 0 )
+                        {
+                            mControls.SetKeyMapping( CTRL_ACTION, (SDLKey)ReadInteger(line) );
+                        }
+                        else if ( line.find( CFG_CTRLKEY_MENU ) == 0 )
+                        {
+                            mControls.SetKeyMapping( CTRL_MENU, (SDLKey)ReadInteger(line) );
+                        }
+                        else if ( line.find( CFG_CTRLJOY_UP ) == 0 )
+                        {
+                            mControls.SetJoyMapping( CTRL_UP, (SDLKey)ReadInteger(line) );
+                        }
+                        else if ( line.find( CFG_CTRLJOY_DOWN ) == 0 )
+                        {
+                            mControls.SetJoyMapping( CTRL_DOWN, (SDLKey)ReadInteger(line) );
+                        }
+                        else if ( line.find( CFG_CTRLJOY_LEFT ) == 0 )
+                        {
+                            mControls.SetJoyMapping( CTRL_LEFT, (SDLKey)ReadInteger(line) );
+                        }
+                        else if ( line.find( CFG_CTRLJOY_RIGHT ) == 0 )
+                        {
+                            mControls.SetJoyMapping( CTRL_RIGHT, (SDLKey)ReadInteger(line) );
+                        }
+                        else if ( line.find( CFG_CTRLJOY_ACTION ) == 0 )
+                        {
+                            mControls.SetJoyMapping( CTRL_ACTION, (SDLKey)ReadInteger(line) );
+                        }
+                        else if ( line.find( CFG_CTRLJOY_MENU ) == 0 )
+                        {
+                            mControls.SetJoyMapping( CTRL_MENU, (SDLKey)ReadInteger(line) );
+                        }
                     }
                 }
             }
             else
             {
-                Error( __FILE__, __LINE__, "COptions::Load ERROR Couldn't open resource file at %s: %s\n", file_path.c_str(), SDL_GetError() );
+                Log( __FILE__, __LINE__, "COptions::Load ERROR Couldn't open resource file at %s: %s\n", file_path.c_str(), SDL_GetError() );
                 result = SIG_FAIL;
             }
             fin.close();
@@ -139,10 +185,94 @@ int8_t COptions::Load( const std::string& file_path )
             {
                mScreen.CustomMode( custom_width, custom_height );
             }
+            else
+            {
+                mScreen.VideoMode( video_mode );
+            }
         }
         else
         {
-            Error( __FILE__, __LINE__, "COptions::Load ERROR Couldn't open file bad path given\n" );
+            Log( __FILE__, __LINE__, "COptions::Load ERROR Couldn't open file bad path given\n" );
+            result = SIG_FAIL;
+        }
+    }
+    return result;
+}
+
+int8_t COptions::Save( const std::string& file_path )
+{
+    int8_t result = SIG_NONE;
+    std::ofstream fin;
+    int8_t index;
+
+    if (result==SIG_NONE)
+    {
+        if ( file_path.length() > 0 )
+        {
+            fin.open( file_path.c_str() );
+            if ( fin.is_open() )
+            {
+                fin << WriteInteger( CFG_SCREEN_VMODE,  mScreen.VideoMode()     );
+                fin << "    // Selecting a mode > 0 will use a preset resolution, list is below.\n";
+                fin << "    // If mode 0 is selected then the custom resolution specified\n";
+                fin << "    // in the " << CFG_SCREEN_WIDTH << " and " << CFG_SCREEN_HEIGHT << " options will be used\n";
+                for ( index=1; index<SCREEN_MODES; index++ )
+                {
+                    fin << "    // Mode " << i_to_a(index) << " " <<  limitsScreenWidth[index] << " x " << limitsScreenHeight[index] << "\n";
+                }
+                fin << WriteInteger( CFG_SCREEN_WIDTH,  mScreen.Width()         );
+                fin << WriteInteger( CFG_SCREEN_HEIGHT, mScreen.Height()        );
+                fin << WriteInteger( CFG_SCREEN_BPP,    mScreen.DepthMode()     );
+                for ( index=0; index<SCREEN_DEPTHS; index++ )
+                {
+                    fin << "    // Mode " << i_to_a(index) << " " << limitsScreenDepth[index] << " Bpp\n";
+                }
+                fin << WriteInteger( CFG_FULLSCREEN,    mScreen.Fullscreen()    );
+                fin << WriteInteger( CFG_DOUBLEBUF,     mScreen.Doublebuf()     );
+                fin << WriteInteger( CFG_SOUND_FREQ,    mSound.FrequencyMode()  );
+                for ( index=0; index<SOUND_FREQ; index++ )
+                {
+                    fin << "    // Mode " << i_to_a(index) << " " << limitsSoundFreq[index] << " Hz\n";
+                }
+                fin << WriteInteger( CFG_SOUND_CHAN,    mSound.ChannelsMode()   );
+                for ( index=0; index<SOUND_CHANNELS; index++ )
+                {
+                    fin << "    // Mode " << i_to_a(index) << " " << limitsSoundChannels[index] << " Channels\n";
+                }
+                fin << WriteInteger( CFG_SOUND_SAMPLE,  mSound.SampleSizeMode() );
+                for ( index=0; index<SOUND_SAMPLE; index++ )
+                {
+                    fin << "    // Mode " << i_to_a(index) << " " << limitsSoundSamples[index] << " Samples\n";
+                }
+                fin << "    // Control mappings\n";
+                fin << WriteString(  CFG_FONTFILE,      mFont.Path()            );
+                fin << WriteInteger( CFG_FONTSIZE,      mFont.Size()            );
+                fin << WriteInteger( CFG_WAVECNT,       mWave.Count()           );
+                fin << WriteInteger( CFG_WAVESPD,       mWave.Speed()           );
+                fin << WriteInteger( CFG_CLOUDCNT,      mCloud.Count()          );
+                fin << WriteInteger( CFG_CTRLKEY_UP,    mControls.GetKeyMapping( CTRL_UP )      );
+                fin << WriteInteger( CFG_CTRLKEY_DOWN,  mControls.GetKeyMapping( CTRL_DOWN )    );
+                fin << WriteInteger( CFG_CTRLKEY_LEFT,  mControls.GetKeyMapping( CTRL_LEFT )    );
+                fin << WriteInteger( CFG_CTRLKEY_RIGHT, mControls.GetKeyMapping( CTRL_RIGHT )   );
+                fin << WriteInteger( CFG_CTRLKEY_ACTION,mControls.GetKeyMapping( CTRL_ACTION )  );
+                fin << WriteInteger( CFG_CTRLKEY_MENU,  mControls.GetKeyMapping( CTRL_MENU )    );
+                fin << WriteInteger( CFG_CTRLJOY_UP,    mControls.GetJoyMapping( CTRL_UP )      );
+                fin << WriteInteger( CFG_CTRLJOY_DOWN,  mControls.GetJoyMapping( CTRL_DOWN )    );
+                fin << WriteInteger( CFG_CTRLJOY_LEFT,  mControls.GetJoyMapping( CTRL_LEFT )    );
+                fin << WriteInteger( CFG_CTRLJOY_RIGHT, mControls.GetJoyMapping( CTRL_RIGHT )   );
+                fin << WriteInteger( CFG_CTRLJOY_ACTION,mControls.GetJoyMapping( CTRL_ACTION )  );
+                fin << WriteInteger( CFG_CTRLJOY_MENU,  mControls.GetJoyMapping( CTRL_MENU )    );
+            }
+            else
+            {
+                Error( __FILE__, __LINE__, "COptions::Save ERROR Couldn't open resource file at %s: %s\n", file_path.c_str(), SDL_GetError() );
+                result = SIG_FAIL;
+            }
+            fin.close();
+        }
+        else
+        {
+            Error( __FILE__, __LINE__, "COptions::Save ERROR Couldn't open file bad path given\n" );
             result = SIG_FAIL;
         }
     }

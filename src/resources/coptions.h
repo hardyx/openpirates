@@ -21,6 +21,7 @@
 
 #include "global.h"
 #include "resources/cini.h"
+#include "resources/ccontrols.h"
 
 #define SCREEN_MODES    10
 #define SCREEN_DEPTHS   3
@@ -109,10 +110,14 @@ class CFontOptions
 {
     public:
         CFontOptions() :
-            mSize   (0),
+            mSize   (DEF_FONT_SIZE),
             mColor  (),
-            mPath   ()
+            mPath   (DEF_FONT_PATH)
         {
+            // White
+            mColor.r = DEF_FONTCOLOR_R;
+            mColor.g = DEF_FONTCOLOR_G;
+            mColor.b = DEF_FONTCOLOR_B;
         }
         virtual ~CFontOptions() {}
 
@@ -135,8 +140,8 @@ class CWaveOptions
 {
     public:
         CWaveOptions() :
-            mCount  (0),
-            mSpeed  (0)
+            mCount  (DEF_WAVE_COUNT),
+            mSpeed  (DEF_WAVE_SPEED)
         {
         }
         virtual ~CWaveOptions() {}
@@ -157,7 +162,7 @@ class CCloudOptions
 {
     public:
         CCloudOptions() :
-            mCount(0)
+            mCount(DEF_CLOUD_COUNT)
         {
         }
         virtual ~CCloudOptions() {}
@@ -200,20 +205,22 @@ class COptions : public CIni
         virtual ~COptions();
 
         // Getters
-        CScreenOptions&     Screen( void )  { return mScreen; }
-        CSoundOptions&      Sound( void )   { return mSound; }
-        CFontOptions&       Font( void )    { return mFont; }
-        CWaveOptions&       Wave( void )    { return mWave; }
-        CCloudOptions&      Cloud( void )   { return mCloud; }
-        CMapOptions&        Map( void )     { return mMap; }
+        CScreenOptions&     Screen( void )      { return mScreen; }
+        CSoundOptions&      Sound( void )       { return mSound; }
+        CFontOptions&       Font( void )        { return mFont; }
+        CControls&          Controls( void )    { return mControls; }
+        CWaveOptions&       Wave( void )        { return mWave; }
+        CCloudOptions&      Cloud( void )       { return mCloud; }
+        CMapOptions&        Map( void )         { return mMap; }
 
         int8_t Load( const std::string& file_path );
-        int8_t VerifyOption( uint16_t value, uint16_t* values, uint8_t size );
+        int8_t Save( const std::string& file_path );
 
     private:
         CScreenOptions  mScreen;
         CSoundOptions   mSound;
         CFontOptions    mFont;
+        CControls       mControls;
         CWaveOptions    mWave;
         CCloudOptions   mCloud;
         CMapOptions     mMap;

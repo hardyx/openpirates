@@ -214,7 +214,7 @@ int8_t CModeBattle::HandleEvents( void )
     CControl control;
 
 	/* Check for events */
-	while ( mResources.Controls().Poll(control) )
+	while ( mResources.Options().Controls().Poll(control) )
 	{
 		switch (control.State())
 		{

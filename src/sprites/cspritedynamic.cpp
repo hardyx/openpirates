@@ -132,6 +132,9 @@ void CSpriteDynamic::Move( vec_spritestatic_t* tiles, uint16_t level_h, uint16_t
 void CSpriteDynamic::MoveSprite( vec_spritestatic_t* tiles, uint16_t level_h, uint16_t level_w )
 {
     // Correct the position of the sprite, if it has crossed any boundaries
+    mXtileCollision = false;
+    mYtileCollision = false;
+
     if ( mYvel != 0 )
     {
         OffsetYPos( mYvel );

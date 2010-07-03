@@ -97,6 +97,15 @@ int8_t CModeMain::Run( int argc, char *argv[] )
             state = 3;
         }
     }
+
+    // Save current options to file
+    result = mResources.Options().Save( mFileOptions );
+    if ( result == SIG_FAIL )
+    {
+		Log( "WARNING Couldn't save options file\n" );
+		result = SIG_NONE;
+    }
+
     return result;
 }
 
@@ -104,7 +113,8 @@ int8_t CModeMain::OpenSystem( const std::string& file_path, int argc, char *argv
 {
     int8_t result = SIG_NONE;
 
-    if ( file_path.length() > 0 ) mFileOptions = file_path;
+    if ( file_path.length() > 0 )
+        mFileOptions = file_path;
 
     result = mResources.Options().Load( mFileOptions );
     if ( result == SIG_FAIL )
@@ -223,7 +233,7 @@ int8_t CModeMain::ProcessArguments( int argc, char *argv[] )
             printf( "%s, %s [v]%s %s\n", ARGS_DEPTH,        ARGL_DEPTH,         Spaces(ARG_LEN-strlen(ARGL_DEPTH)).c_str(),         ARGD_DEPTH  );
             for ( index=0; index<SCREEN_DEPTHS; index++ )
             {
-                printf( "    Mode %d %d bpp\n", index, limitsScreenDepth[index] );
+                printf( "    Mode %d %d Bpp\n", index, limitsScreenDepth[index] );
             }
             printf( "%s, %s [v]%s %s\n", ARGS_FS,           ARGL_FS,            Spaces(ARG_LEN-strlen(ARGL_FS)).c_str(),            ARGD_FS     );
             printf( "%s, %s [v]%s %s\n", ARGS_FREQ,         ARGL_FREQ,          Spaces(ARG_LEN-strlen(ARGL_FREQ)).c_str(),          ARGD_FREQ   );
@@ -239,7 +249,7 @@ int8_t CModeMain::ProcessArguments( int argc, char *argv[] )
             printf( "%s, %s [v]%s %s\n", ARGS_SAMPLE,       ARGL_SAMPLE,        Spaces(ARG_LEN-strlen(ARGL_SAMPLE)).c_str(),        ARGD_SAMPLE );
             for ( index=0; index<SOUND_SAMPLE; index++ )
             {
-                printf( "    Mode %d %d samples\n", index, limitsSoundSamples[index] );
+                printf( "    Mode %d %d Samples\n", index, limitsSoundSamples[index] );
             }
             printf( "\n" );
             result = SIG_QUIT;

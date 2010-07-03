@@ -163,3 +163,23 @@ std::string CIni::ReadSubString( const std::string& line, uint16_t pos1, uint16_
     EraseCharFromString( str, '"' );
     return str;
 }
+
+std::string CIni::WriteInteger( const std::string& id, int32_t value )
+{
+    std::string str = id;
+
+    str += " = ";
+    str += i_to_a(value);
+    str += '\n';
+
+    return str;
+}
+
+std::string CIni::WriteString( const std::string& id, const std::string& value )
+{
+    std::string str = id;
+
+    str += " = \"" + value + "\"\n";
+
+    return str;
+}
