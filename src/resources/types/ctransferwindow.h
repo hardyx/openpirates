@@ -1,20 +1,22 @@
-/*
-    openPirates
-    Copyright (C) 2010 Scott Smith
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+/**
+ *  @section LICENSE
+ *
+ *  openPirates
+ *  Copyright (C) 2010 Scott Smith
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #ifndef CTRANSFERWINDOW_H
 #define CTRANSFERWINDOW_H
@@ -45,10 +47,17 @@
 #define BACKSLASH_t20   "\\t20"
 #define BACKSLASH_t24   "\\t24"
 
+/**
+ * @section DESCRIPTION
+ * This class represents a special interactive window which is only used to transfer items.
+ */
+
 class CTransferWindow : public CWindow
 {
     public:
+        /** Constructor. */
         CTransferWindow( CResources& resources );
+        /** Destructor. */
         virtual ~CTransferWindow();
 
         int8_t Run( int type, const std::string& namea, const std::string& nameb,

@@ -1,20 +1,20 @@
-/*
-    openPirates
-    Copyright (C) 2010 Scott Smith
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+/***
+ *  openPirates
+ *  Copyright (C) 2010 Scott Smith
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #include "ctimer.h"
 
@@ -32,16 +32,16 @@ CTimer::~CTimer()
 
 void CTimer::start()
 {
-    mStart = true;                   //Start the timer
-    mPause = false;                  //Unpause the timer
-    mStartTicks = SDL_GetTicks();    //Get the current clock time
+    mStart = true;                  // Start the timer
+    mPause = false;                 // Unpause the timer
+    mStartTicks = SDL_GetTicks();   // Get the current clock time
     //printf( "Start:%d\n", intStartTicks );
 }
 
 void CTimer::stop()
 {
-    mStart = false;                  //Stop the timer
-    mPause = false;                  //Unpause the timer
+    mStart = false;                 // Stop the timer
+    mPause = false;                 // Unpause the timer
 }
 
 void CTimer::delay( int16_t ticks )
@@ -63,22 +63,21 @@ void CTimer::delay( int16_t ticks )
 
 void CTimer::pause()
 {
-    //If the timer is running and isn't already paused
-    if ( ( mStart == true ) && ( mPause == false ) )
+    if ((mStart == true) && (mPause == false))      // If the timer is running and isn't already paused
     {
-        mPause = true;                                  //Pause the timer
-        mPauseTicks = SDL_GetTicks() - mStartTicks;   //Calculate the paused ticks
+        mPause = true;                              // Pause the timer
+        mPauseTicks = SDL_GetTicks() - mStartTicks; // Calculate the paused ticks
     }
 }
 
 void CTimer::unpause()
 {
-    //If the timer is paused
+    // If the timer is paused
     if ( mPause == true )
     {
-        mPause = false;                                  //Unpause the timer
-        mStartTicks = SDL_GetTicks() - mPauseTicks;    //Reset the starting ticks
-        mPauseTicks = 0;                                 //Reset the paused ticks
+        mPause = false;                             // Unpause the timer
+        mStartTicks = SDL_GetTicks() - mPauseTicks; // Reset the starting ticks
+        mPauseTicks = 0;                            // Reset the paused ticks
     }
 }
 
@@ -90,16 +89,16 @@ int16_t CTimer::get_ticks()
     {
         if ( mPause == true )
         {
-            return mPauseTicks; //Return the number of ticks when the the timer was paused
+            return mPauseTicks;                     // Return the number of ticks when the the timer was paused
         }
         else
         {
             ticks = SDL_GetTicks();
             //printf( "T:%d - T:%d\n", ticks, intStartTicks );
-            return ticks - mStartTicks; //Return the current time minus the start time
+            return ticks - mStartTicks;             // Return the current time minus the start time
         }
     }
-    return 0;    //If the timer isn't running
+    return 0;                                       // If the timer isn't running
 }
 
 bool CTimer::is_started()

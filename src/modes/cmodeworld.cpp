@@ -1,20 +1,20 @@
-/*
-    openPirates
-    Copyright (C) 2010 Scott Smith
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+/***
+ *  openPirates
+ *  Copyright (C) 2010 Scott Smith
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #include "cmodeworld.h"
 
@@ -172,7 +172,7 @@ int8_t CModeWorld::DrawWorld( void )
         // Update the screen
         if ( SDL_Flip( screen ) == -1 )
         {
-            Error( __FILE__, __LINE__, "CModeWorld SDL_Flip failed\n" );
+            Error( true, __FILE__, __LINE__, "CModeWorld SDL_Flip failed\n" );
             result = SIG_FAIL;
         }
     }
@@ -207,7 +207,7 @@ int8_t CModeWorld::LoadEffects( void )
             }
             else
             {
-                Error( __FILE__, __LINE__, "null pointer\n" );
+                Error( true, __FILE__, __LINE__, "null pointer\n" );
                 return SIG_FAIL;
             }
         }
@@ -226,7 +226,7 @@ int8_t CModeWorld::LoadEffects( void )
             }
             else
             {
-                Error( __FILE__, __LINE__, "null pointer\n" );
+                Error( true, __FILE__, __LINE__, "null pointer\n" );
                 return SIG_FAIL;
             }
         }
@@ -305,7 +305,40 @@ void CModeWorld::MoveClouds( void )
 {
     for ( uint16_t t=0; t<mClouds.size(); t++ )
     {
-        mWind.Apply( mClouds.at(t), NULL );
+        // Adjust cloud angles to approach the wind angle
+        if ( abs(mClouds.at(t)->Angle()-mWind.Angle()) < DEF_CLOUD_ANGLE_CHG)
+        {
+            mClouds.at(t)->Angle(mWind.Angle());
+        }
+        else
+        {
+            if (mWind.RotateClockwise(mClouds.at(t)->Angle() == true) )
+            {
+                mClouds.at(t)->OffsetAngle( DEF_CLOUD_ANGLE_CHG );
+            }
+            else
+            {
+                mClouds.at(t)->OffsetAngle( -DEF_CLOUD_ANGLE_CHG );
+            }
+        }
+
+        // Adjust cloud speed based on the wind speed
+        if ( abs(mClouds.at(t)->AngleMag()-mWind.AngleMag()) < DEF_CLOUD_MAG_CHG)
+        {
+            mClouds.at(t)->AngleMag(mWind.AngleMag());
+        }
+        else
+        {
+            if (mClouds.at(t)->AngleMag() < mWind.AngleMag())
+            {
+                mClouds.at(t)->OffsetAngleMag( DEF_CLOUD_MAG_CHG );
+            }
+            else
+            {
+                mClouds.at(t)->OffsetAngleMag( -DEF_CLOUD_MAG_CHG );
+            }
+        }
+
         mClouds.at(t)->Move();
     }
 }

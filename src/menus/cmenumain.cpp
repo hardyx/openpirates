@@ -1,20 +1,20 @@
-/*
-    openPirates
-    Copyright (C) 2010 Scott Smith
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+/***
+ *  openPirates
+ *  Copyright (C) 2010 Scott Smith
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #include "cmenumain.h"
 
@@ -46,9 +46,6 @@ int8_t CMenumain::Run( void )
 
     if (result==SIG_NONE)
     {
-        // Start with a dark blue background
-        //SDL_FillRect( mScreen.Image(), NULL, SDL_MapRGB( mScreen.Image()->format, 0x00, 0x00, 0x40 ) );
-
         index = mManagerwindow.CreateNewWindow( rectMain,
                                                 mStrings.Find( STR_MAIN_MENU )->Text(),
                                                 &colrMainColor, NULL );
@@ -74,14 +71,14 @@ int8_t CMenumain::Run( void )
                     result = SIG_QUIT;          // Quit
                     break;
                 default:
-                    Error( __FILE__, __LINE__, "menu index out of range\n" );
+                    Error( true, __FILE__, __LINE__, "menu index out of range\n" );
                     result = SIG_FAIL;
                     break;
             }
         }
         else
         {
-            Error( __FILE__, __LINE__, "menu index out of range\n" );
+            Error( true, __FILE__, __LINE__, "menu index out of range\n" );
             result = SIG_FAIL;
         }
     }

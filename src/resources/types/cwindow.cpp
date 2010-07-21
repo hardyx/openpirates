@@ -1,20 +1,20 @@
-/*
-    openPirates
-    Copyright (C) 2010 Scott Smith
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+/***
+ *  openPirates
+ *  Copyright (C) 2010 Scott Smith
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #include "cwindow.h"
 
@@ -311,7 +311,7 @@ int8_t CWindow::Activate( CResources& resources, CGraphic* border_gfx, CSpriteDy
                     // Send the final frame to the screen
                     if ( SDL_Flip( screen.Image() ) == -1 )
                     {
-                        Error( __FILE__, __LINE__, "CWindow: SDL_Flip failed\n" );
+                        Error( true, __FILE__, __LINE__, "CWindow: SDL_Flip failed\n" );
                         paragraph_result = SIG_FAIL;
                         break;
                     }
@@ -324,7 +324,7 @@ int8_t CWindow::Activate( CResources& resources, CGraphic* border_gfx, CSpriteDy
             }
             else
             {
-                Error( __FILE__, __LINE__, "CWindow: returned unexpected user event\n" );
+                Error( true, __FILE__, __LINE__, "CWindow: returned unexpected user event\n" );
                 paragraph_result = SIG_FAIL;
                 break;
             }
@@ -337,7 +337,7 @@ int8_t CWindow::Activate( CResources& resources, CGraphic* border_gfx, CSpriteDy
         // Send the final frame to the screen
         if ( SDL_Flip( screen.Image() ) == -1 )
         {
-            Error( __FILE__, __LINE__, "CWindow: SDL_Flip failed\n" );
+            Error( true, __FILE__, __LINE__, "CWindow: SDL_Flip failed\n" );
             paragraph_result = SIG_FAIL;
         }
     }
@@ -417,7 +417,7 @@ void CWindow::ProcessText( void )
                             current_word->mRawword += *text_iterator;
                             break;
                         default:
-                            Error( __FILE__, __LINE__, "CWindow: unknown text iterator %c\n", *text_iterator );
+                            Error( true, __FILE__, __LINE__, "CWindow: unknown text iterator %c\n", *text_iterator );
                             break;
                     }
                 }
@@ -472,7 +472,7 @@ void CWindow::ProcessText( void )
                                 }
                                 else
                                 {
-                                    Error( __FILE__, __LINE__, "CWindow: requested to replace a text variable, \
+                                    Error( true, __FILE__, __LINE__, "CWindow: requested to replace a text variable, \
                                                                 but not enough variables exist. index: %d total: %d\n", index, mpVariables->size() );
                                 }
                             }
@@ -606,7 +606,7 @@ int8_t CWindow::DrawText( SDL_Surface* screen, TTF_Font* font, SDL_Color* fontco
 
             if ( mWords.at(t)->mImage.Image() == NULL )
             {
-                Error( __FILE__, __LINE__, "CWindow: Drawtext failed %s\n", mWords.at(t)->mRawword.c_str() );
+                Error( true, __FILE__, __LINE__, "CWindow: Drawtext failed %s\n", mWords.at(t)->mRawword.c_str() );
                 return -1;
             }
 

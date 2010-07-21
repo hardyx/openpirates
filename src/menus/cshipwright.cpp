@@ -1,20 +1,20 @@
-/*
-    openPirates
-    Copyright (C) 2010 Scott Smith
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+/***
+ *  openPirates
+ *  Copyright (C) 2010 Scott Smith
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #include "cshipwright.h"
 
@@ -61,7 +61,7 @@ int8_t CShipwright::Run( void )
                 result = SIG_NONE;
                 break;
             default:
-                Error( __FILE__, __LINE__, "state out of range\n" );
+                Error( true, __FILE__, __LINE__, "state out of range\n" );
                 result = SIG_FAIL;
                 break;
         }
@@ -93,7 +93,7 @@ int8_t CShipwright::RepairShip( void )
 
         if (result<SIG_NONE)
         {
-            Error( __FILE__, __LINE__, "CShipwright menu index out of range!\n" );
+            Error( true, __FILE__, __LINE__, "CShipwright menu index out of range!\n" );
             result = SIG_FAIL;
         }
         else
@@ -101,7 +101,7 @@ int8_t CShipwright::RepairShip( void )
             ship = result;
             if( ship >= mShips.size() )
             {
-                Error( __FILE__, __LINE__, "CShipwright ship index out of range!\n" );
+                Error( true, __FILE__, __LINE__, "CShipwright ship index out of range!\n" );
                 result = SIG_FAIL;
             }
             else
@@ -180,7 +180,7 @@ int8_t CShipwright::SellShip( void )
 
         if (result<SIG_NONE)
         {
-            Error( __FILE__, __LINE__, "menu index out of range\n" );
+            Error( true, __FILE__, __LINE__, "menu index out of range\n" );
             result = SIG_FAIL;
         }
         else
@@ -188,7 +188,7 @@ int8_t CShipwright::SellShip( void )
             ship = result;
             if( ship >= mShips.size()-1 )
             {
-                Error( __FILE__, __LINE__, "menu index out of range\n" );
+                Error( true, __FILE__, __LINE__, "menu index out of range\n" );
                 result = SIG_FAIL;
             }
             else

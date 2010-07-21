@@ -1,24 +1,24 @@
-/*
-    openPirates
-    Copyright (C) 2010 Scott Smith
+/***
+ *  openPirates
+ *  Copyright (C) 2010 Scott Smith
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+#include "csimulate.h"
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
-#include "csim.h"
-
-CSim::CSim( CResources& resources ) :
+CSimulate::CSimulate( CResources& resources ) :
     mResources      (resources),
     mStrings        (mResources.Data().Strings()),
     mCalander       (mResources.Data().Months()),
@@ -27,35 +27,69 @@ CSim::CSim( CResources& resources ) :
 {
 }
 
-CSim::~CSim()
+CSimulate::~CSimulate()
 {
 }
 
-void CSim::Simulate( void )
+uint8_t CSimulate::Run( void )
 {
+    uint8_t result;
+    std::string date;
+
     mLoops++;
 
     if (mLoops>=SIMLOOPS_PER_DAY)
     {
         mCalander.AdvanceDate( mCurrentDate, 1 );
+        date = mCalander.DateToString(mCurrentDate);
 
-        WorldEvents();
+        NationEvents( date );
+        TownEvents( date );
+        result = PlayerEvents( date );
 
         mLoops = 0;
     }
+
+    return result;
 }
 
-void CSim::WorldEvents ( void )
+uint8_t CSimulate::PlayerEvents ( const std::string& date )
+{
+    uint8_t result = 0;
+    bool mutiny;
+
+    // Spot Ship
+        // TODO
+        //  this is too simple, it should account for location to towns
+        //  another idea might be to simulate real ships that travel from town to town (more realistic)
+    if (getProbability(EVENT_PROB_SPOTSHIP))
+    {
+        result = SIM_EVENT_SHIP;
+    }
+
+    // Mutiny
+    mutiny = CalcCrewMorale();
+    if (mutiny == true)
+    {
+        if (getProbability(EVENT_PROB_MUTINY))
+        {
+            result = SIM_EVENT_MUTINY;
+
+            StoreEvent( date,
+                        mStrings.Find( STR_EVENT_MUTINY )->Text() );
+        }
+    }
+
+    return result;
+}
+
+void CSimulate::TownEvents( const std::string& date )
 {
     vec_string_t variables;
     CDyntown* town;
     CTown* towndata;
-    std::string strDate;
-    uint8_t nation1, nation2;
     uint16_t index, soldiers, population;
     uint32_t gold, food, cannon, gooda, goodb;
-
-    strDate = mCalander.DateToString(mCurrentDate);
 
     // Town events
     if (getProbability(EVENT_PROB_TOWN))
@@ -78,7 +112,7 @@ void CSim::WorldEvents ( void )
         if (getProbability(EVENT_PROB_INDIANS))
         {
             town->Soldiers(soldiers-(soldiers/DIV_INDIANS_SOLDIERS));
-            StoreEvent( strDate,
+            StoreEvent( date,
                         mStrings.Find( STR_EVENT_INDIANS )->Text(),
                         variables );
         }
@@ -91,7 +125,7 @@ void CSim::WorldEvents ( void )
             town->Cargo().Cannon().Count( cannon-(gold/DIV_PIRATES_GOODS) );
             town->Cargo().GoodTypeA().Count( gooda-(gold/DIV_PIRATES_GOODS) );
             town->Cargo().GoodTypeB().Count( goodb-(gold/DIV_PIRATES_GOODS) );
-            StoreEvent( strDate,
+            StoreEvent( date,
                         mStrings.Find( STR_EVENT_PIRATES )->Text(),
                         variables );
         }
@@ -99,7 +133,7 @@ void CSim::WorldEvents ( void )
         else if (getProbability(EVENT_PROB_GOLDMINE))
         {
             town->Cargo().Gold().Count( gold+(gold/DIV_GOLDMINE) );
-            StoreEvent( strDate,
+            StoreEvent( date,
                         mStrings.Find( STR_EVENT_GOLDMINE )->Text(),
                         variables );
         }
@@ -108,18 +142,24 @@ void CSim::WorldEvents ( void )
         {
             town->Soldiers(soldiers-(soldiers/DIV_PIRATES_SOLDIERS));
             town->Population(population-(population/DIV_PIRATES_SOLDIERS));
-            StoreEvent( strDate,
+            StoreEvent( date,
                         mStrings.Find( STR_EVENT_GOLDMINE )->Text(),
                         variables );
         }
         // Malaria
         else if (getProbability(EVENT_PROB_NEWGOV))
         {
-            StoreEvent( strDate,
+            StoreEvent( date,
                         mStrings.Find( STR_EVENT_NEWGOV )->Text(),
                         variables );
         }
     }
+}
+
+void CSimulate::NationEvents( const std::string& date )
+{
+    vec_string_t variables;
+    uint8_t nation1, nation2;
 
     // Nation events
     if (getProbability(EVENT_PROB_NATION))
@@ -144,17 +184,17 @@ void CSim::WorldEvents ( void )
         if (getProbability(EVENT_PROB_WAR))
         {
             mResources.Data().Nations().At(nation1)->Relations().at(nation2) = NATION_WAR;
-            StoreEvent( strDate,
+            StoreEvent( date,
                         mStrings.Find( STR_EVENT_WAR )->Text(),
                         variables );
         }
         // Peace
-        if ( mResources.Data().Nations().At(nation1)->Relations().at(nation2) == NATION_WAR)
+        if (mResources.Data().Nations().At(nation1)->Relations().at(nation2) == NATION_WAR)
         {
             if (getProbability(EVENT_PROB_PEACE))
             {
                 mResources.Data().Nations().At(nation1)->Relations().at(nation2) = NATION_PEACE;
-                StoreEvent( strDate,
+                StoreEvent( date,
                             mStrings.Find( STR_EVENT_PEACE )->Text(),
                             variables );
             }
@@ -165,7 +205,7 @@ void CSim::WorldEvents ( void )
                 mResources.Data().Nations().At(nation1)->Amnesty(true);
                 variables.clear();
                 variables.resize( variables.size()+1, &mResources.Data().Nations().At(nation1)->Name() );
-                StoreEvent( strDate,
+                StoreEvent( date,
                             mStrings.Find( STR_EVENT_AMNESTY )->Text(),
                             variables );
             }
@@ -174,7 +214,7 @@ void CSim::WorldEvents ( void )
                 mResources.Data().Nations().At(nation2)->Amnesty(true);
                 variables.clear();
                 variables.resize( variables.size()+1, &mResources.Data().Nations().At(nation2)->Name() );
-                StoreEvent( strDate,
+                StoreEvent( date,
                             mStrings.Find( STR_EVENT_AMNESTY )->Text(),
                             variables );
             }
@@ -190,7 +230,7 @@ void CSim::WorldEvents ( void )
             if (getProbability(EVENT_PROB_ALLIANCE))
             {
                 mResources.Data().Nations().At(nation1)->Relations().at(nation2) = NATION_ALLIED;
-                StoreEvent( strDate,
+                StoreEvent( date,
                             mStrings.Find( STR_EVENT_ALLIANCE )->Text(),
                             variables );
             }
@@ -205,14 +245,26 @@ void CSim::WorldEvents ( void )
             }
         }
     }
-
-    // Player events
-        // ShipSpotted
-        // AddStorm?
-
 }
 
-void CSim::StoreEvent( const std::string& date, const std::string& event, vec_string_t& variables )
+bool CSimulate::CalcCrewMorale( void )
+{
+    bool result = false;
+
+    // TODO add calculation based on Gold, Crew, Days during the current tour
+
+    return result;
+}
+
+void CSimulate::StoreEvent( const std::string& date, const std::string& event )
+{
+    std::string text;
+
+    text = date + " " + event;
+    mResources.Data().Events().AddEntry( text );
+}
+
+void CSimulate::StoreEvent( const std::string& date, const std::string& event, vec_string_t& variables )
 {
     std::string text;
 
@@ -221,7 +273,7 @@ void CSim::StoreEvent( const std::string& date, const std::string& event, vec_st
     mResources.Data().Events().AddEntry( text );
 }
 
-void CSim::ProcessText( vec_string_t& variables, std::string& text )
+void CSimulate::ProcessText( vec_string_t& variables, std::string& text )
 {
     uint8_t index;
     std::string::iterator text_iterator;

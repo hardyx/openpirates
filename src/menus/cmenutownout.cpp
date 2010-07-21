@@ -1,20 +1,20 @@
-/*
-    openPirates
-    Copyright (C) 2010 Scott Smith
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+/***
+ *  openPirates
+ *  Copyright (C) 2010 Scott Smith
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #include "cmenutownout.h"
 
@@ -42,6 +42,7 @@ int8_t CMenutownout::Run( int8_t entertype, int16_t town_index )
     int8_t index;
     SDL_Rect rectMain = { 20, 20, 200, 100 };
     SDL_Color colrMainColor = { 0, 0, 0, 0 };
+    SDL_Color colrBackColor = { 0, 0, 0x50, 0 };
     vec_string_t variables;
 
     result = mManagerwindow.LoadResources( mResources.Font(),
@@ -55,8 +56,7 @@ int8_t CMenutownout::Run( int8_t entertype, int16_t town_index )
         mpTown          = mResources.Data().Towns().At( mpDyntown->DataTag() );
         mpMenutownin    = new CMenutownin( mResources, mManagerwindow, mpDyntown, mpTown );
 
-        // Start with a dark blue background
-        SDL_FillRect( mScreen.Image(), NULL, SDL_MapRGB( mScreen.Image()->format, 0x00, 0x00, 0x40 ) );
+        mManagerwindow.DrawBackgroundColor( colrBackColor );
 
         variables.clear();
         variables.resize( variables.size()+1, &mpTown->Name() );
@@ -95,14 +95,14 @@ int8_t CMenutownout::Run( int8_t entertype, int16_t town_index )
                     result = SIG_NONE;
                     break;
                 default:
-                    Error( __FILE__, __LINE__, "menu index out of range\n" );
+                    Error( true, __FILE__, __LINE__, "menu index out of range\n" );
                     result = SIG_FAIL;
                     break;
             }
         }
         else
         {
-            Error( __FILE__, __LINE__, "menu index out of range\n" );
+            Error( true, __FILE__, __LINE__, "menu index out of range\n" );
             result = SIG_FAIL;
         }
 

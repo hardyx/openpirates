@@ -1,20 +1,20 @@
-/*
-    openPirates
-    Copyright (C) 2010 Scott Smith
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+/***
+ *  openPirates
+ *  Copyright (C) 2010 Scott Smith
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #include "coptions.h"
 
@@ -43,9 +43,10 @@ COptions::~COptions()
     Log( "COptions Released!\n" );
 }
 
-int8_t COptions::Load( const std::string& file_path )
+int8_t COptions::Load( const std::string& base_path )
 {
     int8_t result = SIG_NONE;
+    std::string file_path;
     std::string line;
     std::ifstream fin;
     int8_t video_mode = DEF_SCREEN_VMODE;
@@ -54,6 +55,8 @@ int8_t COptions::Load( const std::string& file_path )
 
     if (result==SIG_NONE)
     {
+        file_path = base_path + FILE_OPTIONS;
+
         // Get screen settings information from file
         if ( file_path.length() > 0 )
         {
@@ -175,7 +178,7 @@ int8_t COptions::Load( const std::string& file_path )
             }
             else
             {
-                Log( __FILE__, __LINE__, "COptions::Load ERROR Couldn't open resource file at %s: %s\n", file_path.c_str(), SDL_GetError() );
+                Error( false, __FILE__, __LINE__, "COptions::Load ERROR Couldn't open resource file at %s: %s\n", file_path.c_str(), SDL_GetError() );
                 result = SIG_FAIL;
             }
             fin.close();
@@ -183,7 +186,7 @@ int8_t COptions::Load( const std::string& file_path )
             // Custom video mode
             if ( video_mode == 0 && custom_width>0 && custom_height>0 )
             {
-               mScreen.CustomMode( custom_width, custom_height );
+                mScreen.CustomMode( custom_width, custom_height );
             }
             else
             {
@@ -192,21 +195,24 @@ int8_t COptions::Load( const std::string& file_path )
         }
         else
         {
-            Log( __FILE__, __LINE__, "COptions::Load ERROR Couldn't open file bad path given\n" );
+            Error( false, __FILE__, __LINE__, "COptions::Load ERROR Couldn't open file bad path given\n" );
             result = SIG_FAIL;
         }
     }
     return result;
 }
 
-int8_t COptions::Save( const std::string& file_path )
+int8_t COptions::Save( const std::string& base_path )
 {
     int8_t result = SIG_NONE;
+    std::string file_path;
     std::ofstream fin;
     int8_t index;
 
     if (result==SIG_NONE)
     {
+        file_path = base_path + FILE_OPTIONS;
+
         if ( file_path.length() > 0 )
         {
             fin.open( file_path.c_str() );
@@ -265,14 +271,14 @@ int8_t COptions::Save( const std::string& file_path )
             }
             else
             {
-                Error( __FILE__, __LINE__, "COptions::Save ERROR Couldn't open resource file at %s: %s\n", file_path.c_str(), SDL_GetError() );
+                Error( true, __FILE__, __LINE__, "COptions::Save ERROR Couldn't open resource file at %s: %s\n", file_path.c_str(), SDL_GetError() );
                 result = SIG_FAIL;
             }
             fin.close();
         }
         else
         {
-            Error( __FILE__, __LINE__, "COptions::Save ERROR Couldn't open file bad path given\n" );
+            Error( true, __FILE__, __LINE__, "COptions::Save ERROR Couldn't open file bad path given\n" );
             result = SIG_FAIL;
         }
     }

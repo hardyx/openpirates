@@ -1,20 +1,20 @@
-/*
-    openPirates
-    Copyright (C) 2010 Scott Smith
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+/***
+ *  openPirates
+ *  Copyright (C) 2010 Scott Smith
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #include "cgraphic.h"
 
@@ -53,7 +53,7 @@ int8_t CGraphic::LoadFile( const std::string& path, uint16_t columns, uint16_t r
     }
     else
     {
-        Error( __FILE__, __LINE__, "null pointer\n" );
+        Error( true, __FILE__, __LINE__, "null pointer\n" );
         return SIG_FAIL;
     }
     return result;
@@ -79,7 +79,7 @@ void CGraphic::AssignImage( SDL_Surface* pimage, bool release, uint16_t tag, uin
     }
     else
     {
-        Error( __FILE__, __LINE__, "null pointer\n" );
+        Error( true, __FILE__, __LINE__, "null pointer\n" );
     }
 }
 
@@ -103,7 +103,7 @@ void CGraphic::SetupClipbox( void )
     }
     else
     {
-  		Error( __FILE__, __LINE__, "null pointer\n" );
+  		Error( true, __FILE__, __LINE__, "null pointer\n" );
     }
 }
 
@@ -123,7 +123,7 @@ void CGraphic::ApplyImage( int16_t x, int16_t y, SDL_Surface* destination, SDL_R
     }
     else
     {
-  		Error( __FILE__, __LINE__, "null pointer\n" );
+  		Error( true, __FILE__, __LINE__, "null pointer\n" );
     }
 }
 
@@ -149,7 +149,7 @@ SDL_Surface* CGraphic::LoadImage( const std::string& filename )
     }
     else
     {
-  		Error( __FILE__, __LINE__, "CGraphic::LoadImage -> Could not load image: %s at path='%s'\n", SDL_GetError(), filename.c_str() );
+  		Error( true, __FILE__, __LINE__, "CGraphic::LoadImage -> Could not load image: %s at path='%s'\n", SDL_GetError(), filename.c_str() );
   		return NULL;
     }
 

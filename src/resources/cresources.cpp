@@ -1,20 +1,20 @@
-/*
-    openPirates
-    Copyright (C) 2010 Scott Smith
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+/***
+ *  openPirates
+ *  Copyright (C) 2010 Scott Smith
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #include "resources/cresources.h"
 
@@ -89,7 +89,7 @@ int8_t CResources::SetVideoMode( void )
                                flags );
     if ( screen == NULL)
     {
-        Error( __FILE__, __LINE__, "Couldn't set SDL video mode with %dx%dx%d with flags %X: %s\n",
+        Error( true, __FILE__, __LINE__, "Couldn't set SDL video mode with %dx%dx%d with flags %X: %s\n",
                mOptions.Screen().Width(),
                mOptions.Screen().Height(),
                mOptions.Screen().Depth(),
@@ -134,7 +134,7 @@ int8_t CResources::ToggleFullscreen( void )
 	return result;
 }
 
-int8_t CResources::OpenAudio( void )
+int8_t CResources::OpenAudioMixer( void )
 {
     int8_t result = SIG_NONE;
 
@@ -143,7 +143,7 @@ int8_t CResources::OpenAudio( void )
                         mOptions.Sound().Channels(),
                         mOptions.Sound().SampleSize() ) == -1 )
     {
-        Error( __FILE__, __LINE__, "Couldn't start SDL_MIXER: %s\n", SDL_GetError() );
+        Error( true, __FILE__, __LINE__, "Couldn't start SDL_MIXER: %s\n", SDL_GetError() );
         result = SIG_FAIL;
     }
 
@@ -159,7 +159,7 @@ int8_t CResources::OpenJoystick( void )
         mpJoystick = SDL_JoystickOpen(0);
         if ( mpJoystick == NULL )
         {
-            Error( __FILE__, __LINE__, "Couldn't open joystick 0: %s\n", SDL_GetError() );
+            Error( true, __FILE__, __LINE__, "Couldn't open joystick 0: %s\n", SDL_GetError() );
             result = SIG_FAIL;
         }
     }
@@ -179,7 +179,7 @@ void CResources::CloseJoystick( void )
     }
 }
 
-void CResources::CloseAudio( void )
+void CResources::CloseAudioMixer( void )
 {
     Mix_CloseAudio();	        //Quit SDL_mixer
 }
@@ -189,16 +189,19 @@ void CResources::Free_Font( void )
     TTF_CloseFont( mpFont );	//Close the font
 }
 
-int8_t CResources::LoadResources( const std::string& file_path )
+int8_t CResources::LoadResources( const std::string& base_path )
 {
     int8_t result = SIG_NONE;
     std::ifstream fin;
     std::string line;
+    std::string file_path;
     int8_t lasttype = TYPE_NUL;
     bool verbose;
     const char * temp;
 
     // Get resource information from file
+    file_path = base_path + FILE_RESOURCES;
+
     if ( file_path.length() > 0 )
     {
         fin.open( file_path.c_str() );
@@ -231,13 +234,13 @@ int8_t CResources::LoadResources( const std::string& file_path )
                         }
                         else
                         {
-                            Error( __FILE__, __LINE__, "LoadResources: NULL object returned!\n" );
+                            Error( true, __FILE__, __LINE__, "LoadResources: NULL object returned!\n" );
                             return result = SIG_FAIL;
                         }
                     }
                     else if ( line.find( CFG_GRAPHIC ) == 0 )
                     {
-                        CGraphic* graphic = LoadGraphic(line);
+                        CGraphic* graphic = LoadGraphic(line, base_path);
                         if ( graphic != NULL )
                         {
                             if (lasttype == TYPE_GFX)
@@ -250,13 +253,13 @@ int8_t CResources::LoadResources( const std::string& file_path )
                         }
                         else
                         {
-                            Error( __FILE__, __LINE__, "LoadResources: NULL object returned!\n" );
+                            Error( true, __FILE__, __LINE__, "LoadResources: NULL object returned!\n" );
                             return result = SIG_FAIL;
                         }
                     }
                     else if ( line.find( CFG_SOUND ) == 0 )
                     {
-                        CSound* sound = LoadSound(line);
+                        CSound* sound = LoadSound(line, base_path);
                         if ( sound != NULL )
                         {
                             if (lasttype == TYPE_SND)
@@ -269,13 +272,13 @@ int8_t CResources::LoadResources( const std::string& file_path )
                         }
                         else
                         {
-                            Error( __FILE__, __LINE__, "LoadResources: NULL object returned!\n" );
+                            Error( true, __FILE__, __LINE__, "LoadResources: NULL object returned!\n" );
                             return result = SIG_FAIL;
                         }
                     }
                     else if ( line.find( CFG_MAP ) == 0 )
                     {
-                        CMap* map = LoadMap(line);
+                        CMap* map = LoadMap(line, base_path);
                         if ( map != NULL )
                         {
                             lasttype = TYPE_MAP;
@@ -284,7 +287,7 @@ int8_t CResources::LoadResources( const std::string& file_path )
                         }
                         else
                         {
-                            Error( __FILE__, __LINE__, "LoadResources: NULL object returned!\n" );
+                            Error( true, __FILE__, __LINE__, "LoadResources: NULL object returned!\n" );
                             return result = SIG_FAIL;
                         }
                     }
@@ -303,7 +306,7 @@ int8_t CResources::LoadResources( const std::string& file_path )
                         }
                         else
                         {
-                            Error( __FILE__, __LINE__, "LoadResources: NULL object returned!\n" );
+                            Error( true, __FILE__, __LINE__, "LoadResources: NULL object returned!\n" );
                             return result = SIG_FAIL;
                         }
                     }
@@ -322,7 +325,7 @@ int8_t CResources::LoadResources( const std::string& file_path )
                         }
                         else
                         {
-                            Error( __FILE__, __LINE__, "LoadResources: NULL object returned!\n" );
+                            Error( true, __FILE__, __LINE__, "LoadResources: NULL object returned!\n" );
                             return result = SIG_FAIL;
                         }
                     }
@@ -341,7 +344,7 @@ int8_t CResources::LoadResources( const std::string& file_path )
                         }
                         else
                         {
-                            Error( __FILE__, __LINE__, "LoadResources: NULL object returned!\n" );
+                            Error( true, __FILE__, __LINE__, "LoadResources: NULL object returned!\n" );
                             return result = SIG_FAIL;
                         }
                     }
@@ -360,7 +363,7 @@ int8_t CResources::LoadResources( const std::string& file_path )
                         }
                         else
                         {
-                            Error( __FILE__, __LINE__, "LoadResources: NULL object returned!\n" );
+                            Error( true, __FILE__, __LINE__, "LoadResources: NULL object returned!\n" );
                             return result = SIG_FAIL;
                         }
                     }
@@ -379,7 +382,7 @@ int8_t CResources::LoadResources( const std::string& file_path )
                         }
                         else
                         {
-                            Error( __FILE__, __LINE__, "LoadResources: NULL object returned!\n" );
+                            Error( true, __FILE__, __LINE__, "LoadResources: NULL object returned!\n" );
                             return result = SIG_FAIL;
                         }
                     }
@@ -398,7 +401,7 @@ int8_t CResources::LoadResources( const std::string& file_path )
                         }
                         else
                         {
-                            Error( __FILE__, __LINE__, "LoadResources: NULL object returned!\n" );
+                            Error( true, __FILE__, __LINE__, "LoadResources: NULL object returned!\n" );
                             return result = SIG_FAIL;
                         }
                     }
@@ -414,13 +417,13 @@ int8_t CResources::LoadResources( const std::string& file_path )
                             }
                             else
                             {
-                                Error( __FILE__, __LINE__, "LoadResources: NULL object returned!\n" );
+                                Error( true, __FILE__, __LINE__, "LoadResources: NULL object returned!\n" );
                                 return result = SIG_FAIL;
                             }
                         }
                         else
                         {
-                            Error( __FILE__, __LINE__, "LoadResources: No parent objects to add child object to!\n" );
+                            Error( true, __FILE__, __LINE__, "LoadResources: No parent objects to add child object to!\n" );
                             return result = SIG_FAIL;
                         }
                     }
@@ -439,7 +442,7 @@ int8_t CResources::LoadResources( const std::string& file_path )
                         }
                         else
                         {
-                            Error( __FILE__, __LINE__, "LoadResources: NULL object returned!\n" );
+                            Error( true, __FILE__, __LINE__, "LoadResources: NULL object returned!\n" );
                             return result = SIG_FAIL;
                         }
                     }
@@ -455,13 +458,13 @@ int8_t CResources::LoadResources( const std::string& file_path )
                             }
                             else
                             {
-                                Error( __FILE__, __LINE__, "LoadResources: NULL object returned!\n" );
+                                Error( true, __FILE__, __LINE__, "LoadResources: NULL object returned!\n" );
                                 return result = SIG_FAIL;
                             }
                         }
                         else
                         {
-                            Error( __FILE__, __LINE__, "LoadResources: No parent objects to add child object to!\n" );
+                            Error( true, __FILE__, __LINE__, "LoadResources: No parent objects to add child object to!\n" );
                             return result = SIG_FAIL;
                         }
                     }
@@ -480,7 +483,7 @@ int8_t CResources::LoadResources( const std::string& file_path )
                         }
                         else
                         {
-                            Error( __FILE__, __LINE__, "LoadResources: NULL object returned!\n" );
+                            Error( true, __FILE__, __LINE__, "LoadResources: NULL object returned!\n" );
                             return result = SIG_FAIL;
                         }
                     }
@@ -496,13 +499,13 @@ int8_t CResources::LoadResources( const std::string& file_path )
                             }
                             else
                             {
-                                Error( __FILE__, __LINE__, "LoadResources: NULL object returned!\n" );
+                                Error( true, __FILE__, __LINE__, "LoadResources: NULL object returned!\n" );
                                 return result = SIG_FAIL;
                             }
                         }
                         else
                         {
-                            Error( __FILE__, __LINE__, "LoadResources: No parent objects to add child object to!\n" );
+                            Error( true, __FILE__, __LINE__, "LoadResources: No parent objects to add child object to!\n" );
                             return result = SIG_FAIL;
                         }
                     }
@@ -515,16 +518,17 @@ int8_t CResources::LoadResources( const std::string& file_path )
                             if ( maploc != NULL )
                             {
                                 town->Location(*maploc);
+                                delete maploc;
                             }
                             else
                             {
-                                Error( __FILE__, __LINE__, "LoadResources: NULL object returned!\n" );
+                                Error( true, __FILE__, __LINE__, "LoadResources: NULL object returned!\n" );
                                 return result = SIG_FAIL;
                             }
                         }
                         else
                         {
-                            Error( __FILE__, __LINE__, "LoadResources: No parent objects to add child object to!\n" );
+                            Error( true, __FILE__, __LINE__, "LoadResources: No parent objects to add child object to!\n" );
                             return result = SIG_FAIL;
                         }
                     }
@@ -543,7 +547,7 @@ int8_t CResources::LoadResources( const std::string& file_path )
                         }
                         else
                         {
-                            Error( __FILE__, __LINE__, "LoadResources: NULL object returned!\n" );
+                            Error( true, __FILE__, __LINE__, "LoadResources: NULL object returned!\n" );
                             return result = SIG_FAIL;
                         }
                     }
@@ -552,14 +556,14 @@ int8_t CResources::LoadResources( const std::string& file_path )
         }
         else
         {
-            Error( __FILE__, __LINE__, "LoadResources:  Couldn't open resource file at %s: %s\n", file_path.c_str(), SDL_GetError() );
+            Error( true, __FILE__, __LINE__, "LoadResources:  Couldn't open resource file at %s: %s\n", file_path.c_str(), SDL_GetError() );
             result = SIG_FAIL;
         }
         fin.close();
     }
     else
     {
-        Error( __FILE__, __LINE__, "LoadResources: Couldn't open file bad path given\n" );
+        Error( true, __FILE__, __LINE__, "LoadResources: Couldn't open file bad path given\n" );
         result = SIG_FAIL;
     }
 
@@ -602,14 +606,16 @@ int8_t CResources::LoadResources( const std::string& file_path )
     return result;
 }
 
-int8_t CResources::LoadFont( void )
+int8_t CResources::LoadFont( const std::string& base_path )
 {
     int8_t result = SIG_NONE;
     uint8_t size;
+    std::string file_path;
     const char* path;
     std::ifstream fin;
 
-    path = Options().Font().Path().c_str();
+    file_path = base_path + Options().Font().Path();
+    path = file_path.c_str();
     size = Options().Font().Size();
 
     //Open the font
@@ -623,20 +629,20 @@ int8_t CResources::LoadFont( void )
             //If there was an error in loading the font
             if ( mpFont == NULL )
             {
-                Error( __FILE__, __LINE__, "LoadFont: SDL_TTF Couldn't Load Font: %s\n", TTF_GetError() );
+                Error( true, __FILE__, __LINE__, "LoadFont: SDL_TTF Couldn't Load Font: %s\n", TTF_GetError() );
                 result = SIG_FAIL;
             }
         }
         else
         {
             fin.close();
-            Error( __FILE__, __LINE__, "LoadFont: Couldn't open resource file at %s: %s\n", path, SDL_GetError() );
+            Error( true, __FILE__, __LINE__, "LoadFont: Couldn't open resource file at %s\n", path );
             result = SIG_FAIL;
         }
     }
     else
     {
-        Error( __FILE__, __LINE__, "LoadFont: Couldn't open file bad path given\n" );
+        Error( true, __FILE__, __LINE__, "LoadFont: Couldn't open file bad path given\n" );
         result = SIG_FAIL;
     }
     return result;
@@ -719,7 +725,7 @@ int8_t CResources::LoadActiveTowns( void )
                     }
                     else
                     {
-                        Error( __FILE__, __LINE__, "LoadActiveTowns: Economy out of range(%d of %d)\n", economy_index, economy_total );
+                        Error( true, __FILE__, __LINE__, "LoadActiveTowns: Economy out of range(%d of %d)\n", economy_index, economy_total );
                     }
                 }
             }
@@ -748,7 +754,7 @@ int8_t CResources::LoadActiveTowns( void )
             }
             else
             {
-                Error( __FILE__, __LINE__, "Economy out of range (%d of %d)\n", economy_index, economy_total );
+                Error( true, __FILE__, __LINE__, "Economy out of range (%d of %d)\n", economy_index, economy_total );
                 result = SIG_FAIL;
             }
         }
@@ -772,13 +778,13 @@ CString* CResources::LoadString( const std::string& line )
     }
     else
     {
-        Error( __FILE__, __LINE__, "LoadString: Invalid numbers of parameters. raw data: %s\n", line.c_str() );
+        Error( true, __FILE__, __LINE__, "LoadString: Invalid numbers of parameters. raw data: %s\n", line.c_str() );
         pstring = NULL;
     }
     return pstring;
 }
 
-CGraphic* CResources::LoadGraphic( const std::string& line )
+CGraphic* CResources::LoadGraphic( const std::string& line, const std::string& base_path )
 {
     const uint8_t delimiters_total = 4;
     vec_uint16_t delimiters;
@@ -794,43 +800,43 @@ CGraphic* CResources::LoadGraphic( const std::string& line )
         rows    = Options().ReadSubInteger( line, delimiters.at(1)+1, delimiters.at(2)-delimiters.at(1)-1 );
         path    = Options().ReadSubString(  line, delimiters.at(2)+1, delimiters.at(3)-delimiters.at(2)-1 );
         pgraphic = new CGraphic();
-        if( pgraphic->LoadFile( path, count, rows ) != SIG_NONE ) {
+        if( pgraphic->LoadFile( base_path + path, count, rows ) != SIG_NONE ) {
             delete pgraphic;
             pgraphic = NULL;
         }
     }
     else
     {
-        Error( __FILE__, __LINE__, "LoadGraphic: Invalid numbers of parameters Expected=%d Actual=%d\n",
+        Error( true, __FILE__, __LINE__, "LoadGraphic: Invalid numbers of parameters Expected=%d Actual=%d\n",
                delimiters_total, delimiters.size() );
         pgraphic = NULL;
     }
     return pgraphic;
 }
 
-CSound* CResources::LoadSound( const std::string& line )
+CSound* CResources::LoadSound( const std::string& line, const std::string& base_path )
 {
     const uint8_t delimiters_total = 1;
     vec_uint16_t delimiters;
     CSound* psound = NULL;
-    std::string name;
+    std::string path;
 
     Options().GetDelimiters(line, delimiters);
     if ( delimiters.size() == delimiters_total )
     {
-        name    = Options().ReadSubString(  line, delimiters.at(0)+1, delimiters.at(1)-delimiters.at(0)-1 );
-        psound = new CSound( name );
+        path    = Options().ReadSubString(  line, delimiters.at(0)+1, delimiters.at(1)-delimiters.at(0)-1 );
+        psound = new CSound( base_path + path );
     }
     else
     {
-        Error( __FILE__, __LINE__, "LoadSound: Invalid numbers of parameters Expected=%d Actual=%d\n",
+        Error( true, __FILE__, __LINE__, "LoadSound: Invalid numbers of parameters Expected=%d Actual=%d\n",
                delimiters_total, delimiters.size() );
         psound = NULL;
     }
     return psound;
 }
 
-CMap* CResources::LoadMap( const std::string& line )
+CMap* CResources::LoadMap( const std::string& line, const std::string& base_path )
 {
     const uint8_t delimiters_total = 6;
     vec_uint16_t delimiters;
@@ -849,7 +855,7 @@ CMap* CResources::LoadMap( const std::string& line )
         gridw   = Options().ReadSubInteger( line, delimiters.at(2)+1, delimiters.at(3)-delimiters.at(2)-1 );
         gridh   = Options().ReadSubInteger( line, delimiters.at(3)+1, delimiters.at(4)-delimiters.at(3)-1 );
         path    = Options().ReadSubString(  line, delimiters.at(4)+1, delimiters.at(5)-delimiters.at(4)-1 );
-        pmap    = new CMap( gridx, gridy, gridw, gridh, path );
+        pmap    = new CMap( gridx, gridy, gridw, gridh, base_path + path );
 
         if ( pmap->GridX() + pmap->GridW() > Options().Map().Width() )
         {
@@ -862,7 +868,7 @@ CMap* CResources::LoadMap( const std::string& line )
     }
     else
     {
-        Error( __FILE__, __LINE__, "LoadMap: Invalid numbers of parameters Expected=%d Actual=%d\n",
+        Error( true, __FILE__, __LINE__, "LoadMap: Invalid numbers of parameters Expected=%d Actual=%d\n",
                delimiters_total, delimiters.size() );
         pmap = NULL;
     }
@@ -886,7 +892,7 @@ CStringValue* CResources::LoadStringvalue( const std::string& line )
     }
     else
     {
-        Error( __FILE__, __LINE__, "LoadSound: Invalid numbers of parameters Expected=%d Actual=%d\n",
+        Error( true, __FILE__, __LINE__, "LoadSound: Invalid numbers of parameters Expected=%d Actual=%d\n",
                delimiters_total, delimiters.size() );
         pstrval = NULL;
     }
@@ -911,7 +917,7 @@ CEconomy* CResources::LoadEconomy( const std::string& line )
     }
     else
     {
-        Error( __FILE__, __LINE__, "LoadEconomy: Invalid numbers of parameters Expected=%d Actual=%d\n",
+        Error( true, __FILE__, __LINE__, "LoadEconomy: Invalid numbers of parameters Expected=%d Actual=%d\n",
                delimiters_total, delimiters.size() );
         peconomy = NULL;
     }
@@ -934,7 +940,7 @@ CNation* CResources::LoadNation( const std::string& line )
     }
     else
     {
-        Error( __FILE__, __LINE__, "LoadNation: Invalid numbers of parameters Expected=%d Actual=%d\n",
+        Error( true, __FILE__, __LINE__, "LoadNation: Invalid numbers of parameters Expected=%d Actual=%d\n",
                delimiters_total, delimiters.size() );
         pnation = NULL;
     }
@@ -956,7 +962,7 @@ CNationEconomy* CResources::LoadNationEconomyLevel( const std::string& line )
     }
     else
     {
-        Error( __FILE__, __LINE__, "LoadNationEconomyLevel: Invalid numbers of parameters Expected=%d Actual=%d\n",
+        Error( true, __FILE__, __LINE__, "LoadNationEconomyLevel: Invalid numbers of parameters Expected=%d Actual=%d\n",
                delimiters_total, delimiters.size() );
         pnatecon = NULL;
     }
@@ -985,7 +991,7 @@ CShip* CResources::LoadShip( const std::string& line )
     }
     else
     {
-        Error( __FILE__, __LINE__, "LoadShip: Invalid numbers of parameters Expected=%d Actual=%d\n",
+        Error( true, __FILE__, __LINE__, "LoadShip: Invalid numbers of parameters Expected=%d Actual=%d\n",
                delimiters_total, delimiters.size() );
         pship = NULL;
     }
@@ -1007,7 +1013,7 @@ CShipNation* CResources::LoadShipNation( const std::string& line )
     }
     else
     {
-        Error( __FILE__, __LINE__, "LoadShipNation: Invalid numbers of parameters Expected=%d Actual=%d\n",
+        Error( true, __FILE__, __LINE__, "LoadShipNation: Invalid numbers of parameters Expected=%d Actual=%d\n",
                delimiters_total, delimiters.size() );
         pshipnation = NULL;
     }
@@ -1032,7 +1038,7 @@ CTown* CResources::LoadTown( const std::string& line )
     }
     else
     {
-        Error( __FILE__, __LINE__, "LoadTown: Invalid numbers of parameters Expected=%d Actual=%d\n",
+        Error( true, __FILE__, __LINE__, "LoadTown: Invalid numbers of parameters Expected=%d Actual=%d\n",
                delimiters_total, delimiters.size() );
         ptown = NULL;
     }
@@ -1056,7 +1062,7 @@ CTownTimePeriod* CResources::LoadTownTimePeriod( const std::string& line )
     }
     else
     {
-        Error( __FILE__, __LINE__, "LoadTownTimePeriod: Invalid numbers of parameters Expected=%d Actual=%d\n",
+        Error( true, __FILE__, __LINE__, "LoadTownTimePeriod: Invalid numbers of parameters Expected=%d Actual=%d\n",
                delimiters_total, delimiters.size() );
         ptowntimeperiod = NULL;
     }
@@ -1078,7 +1084,7 @@ CMapLocation* CResources::LoadTownMapLocation( const std::string& line )
     }
     else
     {
-        Error( __FILE__, __LINE__, "LoadTownMapLocation: Invalid numbers of parameters Expected=%d Actual=%d\n",
+        Error( true, __FILE__, __LINE__, "LoadTownMapLocation: Invalid numbers of parameters Expected=%d Actual=%d\n",
                delimiters_total, delimiters.size() );
         plocation = NULL;
     }
@@ -1146,7 +1152,7 @@ CRole* CResources::LoadRole( const std::string& line )
     }
     else
     {
-        Error( __FILE__, __LINE__, "LoadRole: Invalid numbers of parameters Expected=%d Actual=%d\n",
+        Error( true, __FILE__, __LINE__, "LoadRole: Invalid numbers of parameters Expected=%d Actual=%d\n",
                delimiters_total, delimiters.size() );
         prole = NULL;
     }

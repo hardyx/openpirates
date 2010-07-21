@@ -1,20 +1,27 @@
-/*
-    openPirates
-    Copyright (C) 2010 Scott Smith
+/**
+ *  @section LICENSE
+ *
+ *  openPirates
+ *  Copyright (C) 2010 Scott Smith
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+/**
+ * @section DESCRIPTION
+ * This file contains constant definitions and enumerations available to all classes.
+ */
 
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
@@ -23,8 +30,9 @@
 #define FILE_OPTIONS    "options.conf"
 #define FILE_RESOURCES  "data.conf"
 
+
 // Function/Window Signals
-// 1,2,3... is reserved to window feedback
+// 1,2,3+... is reserved to window feedback
 #define SIG_NONE         0  // operation has finished with no errors
 #define SIG_END         -1  // operation has requested to start over (back to start menu)
 #define SIG_QUIT        -2  // operation has resulted in a request to shutdown
@@ -56,6 +64,9 @@
 #define DEF_P1_NAV_SPEED    1
 #define DEF_P1_BATTLE_SPEED 1
 #define DEF_POINTER_SPEED   5
+#define DEF_CLOUD_ANGLE_CHG 50
+#define DEF_CLOUD_MAG_CHG   20
+
 
 // Frame Control/Defaults
 #define SYNC_FRAME          3
@@ -221,6 +232,12 @@ enum strings_list_t
     STR_SAILHO_SHIP     ,
     STR_SAILHO_COLORS   ,
     STR_SAILHO_PIRATE   ,
+    STR_SAILHO_P1ESCAPE ,
+    STR_SAILHO_AIESCAPE ,
+    STR_SAILHO_P1SUNK   ,
+    STR_SAILHO_AISUNK   ,
+    STR_SAILHO_SUNSET   ,
+    STR_EVENT_MUTINY    ,
     STR_EVENT_INDIANS   ,
     STR_EVENT_PIRATES   ,
     STR_EVENT_GOLDMINE  ,
@@ -260,36 +277,37 @@ enum diffs_list_t
 };
 
 
-#define JOYBUTTON_UP        0
-#define JOYBUTTON_DOWN      1
-#define JOYBUTTON_LEFT      2
-#define JOYBUTTON_RIGHT     3
-#define JOYBUTTON_ACTION    4
-#define JOYBUTTON_ESCAPE    5
+#define JOYBUTTON_UP            0
+#define JOYBUTTON_DOWN          1
+#define JOYBUTTON_LEFT          2
+#define JOYBUTTON_RIGHT         3
+#define JOYBUTTON_ACTION        4
+#define JOYBUTTON_ESCAPE        5
 
+#define DAYS_IN_YEAR            365
+#define SIMLOOPS_PER_DAY        120
 
-#define DAYS_IN_YEAR        365
-#define SIMLOOPS_PER_DAY    120
+#define ENTER_BY_SEA            0
+#define ENTER_BY_LAND           1
 
-#define ENTER_BY_SEA        0
-#define ENTER_BY_LAND       1
+#define PRISONER_FACTOR         100     // Factor effects ransom over time imprisioned
+#define REP_PERCENT_LAND        10
+#define LAND_ACRE_UNIT          50      // Number of acres given
+#define TREASUREMAP_PRICE       500     // Cost for part of a map
+#define CITIZENS_GOVERNOR       600     // Number of citizens needed to have a governor
 
-#define PRISONER_FACTOR     100     // Factor effects ransom over time imprisioned
-#define REP_PERCENT_LAND    10
-#define LAND_ACRE_UNIT      50      // Number of acres given
-#define TREASUREMAP_PRICE   500     // Cost for part of a map
-#define CITIZENS_GOVERNOR   600     // Number of citizens needed to have a governor
+#define PROB_TRAVELER           70      // Percent chance traveller is at tavern
+#define PROB_TREASUREMAP        10      // Percent chance map seller is at tavern
 
-#define PROB_TRAVELER       70      // Percent chance traveller is at tavern
-#define PROB_TREASUREMAP    10      // Percent chance map seller is at tavern
+#define PLUNDER_PATRONS         10      // Percent of plunder goes to investors
+#define PLUNDER_OFFICERS        20      // Percent of plunder goes to officers and captain
+#define PLUNDER_DIFF1           5       // Percent of plunder to the captain
+#define PLUNDER_DIFF2           10
+#define PLUNDER_DIFF3           15
+#define PLUNDER_DIFF4           20
 
-#define PLUNDER_PATRONS     10      // Percent of plunder goes to investors
-#define PLUNDER_OFFICERS    20      // Percent of plunder goes to officers and captain
-#define PLUNDER_DIFF1       5       // Percent of plunder to the captain
-#define PLUNDER_DIFF2       10
-#define PLUNDER_DIFF3       15
-#define PLUNDER_DIFF4       20
-
+#define EVENT_PROB_SPOTSHIP     50
+#define EVENT_PROB_MUTINY       20
 #define EVENT_PROB_TOWN         10
 #define EVENT_PROB_INDIANS      10
 #define DIV_INDIANS_SOLDIERS    4   // 1/4
@@ -306,6 +324,10 @@ enum diffs_list_t
 #define EVENT_PROB_ALLIANCE     10
 #define EVENT_PROB_AMNESTY      50
 #define EVENT_PROB_CAPCITY      5
+
+#define WIND_PROB_ANGLE_MAJOR   1
+#define WIND_PROB_ANGLE_MINOR   5
+#define WIND_PROB_MAGNITUDE     5
 
 
 #define PERCENTOF(P,T) (T*P)/100

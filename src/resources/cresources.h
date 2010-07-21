@@ -1,20 +1,22 @@
-/*
-    openPirates
-    Copyright (C) 2010 Scott Smith
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+/**
+ *  @section LICENSE
+ *
+ *  openPirates
+ *  Copyright (C) 2010 Scott Smith
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #ifndef CRESOURCES_H
 #define CRESOURCES_H
@@ -36,7 +38,6 @@
 #include "resources/types/cmaplocation.h"
 #include "resources/types/crole.h"
 
-
 enum types_t {
     TYPE_NUL=0,
     TYPE_STR,
@@ -53,10 +54,17 @@ enum types_t {
     TYPE_ROL
 };
 
+/**
+ * @section DESCRIPTION
+ * This class contains all of the resource data needed for the application, such as (but not limited to) string, graphic, and sound data.
+ */
+
 class CResources
 {
     public:
+        /** Constructor. */
         CResources();
+        /** Destructor. */
         virtual ~CResources();
 
         // Getters
@@ -72,12 +80,12 @@ class CResources
         int8_t CheckVideoMode( int16_t width, int16_t height, int8_t depth, uint32_t flags );
         int8_t SetVideoMode( void );
         int8_t ToggleFullscreen( void );
-        int8_t OpenAudio( void );
-        void   CloseAudio( void );
+        int8_t OpenAudioMixer( void );
+        void   CloseAudioMixer( void );
         int8_t OpenJoystick( void );
         void   CloseJoystick( void );
-        int8_t LoadResources( const std::string& file_path );
-        int8_t LoadFont( void );
+        int8_t LoadResources( const std::string& base_path );
+        int8_t LoadFont( const std::string& base_path );
         int8_t LoadActiveRole( void );
         int8_t LoadActiveTowns( void );
         void Free_Font( void );
@@ -90,9 +98,9 @@ class CResources
         TTF_Font*           mpFont;           // The font
 
         CString*            LoadString              ( const std::string& line );
-        CGraphic*           LoadGraphic             ( const std::string& line );
-        CSound*             LoadSound               ( const std::string& line );
-        CMap*               LoadMap                 ( const std::string& line );
+        CGraphic*           LoadGraphic             ( const std::string& line, const std::string& base_path );
+        CSound*             LoadSound               ( const std::string& line, const std::string& base_path );
+        CMap*               LoadMap                 ( const std::string& line, const std::string& base_path );
         CStringValue*       LoadStringvalue         ( const std::string& line );
         CEconomy*           LoadEconomy             ( const std::string& line );
         CNation*            LoadNation              ( const std::string& line );

@@ -1,3 +1,21 @@
+/***
+ *  openPirates
+ *  Copyright (C) 2010 Scott Smith
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include "cmenuoptions.h"
 
 #include "resources/keystrings.h"
@@ -35,6 +53,7 @@ int8_t CMenuOptions::Run( void )
     int8_t index;
     SDL_Rect rectWindow = { 20, 20, 400, 110 };
     SDL_Color colrMainColor = { 0, 0, 0, 0 };
+    SDL_Color colrBackColor = { 0, 0, 0x40, 0 };
     std::string strFormat = STR_OPT_MAIN;
     bool done;
 
@@ -51,8 +70,7 @@ int8_t CMenuOptions::Run( void )
         done = false;
         while ( done == false && result >= SIG_NONE )
         {
-            // Start with a dark blue background
-            SDL_FillRect( mScreen.Image(), NULL, SDL_MapRGB( mScreen.Image()->format, 0x00, 0x00, 0x40 ) );
+            mManagerwindow.DrawBackgroundColor( colrBackColor );
 
             result = mManagerwindow.ActivateWindow( index );
 
@@ -75,7 +93,7 @@ int8_t CMenuOptions::Run( void )
                     done = true;
                     break;
                 default:
-                    Error( __FILE__, __LINE__, "menu index out of range\n" );
+                    Error( true, __FILE__, __LINE__, "menu index out of range\n" );
                     result = SIG_FAIL;
                     break;
             }
@@ -94,6 +112,7 @@ int8_t CMenuOptions::Video( void )
     int8_t i;
     SDL_Rect rectWindow = { 200, 200, 400, 200 };
     SDL_Color colrMainColor = { 0, 0, 0, 0 };
+    SDL_Color colrBackColor = { 0, 0, 0x50, 0 };
 
     vec_string_t variables;
     bool video_updated, done;
@@ -217,9 +236,7 @@ int8_t CMenuOptions::Video( void )
 
                             result = mResources.SetVideoMode();
                             mManagerwindow.ResetWindows();  // The windows need to be reset to adjust to the new screen size
-
-                            // Start with a dark blue background
-                            SDL_FillRect( mScreen.Image(), NULL, SDL_MapRGB( mScreen.Image()->format, 0x00, 0x00, 0x40 ) );
+                            mManagerwindow.DrawBackgroundColor( colrBackColor );
 
                             video_updated = false;
                         }
@@ -235,14 +252,14 @@ int8_t CMenuOptions::Video( void )
                     done = true;
                     break;
                 default:
-                    Error( __FILE__, __LINE__, "menu index out of range\n" );
+                    Error( true, __FILE__, __LINE__, "menu index out of range\n" );
                     result = SIG_FAIL;
                     break;
             }
         }
         else
         {
-            Error( __FILE__, __LINE__, "menu index out of range\n" );
+            Error( true, __FILE__, __LINE__, "menu index out of range\n" );
             result = SIG_FAIL;
         }
     }
@@ -289,7 +306,7 @@ int8_t CMenuOptions::ChangeResolution( int8_t current_mode )
     }
     else
     {
-        Error( __FILE__, __LINE__, "menu index out of range\n" );
+        Error( true, __FILE__, __LINE__, "menu index out of range\n" );
         result = SIG_FAIL;
     }
 
@@ -408,8 +425,8 @@ int8_t CMenuOptions::Sound( void )
                         mResources.Options().Sound().ChannelsMode(Channels[NEW]);
                         mResources.Options().Sound().SampleSizeMode(Samples[NEW]);
 
-                        mResources.CloseAudio();
-                        result = mResources.OpenAudio();
+                        mResources.CloseAudioMixer();
+                        result = mResources.OpenAudioMixer();
 
                         sound_updated = false;
                     }
@@ -420,14 +437,14 @@ int8_t CMenuOptions::Sound( void )
                     done = true;
                     break;
                 default:
-                    Error( __FILE__, __LINE__, "menu index out of range\n" );
+                    Error( true, __FILE__, __LINE__, "menu index out of range\n" );
                     result = SIG_FAIL;
                     break;
             }
         }
         else
         {
-            Error( __FILE__, __LINE__, "menu index out of range\n" );
+            Error( true, __FILE__, __LINE__, "menu index out of range\n" );
             result = SIG_FAIL;
         }
     }
@@ -538,14 +555,14 @@ int8_t CMenuOptions::KeyControls( void )
                     done = true;
                     break;
                 default:
-                    Error( __FILE__, __LINE__, "menu index out of range\n" );
+                    Error( true, __FILE__, __LINE__, "menu index out of range\n" );
                     result = SIG_FAIL;
                     break;
             }
         }
         else
         {
-            Error( __FILE__, __LINE__, "menu index out of range\n" );
+            Error( true, __FILE__, __LINE__, "menu index out of range\n" );
             result = SIG_FAIL;
         }
 
@@ -665,14 +682,14 @@ int8_t CMenuOptions::JoyControls( void )
                     done = true;
                     break;
                 default:
-                    Error( __FILE__, __LINE__, "menu index out of range\n" );
+                    Error( true, __FILE__, __LINE__, "menu index out of range\n" );
                     result = SIG_FAIL;
                     break;
             }
         }
         else
         {
-            Error( __FILE__, __LINE__, "menu index out of range\n" );
+            Error( true, __FILE__, __LINE__, "menu index out of range\n" );
             result = SIG_FAIL;
         }
 

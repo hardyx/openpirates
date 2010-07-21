@@ -1,30 +1,38 @@
-/*
-    openPirates
-    Copyright (C) 2010 Scott Smith
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+/***
+ *  openPirates
+ *  Copyright (C) 2010 Scott Smith
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #include "cmodenav.h"
 
 CModeNav::CModeNav( CResources& resources, CManagerWindow& winmanager, CMenumain& mainmenu ) :
     CModeWorld          (resources),
-    tmrSimulate         (),
     mPlayership         (),
     mPlayercrew         (),
-    mMenutownout        (mResources, winmanager),
+    mSimulate           (mResources),
     mMainmenu           (mainmenu),
+    mMenutownout        (mResources, winmanager),
+    mSailho             (mResources, winmanager),
+    mWind               (),
+    mModeBattle         (mResources, mMainmenu),
+    mShipStatsP1        (),
+    mShipStatsAI        (),
+    mArmyStatsP1        (),
+    mArmyStatsAI        (),
+    mModeFencing        (),
     mPlayershipIndex    (-1),
     mPlayercrewIndex    (-1),
     mShipMode           (true),
@@ -54,6 +62,45 @@ int8_t CModeNav::Run( void )
 {
     int8_t result = SIG_NONE;
 
+    result = Init();
+
+    while ( result == SIG_NONE )
+    {
+        // Check key & buttons to move objects
+		result = HandleEvents();
+
+		// Simulation
+        switch( mSimulate.Run() )
+        {
+            case SIM_EVENT_SHIP:
+                //result = ShipEncounter();
+                break;
+            case SIM_EVENT_MUTINY:
+                // TODO
+                // needs to go into a fence mode
+                break;
+            default:
+                break;
+        }
+
+        mWind.Run();
+
+		// Move sprites and check for collisions
+		MovePlayer();
+        MoveWorld();
+#ifdef DEBUG
+        Debug();
+#endif
+        // Draw everything
+        DrawWorld();
+    }
+    return result;
+}
+
+int8_t CModeNav::Init( void )
+{
+    int8_t result = SIG_NONE;
+
     mPlayercrew.Open( 0, 0, ANI_BYROW, 60, 2,
                       0, 0, true, false );
     mPlayercrew.AssignGraphic( mResources.Data().Graphics().Find(GFX_NAVCREW) );
@@ -73,31 +120,13 @@ int8_t CModeNav::Run( void )
 
     result = InitWorld();
 
-    tmrSimulate.start();
-    while ( result == SIG_NONE )
-    {
-        // Check key & buttons to move objects
-		result = HandleEvents();
-
-		// Activate Wind Factor
-		mWind.Simulate();
-        //mpSim->Simulate());
-
-		// Move sprites and check for collisions
-		MovePlayer();
-        MoveWorld();
-#ifdef DEBUG
-        Debug();
-#endif
-        // Draw everything
-        DrawWorld();
-    }
     return result;
 }
 
 int8_t CModeNav::HandleEvents( void )
 {
     int8_t result = SIG_NONE;
+    int16_t speed;
     CControl event;
 
 	/* Check for events */
@@ -178,6 +207,7 @@ void CModeNav::MovePlayer( void )
     if ( mShipMode == true )
     {
         //mWind.Apply( 1, mpPlayership );
+
         mPlayership.Move( &mTiles, level_h, level_w );
         CheckTownCollisions();
 
@@ -308,6 +338,70 @@ void CModeNav::CheckTownCollisions( void )
     {
         mInsideTown = false;
     }
+}
+
+int8_t CModeNav::ShipEncounter( void )
+{
+    int8_t result = SIG_NONE;
+
+    switch (mSailho.Run())
+    {
+        case SAILHO_SAILAWAY:
+            // Do Nothing
+            break;
+        case SAILHO_NEWS:
+            // TODO Show latest news
+            break;
+        case SAILHO_BATTLE:
+            switch (mModeBattle.Run( &mShipStatsP1, &mShipStatsAI ))
+            {
+                case SHIPP1_BOARD:
+                case SHIPAI_BOARD:
+                    switch (mModeFencing.Run())
+                    {
+                        case FENCING_WIN:
+                            break;
+                        case FENCING_ESCAPE:
+                            break;
+                        case FENCING_LOSE:
+                            break;
+                        default:
+                            Error( true, __FILE__, __LINE__, "fencing result out of range\n" );
+                            result = SIG_FAIL;
+                            break;
+                    }
+                    break;
+                case SHIPP1_ESCAPE:
+                    mSailho.P1EscapeDialog();
+                    // TODO adjust rep down
+                    break;
+                case SHIPAI_ESCAPE:
+                    mSailho.AIEscapeDialog();
+                    break;
+                case SHIPP1_SUNK:
+                    mSailho.P1SunkDialog();
+                    // TODO adjust ship/men/cargo
+                    break;
+                case SHIPAI_SUNK:
+                    mSailho.AISunkDialog();
+                    // TODO adjust nation rep up/down
+                    break;
+                case SHIP_SUNSET:
+                    mSailho.SunSetDialog();
+                    break;
+                default:
+                    Error( true, __FILE__, __LINE__, "ship battle result out of range\n" );
+                    result = SIG_FAIL;
+                    break;
+            }
+            break;
+        default:
+            Error( true, __FILE__, __LINE__, "sailho result out of range\n" );
+            result = SIG_FAIL;
+            break;
+    }
+
+    return result;
 }
 
 #ifdef DEBUG

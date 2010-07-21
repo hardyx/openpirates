@@ -82,6 +82,7 @@
 					<Add option="-Wundef" />
 					<Add option="-Wfloat-equal" />
 					<Add option="-Winline" />
+					<Add option="-Wunreachable-code" />
 					<Add option="-Wmissing-declarations" />
 					<Add option="-Wmissing-include-dirs" />
 					<Add option="-Wswitch-default" />
@@ -91,11 +92,13 @@
 					<Add option="-pedantic" />
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
+					<Add option="-pg" />
 					<Add option="-g" />
 					<Add option="-DDEBUG" />
 					<Add directory="/usr/include/SDL" />
 				</Compiler>
 				<Linker>
+					<Add option="-pg" />
 					<Add option="-lSDLmain -lSDL -lSDL_image -lSDL_mixer -lSDL_ttf" />
 				</Linker>
 			</Target>
@@ -252,10 +255,10 @@
 		<Unit filename="src/sim/cailogic.h" />
 		<Unit filename="src/sim/ccalander.cpp" />
 		<Unit filename="src/sim/ccalander.h" />
-		<Unit filename="src/sim/csim.cpp" />
-		<Unit filename="src/sim/csim.h" />
-		<Unit filename="src/sim/cvelocity.cpp" />
-		<Unit filename="src/sim/cvelocity.h" />
+		<Unit filename="src/sim/csimulate.cpp" />
+		<Unit filename="src/sim/csimulate.h" />
+		<Unit filename="src/sim/cwind.cpp" />
+		<Unit filename="src/sim/cwind.h" />
 		<Unit filename="src/sprites/cdraw.cpp" />
 		<Unit filename="src/sprites/cdraw.h" />
 		<Unit filename="src/sprites/cspriteangular.cpp" />
@@ -272,6 +275,15 @@
 			<code_completion />
 			<envvars />
 			<debugger />
+			<DoxyBlocks>
+				<comment_style block="0" line="0" />
+				<doxyfile_project />
+				<doxyfile_build extract_all="1" />
+				<doxyfile_warnings />
+				<doxyfile_output />
+				<doxyfile_dot />
+				<general use_at_in_tags="1" />
+			</DoxyBlocks>
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

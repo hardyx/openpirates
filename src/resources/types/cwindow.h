@@ -1,20 +1,22 @@
-/*
-    openPirates
-    Copyright (C) 2010 Scott Smith
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+/**
+ *  @section LICENSE
+ *
+ *  openPirates
+ *  Copyright (C) 2010 Scott Smith
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #ifndef CWINDOW_H
 #define CWINDOW_H
@@ -28,9 +30,15 @@
 #include "timers/cframelimit.h"
 #include "timers/ctimer.h"
 
+/**
+ * @section DESCRIPTION
+ * Represents a word within a paragraph of text that is drawn on a window.
+ */
+
 class CWord
 {
     public:
+        /** Constructor. */
         CWord() :
             mImage      (),
             mRawword    (),
@@ -42,6 +50,7 @@ class CWord
             mYpos       (0)
         {
         }
+        /** Destructor. */
 		virtual ~CWord() {};
 
         CGraphic    mImage;     // The bitmap version of the text
@@ -56,22 +65,31 @@ class CWord
 
 typedef std::vector<CWord*> vec_word_t;
 
-// Class that provides a window for showing text and getting user input
+/**
+ * @section DESCRIPTION
+ * This class represents a interactive window which can display a graphic or text.
+ */
+
 class CWindow
 {
 	public:
+        /** Constructor for window with no text */
         CWindow( CControls& controls );
+        /** Constructor for window with a no varables. */
         CWindow( SDL_Rect& size, CControls& events,
                  std::string& text,
                  SDL_Color* bkgnd_color, CGraphic* bkgnd_image );
+        /** Constructor for window with a single varable. */
         CWindow( SDL_Rect& size, CControls& events,
                  std::string& text,
                  std::string& variable,
                  SDL_Color* bkgnd_color, CGraphic* bkgnd_image );
+        /** Constructor for window with multiple varables. */
         CWindow( SDL_Rect& size, CControls& events,
                  std::string& text,
                  vec_string_t& variables,
                  SDL_Color* bkgnd_color, CGraphic* bkgnd_image );
+        /** Destructor. */
 		virtual ~CWindow();
 
 		void ResetWindow( void );
@@ -84,6 +102,7 @@ class CWindow
         void UpdateBackgroundImage( CGraphic* bkgnd_image );
         void UpdateBackgroundColor( SDL_Color* bkgnd_color );
         void Reprocess( void );
+        void DrawBackgroundColor( SDL_Surface* screen, const SDL_Color& color );
         int8_t Activate( CResources& resources, CGraphic* border_gfx, CSpriteDynamic& pointer, TTF_Font* font );
 
     protected:

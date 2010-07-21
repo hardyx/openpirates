@@ -1,20 +1,22 @@
-/*
-    openPirates
-    Copyright (C) 2010 Scott Smith
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+/**
+ *  @section LICENSE
+ *
+ *  openPirates
+ *  Copyright (C) 2010 Scott Smith
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #ifndef COPTIONS_H
 #define COPTIONS_H
@@ -38,9 +40,15 @@ extern uint16_t limitsSoundSamples[SOUND_SAMPLE];
 
 #define VERIFY_RANGE(val,cur,max) (val<max) ? val : cur
 
+/**
+ * @section DESCRIPTION
+ * This class handles the screen options for the application.
+ */
+
 class CScreenOptions
 {
     public:
+        /** Constructor. */
         CScreenOptions() :
             mVideoMode  (DEF_SCREEN_VMODE),
             mDepthMode  (DEF_SCREEN_BPP),
@@ -48,6 +56,7 @@ class CScreenOptions
             mDoublebuf  (DEF_DOUBLEBUF)
         {
         }
+        /** Destructor. */
         virtual ~CScreenOptions() {}
 
         // Getters
@@ -77,15 +86,22 @@ class CScreenOptions
         bool        mDoublebuf;
 };
 
+/**
+ * @section DESCRIPTION
+ * This class handles the mixer (sound) options for the application.
+ */
+
 class CSoundOptions
 {
     public:
+        /** Constructor. */
         CSoundOptions() :
             mChannelsMode   (DEF_SOUND_CHAN),
             mFrequencyMode  (DEF_SOUND_FREQ),
             mSampleSizeMode (DEF_SOUND_SAMPLE)
         {
         }
+        /** Destructor. */
         virtual ~CSoundOptions() {}
 
         // Getters
@@ -106,9 +122,15 @@ class CSoundOptions
         uint16_t    mSampleSizeMode;
 };
 
+/**
+ * @section DESCRIPTION
+ * This class handles the font options for the application.
+ */
+
 class CFontOptions
 {
     public:
+        /** Constructor. */
         CFontOptions() :
             mSize   (DEF_FONT_SIZE),
             mColor  (),
@@ -119,6 +141,7 @@ class CFontOptions
             mColor.g = DEF_FONTCOLOR_G;
             mColor.b = DEF_FONTCOLOR_B;
         }
+        /** Destructor. */
         virtual ~CFontOptions() {}
 
         // Getters
@@ -136,14 +159,21 @@ class CFontOptions
         std::string mPath;
 };
 
+/**
+ * @section DESCRIPTION
+ * This class handles the wave options for the application.
+ */
+
 class CWaveOptions
 {
     public:
+        /** Constructor. */
         CWaveOptions() :
             mCount  (DEF_WAVE_COUNT),
             mSpeed  (DEF_WAVE_SPEED)
         {
         }
+        /** Destructor. */
         virtual ~CWaveOptions() {}
 
         // Getters
@@ -158,13 +188,20 @@ class CWaveOptions
         uint8_t mSpeed;
 };
 
+/**
+ * @section DESCRIPTION
+ * This class handles the cloud options for the application.
+ */
+
 class CCloudOptions
 {
     public:
+        /** Constructor. */
         CCloudOptions() :
             mCount(DEF_CLOUD_COUNT)
         {
         }
+        /** Destructor. */
         virtual ~CCloudOptions() {}
 
         // Getters
@@ -176,14 +213,21 @@ class CCloudOptions
         uint8_t mCount;
 };
 
+/**
+ * @section DESCRIPTION
+ * This class handles the map options for the application.
+ */
+
 class CMapOptions
 {
     public:
+        /** Constructor. */
         CMapOptions() :
             mWidth  (0),
             mHeight (0)
         {
         }
+        /** Destructor. */
         virtual ~CMapOptions() {}
 
         // Getters
@@ -198,10 +242,17 @@ class CMapOptions
         uint16_t    mHeight;
 };
 
+/**
+ * @section DESCRIPTION
+ * This class handles the configuration options for the application, such as (but not limited to) screen and mixer settings.
+ */
+
 class COptions : public CIni
 {
     public:
+        /** Constructor. */
         COptions();
+        /** Destructor. */
         virtual ~COptions();
 
         // Getters
@@ -213,8 +264,8 @@ class COptions : public CIni
         CCloudOptions&      Cloud( void )       { return mCloud; }
         CMapOptions&        Map( void )         { return mMap; }
 
-        int8_t Load( const std::string& file_path );
-        int8_t Save( const std::string& file_path );
+        int8_t Load( const std::string& base_path );
+        int8_t Save( const std::string& base_path );
 
     private:
         CScreenOptions  mScreen;

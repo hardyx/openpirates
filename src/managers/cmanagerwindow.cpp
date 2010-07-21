@@ -1,20 +1,20 @@
-/*
-    openPirates
-    Copyright (C) 2010 Scott Smith
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+/***
+ *  openPirates
+ *  Copyright (C) 2010 Scott Smith
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #include "managers/cmanagerwindow.h"
 
@@ -44,7 +44,7 @@ int8_t CManagerWindow::LoadResources( TTF_Font* font, CGraphic* border, CGraphic
     }
     else
     {
-        Error( __FILE__, __LINE__, "CManagerWindow: could not create window\n" );
+        Error( true, __FILE__, __LINE__, "CManagerWindow: could not create window\n" );
         result = SIG_FAIL;
     }
 
@@ -120,7 +120,7 @@ int8_t CManagerWindow::AddWindow( CWindow* window )
     }
     else
     {
-        Error( __FILE__, __LINE__, "CManagerWindow: could not create window\n" );
+        Error( true, __FILE__, __LINE__, "CManagerWindow: could not create window\n" );
         index = -1;
     }
     return index;   // Return a index reference
@@ -166,7 +166,7 @@ uint8_t CManagerWindow::ActivateWindow( uint8_t index )
     }
     else
     {
-        Error( __FILE__, __LINE__, "index out of range\n" );
+        Error( true, __FILE__, __LINE__, "index out of range\n" );
         result = SIG_FAIL;
     }
 
@@ -226,4 +226,9 @@ void CManagerWindow::UpdateWindowBackgroundImage( uint8_t index, CGraphic* bkgnd
 void CManagerWindow::UpdateWindowBackGroundColor( uint8_t index, SDL_Color* bkgnd_color )
 {
     mWindows.at(index)->UpdateBackgroundColor( bkgnd_color );
+}
+
+void CManagerWindow::DrawBackgroundColor( const SDL_Color& color )
+{
+    SDL_FillRect( mResources.Screen().Image(), NULL, SDL_MapRGB( mResources.Screen().Image()->format, color.r, color.g, color.b ) );
 }

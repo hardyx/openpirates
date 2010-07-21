@@ -1,20 +1,20 @@
-/*
-    openPirates
-    Copyright (C) 2010 Scott Smith
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+/***
+ *  openPirates
+ *  Copyright (C) 2010 Scott Smith
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #include "cmenustart.h"
 
@@ -42,6 +42,7 @@ int8_t CMenustart::Run( void )
     bool done;
     SDL_Rect rectMain = { 20, 20, 400, 110 };
     SDL_Color colrMainColor = { 0, 0, 0, 0 };
+    SDL_Color colrBackColor = { 0, 0, 0x50, 0 };
 
     result = mManagerwindow.LoadResources( mResources.Font(),
                                            mGraphics.Find(GFX_BORDER),
@@ -56,8 +57,7 @@ int8_t CMenustart::Run( void )
         done = false;
         while ( done == false && result >= SIG_NONE )
         {
-            // Start with a dark blue background
-            SDL_FillRect( mScreen.Image(), NULL, SDL_MapRGB( mScreen.Image()->format, 0x00, 0x00, 0x40 ) );
+            mManagerwindow.DrawBackgroundColor( colrBackColor );
 
             result = mManagerwindow.ActivateWindow( index );
 
@@ -82,7 +82,7 @@ int8_t CMenustart::Run( void )
                     result = SIG_QUIT;              // Quit
                     break;
                 default:
-                    Error( __FILE__, __LINE__, "menu index out of range\n" );
+                    Error( true, __FILE__, __LINE__, "menu index out of range\n" );
                     result = SIG_FAIL;
                     break;
             }
@@ -132,7 +132,7 @@ int8_t CMenustart::NewCareer( bool autoselect )
                 done = true;
                 break;
             default:
-                Error( __FILE__, __LINE__, "menu index out of range\n" );
+                Error( true, __FILE__, __LINE__, "menu index out of range\n" );
                 result = SIG_FAIL;
                 break;
         }
@@ -181,7 +181,7 @@ int8_t CMenustart::GetTimePeriod( void )
             }
             else
             {
-                Error( __FILE__, __LINE__, "menu index out of range\n" );
+                Error( true, __FILE__, __LINE__, "menu index out of range\n" );
                 result = SIG_FAIL;
             }
 
@@ -233,7 +233,7 @@ int8_t CMenustart::GetNation( void )
             }
             else
             {
-                Error( __FILE__, __LINE__, "menu index out of range\n" );
+                Error( true, __FILE__, __LINE__, "menu index out of range\n" );
                 result = SIG_FAIL;
             }
 
@@ -282,7 +282,7 @@ int8_t CMenustart::GetName( void )
 
             if ( result < SELECT_A )
             {
-                Error( __FILE__, __LINE__, "menu index out of range\n" );
+                Error( true, __FILE__, __LINE__, "menu index out of range\n" );
                 result = SIG_FAIL;
                 break;
             }
@@ -383,7 +383,7 @@ int8_t CMenustart::GetDifficulty( void )
         }
         else
         {
-            Error( __FILE__, __LINE__, "menu index out of range\n" );
+            Error( true, __FILE__, __LINE__, "menu index out of range\n" );
             result = SIG_FAIL;
         }
     }
@@ -418,7 +418,7 @@ int8_t CMenustart::GetSkill( void )
         }
         else
         {
-            Error( __FILE__, __LINE__, "menu index out of range\n" );
+            Error( true, __FILE__, __LINE__, "menu index out of range\n" );
             result = SIG_FAIL;
         }
     }
