@@ -16,6 +16,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  @section LOCATION
  */
 
 #ifndef MAIN_H
@@ -23,10 +25,13 @@
 
 #include "modes/cmodemain.h"
 
-/**
- * The main function
- * @param argc number of arguments
- * @param argv char format of the agruments
+/** @file main.h
+ * @brief This file contains the main function.
+ */
+
+/** @brief The main function
+ * @param argc : number of arguments
+ * @param argv : char format of the agruments
  * @return result of the program's execution
  */
 int main( int argc, char *argv[] );

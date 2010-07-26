@@ -16,6 +16,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  @section LOCATION
  */
 
 #ifndef CMODEBATTLE_H
@@ -24,42 +26,42 @@
 #include "global.h"
 #include "menus/cmenumain.h"
 #include "modes/cmodeworld.h"
-#include "resources/ccontrols.h"
+#include "resources/controls/ccontrols.h"
 #include "resources/types/cbattleshipstats.h"
 #include "resources/types/cbattlearmystats.h"
 #include "sim/cailogic.h"
 
-#define MAX_ARMIES      3
-
-enum battlemodes_t {
-    SEA_VS_SEA=0    ,
-    SEA_VS_LAND     ,
-    LAND_VS_LAND
-};
-
-enum battleresults_t {
-    SHIPP1_BOARD=0  ,
-    SHIPP1_SUNK     ,
-    SHIPP1_ESCAPE   ,
-    SHIPAI_BOARD    ,
-    SHIPAI_SUNK     ,
-    SHIPAI_ESCAPE   ,
-    SHIP_SUNSET     ,
-    ARMYP1_INFORT   ,
-    ARMYP1_KILLED   ,
-    ARMYP1_FLEE     ,
-    ARMYAI_KILLED
-};
-
-/**
- * @section DESCRIPTION
- * The battle mode loop
+/** @brief The battle mode loop
  */
-
 class CModeBattle : public CModeWorld
 {
     public:
-        /** Constructor. */
+        #define MAX_ARMIES 3
+
+        enum battlemodes_t {
+            SEA_VS_SEA=0    ,
+            SEA_VS_LAND     ,
+            LAND_VS_LAND
+        };
+
+        enum battleresults_t {
+            SHIPP1_BOARD=0  ,
+            SHIPP1_SUNK     ,
+            SHIPP1_ESCAPE   ,
+            SHIPAI_BOARD    ,
+            SHIPAI_SUNK     ,
+            SHIPAI_ESCAPE   ,
+            SHIP_SUNSET     ,
+            ARMYP1_INFORT   ,
+            ARMYP1_KILLED   ,
+            ARMYP1_FLEE     ,
+            ARMYAI_KILLED
+        };
+
+        /** @brief Constructor.
+         * @param resources : reference to the resources object
+         * @param mainmenu : reference to the main window object
+         */
         CModeBattle( CResources& resources, CMenumain mainmenu );
         /** Destructor. */
         virtual ~CModeBattle();
@@ -86,9 +88,8 @@ class CModeBattle : public CModeWorld
         CSpriteStatic       mFortAI;
         CSpriteDynamic      mCannonP1;
         CSpriteDynamic      mCannonAI;
+        CAILogic            mAILogic;
 
-        CModeBattle(const CModeBattle&);
-        CModeBattle& operator=(const CModeBattle&);
         void OpenShipP1( void );
         void OpenShipAI( void );
         void OpenArmyP1( void );
@@ -104,6 +105,9 @@ class CModeBattle : public CModeWorld
 #ifdef DEBUG
         void Debug( void );
 #endif
+
+        CModeBattle(const CModeBattle&);
+        CModeBattle& operator=(const CModeBattle&);
 };
 
 #endif // CMODEBATTLE_H

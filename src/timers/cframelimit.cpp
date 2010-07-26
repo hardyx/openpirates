@@ -28,7 +28,9 @@ CFramelimit::CFramelimit( void ) :
     mFramedrawn     (0),
     mFrameskipped   (0),
     mFrameinterval  (0),
-    mTicksLeft      (0)
+    mTicksLeft      (0),
+    mLoopTime       (0),
+    mLoopTimeAvg    (0)
 {
     printf( "Framelimit: msec/frame %d msec/sync %d\n", MS_PER_FRAME, MS_PER_SYNC );
 }
@@ -40,7 +42,6 @@ CFramelimit::~CFramelimit()
 void CFramelimit::ControlFPS( bool limit, bool calc )
 {
     int16_t delay;
-    int16_t ticks;
     int16_t duration;
 
     // A frame has been drawn
@@ -68,7 +69,7 @@ void CFramelimit::ControlFPS( bool limit, bool calc )
                 mFrameskipped   = 0;
                 tmrFPSCalculate.start();
 #ifdef DEBUG
-                printf( "FPS Total: %d Drawn: %d Skipped: %d\n", mFps+mFskip, mFps, mFskip );
+                printf( "FPS Total: %.2d Drawn: %.2d Skipped: %.2d LoopTimeAvg: %.4d\n", mFps+mFskip, mFps, mFskip, mLoopTimeAvg );
 #endif
             }
         }
@@ -90,15 +91,16 @@ void CFramelimit::ControlFPS( bool limit, bool calc )
             // Calculate the delay
             if (mFrameinterval < SYNC_FRAME)
             {
-                ticks = tmrFrameSingle.get_ticks();
+                mLoopTime = tmrFrameSingle.get_ticks();
                 duration = MS_PER_FRAME;
             }
             else
             {
-                ticks = tmrFrameSync.get_ticks();
+                mLoopTime = tmrFrameSync.get_ticks();
                 duration = MS_PER_SYNC;
             }
-            delay = duration - mTicksLeft - ticks;
+
+            delay = duration - mTicksLeft - mLoopTime;
 
             if (delay > 0 && delay < MS_PER_SECOND) // Time left
             {
@@ -112,7 +114,13 @@ void CFramelimit::ControlFPS( bool limit, bool calc )
                 mTicksLeft = abs(delay);
             }
 
-            //printf( "%d T:%4d D:%4d L:%4d\n", mFrameinterval, ticks, delay, mTicksLeft );
+            // Average loop time
+            if ( calc )
+            {
+                mLoopTimeAvg = (mLoopTimeAvg + mLoopTime)/2;
+            }
+
+            //printf( "%d T:%4d D:%4d L:%4d\n", mFrameinterval, mLoopTime, delay, mTicksLeft );
 
             // Reset timers
             if (mFrameinterval >= SYNC_FRAME)
@@ -122,6 +130,7 @@ void CFramelimit::ControlFPS( bool limit, bool calc )
                 if (mTicksLeft>MS_PER_SECOND)
                     mTicksLeft = 0;
             }
+
             tmrFrameSingle.start();
         }
     }

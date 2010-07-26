@@ -72,10 +72,10 @@ int8_t CModeNav::Run( void )
 		// Simulation
         switch( mSimulate.Run() )
         {
-            case SIM_EVENT_SHIP:
+            case CSimulate::SIM_EVENT_SHIP:
                 //result = ShipEncounter();
                 break;
-            case SIM_EVENT_MUTINY:
+            case CSimulate::SIM_EVENT_MUTINY:
                 // TODO
                 // needs to go into a fence mode
                 break;
@@ -126,7 +126,6 @@ int8_t CModeNav::Init( void )
 int8_t CModeNav::HandleEvents( void )
 {
     int8_t result = SIG_NONE;
-    int16_t speed;
     CControl event;
 
 	/* Check for events */
@@ -346,24 +345,24 @@ int8_t CModeNav::ShipEncounter( void )
 
     switch (mSailho.Run())
     {
-        case SAILHO_SAILAWAY:
+        case CSailho::SAILHO_SAILAWAY:
             // Do Nothing
             break;
-        case SAILHO_NEWS:
+        case CSailho::SAILHO_NEWS:
             // TODO Show latest news
             break;
-        case SAILHO_BATTLE:
+        case CSailho::SAILHO_BATTLE:
             switch (mModeBattle.Run( &mShipStatsP1, &mShipStatsAI ))
             {
-                case SHIPP1_BOARD:
-                case SHIPAI_BOARD:
+                case CModeBattle::SHIPP1_BOARD:
+                case CModeBattle::SHIPAI_BOARD:
                     switch (mModeFencing.Run())
                     {
-                        case FENCING_WIN:
+                        case CModeFencing::FENCING_WIN:
                             break;
-                        case FENCING_ESCAPE:
+                        case CModeFencing::FENCING_ESCAPE:
                             break;
-                        case FENCING_LOSE:
+                        case CModeFencing::FENCING_LOSE:
                             break;
                         default:
                             Error( true, __FILE__, __LINE__, "fencing result out of range\n" );
@@ -371,22 +370,22 @@ int8_t CModeNav::ShipEncounter( void )
                             break;
                     }
                     break;
-                case SHIPP1_ESCAPE:
+                case CModeBattle::SHIPP1_ESCAPE:
                     mSailho.P1EscapeDialog();
                     // TODO adjust rep down
                     break;
-                case SHIPAI_ESCAPE:
+                case CModeBattle::SHIPAI_ESCAPE:
                     mSailho.AIEscapeDialog();
                     break;
-                case SHIPP1_SUNK:
+                case CModeBattle::SHIPP1_SUNK:
                     mSailho.P1SunkDialog();
                     // TODO adjust ship/men/cargo
                     break;
-                case SHIPAI_SUNK:
+                case CModeBattle::SHIPAI_SUNK:
                     mSailho.AISunkDialog();
                     // TODO adjust nation rep up/down
                     break;
-                case SHIP_SUNSET:
+                case CModeBattle::SHIP_SUNSET:
                     mSailho.SunSetDialog();
                     break;
                 default:

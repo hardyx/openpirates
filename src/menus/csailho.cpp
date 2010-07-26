@@ -20,8 +20,8 @@
 
 CSailho::CSailho( CResources& resources, CManagerWindow& winmanager ) :
     mResources          (resources),
-    mStrings            (mResources.Data().Strings()),
-    mManagerwindow      (winmanager)
+    mManagerwindow      (winmanager),
+    mStrings            (mResources.Data().Strings())
 {
 }
 

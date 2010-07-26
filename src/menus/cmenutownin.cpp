@@ -20,10 +20,10 @@
 
 CMenutownin::CMenutownin( CResources& resources, CManagerWindow& winmanager, CDyntown* dyntown, CTown* town ) :
     mResources      (resources),
-    mScreen         (mResources.Screen()),
+    mManagerwindow  (winmanager),
     mStrings        (mResources.Data().Strings()),
     mGraphics       (mResources.Data().Graphics()),
-    mManagerwindow  (winmanager),
+    mScreen         (mResources.Screen()),
     mpDynTown       (dyntown),
     mpTown          (town),
     mGovernor       (mResources, mManagerwindow, mpDynTown),
@@ -44,7 +44,7 @@ int8_t CMenutownin::Run( bool sneak )
 {
     int8_t result = SIG_NONE;
     int8_t index;
-    bool done;
+    bool done = false;
     SDL_Rect rectMain = { 20, 20, 200, 100 };
     SDL_Color colrMainColor = { 0, 0, 0, 0 };
     SDL_Color colrBackColor = { 0, 0, 0x50, 0 };
@@ -65,7 +65,6 @@ int8_t CMenutownin::Run( bool sneak )
                                                 variables,
                                                 &colrMainColor, NULL );
 
-        done = false;
         while ( done == false && result >= SIG_NONE )
         {
             result = mManagerwindow.ActivateWindow( index );

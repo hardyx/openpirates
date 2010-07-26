@@ -89,7 +89,7 @@ int16_t CTimer::get_ticks()
     {
         if ( mPause == true )
         {
-            return mPauseTicks;                     // Return the number of ticks when the the timer was paused
+            return mPauseTicks;                     // Return the number of ticks when the timer was paused
         }
         else
         {

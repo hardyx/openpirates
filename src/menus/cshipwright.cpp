@@ -20,8 +20,8 @@
 
 CShipwright::CShipwright( CResources& resources, CManagerWindow& winmanager ) :
     mResources      (resources),
-    mStrings        (mResources.Data().Strings()),
     mManagerwindow  (winmanager),
+    mStrings        (mResources.Data().Strings()),
     mShips          (0),
     mIndices        (0),
     mPrices         (0)

@@ -89,7 +89,7 @@ void CSpriteDynamic::OffsetYVelAccurate( int16_t yvel_scaled )
 
     velocity_offset = abs(yvel_scaled);
 
-    if ( 0 < yvel_scaled )      //Positive
+    if ( 0 < yvel_scaled )      // Positive
     {
         if ( velocity_offset >= 65535 - mYvelscaled )
         {
@@ -101,7 +101,7 @@ void CSpriteDynamic::OffsetYVelAccurate( int16_t yvel_scaled )
             mYvelscaled += velocity_offset;
         }
     }
-    else if ( 0 > yvel_scaled ) //Negative
+    else if ( 0 > yvel_scaled ) // Negative
     {
         if ( velocity_offset >= mYvelscaled )
         {
@@ -150,9 +150,6 @@ void CSpriteDynamic::MoveSprite( vec_spritestatic_t* tiles, uint16_t level_h, ui
 
 void CSpriteDynamic::DetectCollisions( uint8_t axis, vec_spritestatic_t* tiles, uint16_t dimension )
 {
-    int16_t new_xpos = 0;
-    int16_t new_ypos = 0;
-
     if ( axis == YAXIS )
     {
         //Keep the figure in bounds
@@ -166,7 +163,7 @@ void CSpriteDynamic::DetectCollisions( uint8_t axis, vec_spritestatic_t* tiles, 
         }
         else
         {
-            new_ypos = CheckTileCollisions( YAXIS, tiles );   // Tiles
+            int16_t new_ypos = CheckTileCollisions( YAXIS, tiles );   // Tiles
             if ( new_ypos != 0 )
             {
                 mYpos = new_ypos;
@@ -186,7 +183,7 @@ void CSpriteDynamic::DetectCollisions( uint8_t axis, vec_spritestatic_t* tiles, 
         }
         else
         {
-            new_xpos = CheckTileCollisions( XAXIS, tiles );   // Tiles
+            int16_t new_xpos = CheckTileCollisions( XAXIS, tiles );   // Tiles
             if ( new_xpos != 0 )
             {
                 mXpos = new_xpos;

@@ -16,6 +16,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  @section LOCATION
  */
 
 #ifndef GLOBAL_H
@@ -39,27 +41,32 @@
 
 #include "constants.h"
 
-/**
- * @section DESCRIPTION
- * This file contains types, functions, variables that should be available to all classes.
+/** @file global.h
+ * @brief This file contains types, functions, variables that should be available to all classes.
  */
 
 // Global Types
+/** @brief A collection vector of bool
+ */
 typedef std::vector<bool>               vec_bool_t;
+/** @brief A collection vector of uint8
+ */
 typedef std::vector<uint8_t>            vec_uint8_t;
+/** @brief A collection vector of uint16
+ */
 typedef std::vector<uint16_t>           vec_uint16_t;
+/** @brief A collection vector of string
+ */
 typedef std::vector<std::string*>       vec_string_t;
 
 // Global Functions
-/**
- * Prints a normal message in char format to be putput to stdout.
+/** @brief Prints a normal message in char format to be putput to stdout.
  * @param output : the formatted char.
- * @param ... the variables for the formatting.
+ * @param ... : the variables for the formatting.
  */
 void Log( const char* output, ... );
 
-/**
- * Prints a error message in char format to be putput to stderr.
+/** @brief Prints a error message in char format to be putput to stderr.
  * @param quit : kill the program after sending the message.
  * @param file : the source file from which the message originated.
  * @param line : the line number in the source file.
@@ -68,8 +75,7 @@ void Log( const char* output, ... );
  */
 void Error( bool quit, const char* file, int line, const char* output, ... );
 
-/**
- * Checks for a null pointer.
+/** @brief Checks for a null pointer.
  * @param file : the source file from which the pointer originated.
  * @param line : the line number in the source file.
  * @param ptr : the pointer.
@@ -77,38 +83,32 @@ void Error( bool quit, const char* file, int line, const char* output, ... );
  */
 int8_t VerifyPointer( const char* file, int line, void* ptr );
 
-/**
- * Genereates a random 16 bit number.
+/** @brief Genereates a random 16 bit number.
  * @param min : the smallest the random number can be.
  * @param max : the largest the random number can be.
- * @param ptr : the pointer.
  * @return the random number
  */
 int16_t getRandomValue( int16_t min, int16_t max );
 
-/**
- * Determines if an action can occur. Like rolling the dice.
+/** @brief Determines if an action can occur. Like rolling the dice.
  * @param prob : the precentage that the action can occur.
  * @return true if the action should occur.
  */
 bool getProbability( uint16_t prob );
 
-/**
- * Converts an ascii string to an integer form.
+/** @brief Converts an ascii string to an integer form.
  * @param line : the string to convert.
  * @return the numerical form of the string.
  */
 int32_t a_to_i( const std::string& line );
 
-/**
- * Converts an integer string to an ascii form.
+/** @brief Converts an integer string to an ascii form.
  * @param num : integer to convert.
  * @return the string form of the number.
  */
 std::string i_to_a( int32_t num );
 
-/**
- * Returns a number of spaces in a string.
+/** @brief Returns a number of spaces in a string.
  * @param count : the number of spaces to generate.
  * @return the string with spaces.
  */

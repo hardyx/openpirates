@@ -197,7 +197,6 @@ int8_t CResources::LoadResources( const std::string& base_path )
     std::string file_path;
     int8_t lasttype = TYPE_NUL;
     bool verbose;
-    const char * temp;
 
     // Get resource information from file
     file_path = base_path + FILE_RESOURCES;
@@ -210,13 +209,11 @@ int8_t CResources::LoadResources( const std::string& base_path )
             while ( !fin.eof() )
             {
                 getline( fin, line );
-                if ( line.find("//") != 0 )    // Check if line is a comment line
+                if ( line.find("//") == std::string::npos )    // Check if line is a comment line
                 {
                     Options().EraseCharFromString( line, ' ' );
                     Options().EraseCharFromString( line, '\"' );
                     Options().EraseCharFromString( line, '\r' ); // Linux will leave a carriage return
-
-                    temp = line.c_str();
 
                     verbose = true;
                     if (      line.find( CFG_STRING ) == 0 )
@@ -857,13 +854,13 @@ CMap* CResources::LoadMap( const std::string& line, const std::string& base_path
         path    = Options().ReadSubString(  line, delimiters.at(4)+1, delimiters.at(5)-delimiters.at(4)-1 );
         pmap    = new CMap( gridx, gridy, gridw, gridh, base_path + path );
 
-        if ( pmap->GridX() + pmap->GridW() > Options().Map().Width() )
+        if ( pmap->GridX() + pmap->GridW() > Options().Game().MapWidth() )
         {
-            Options().Map().Width( pmap->GridX() + pmap->GridW() );
+            Options().Game().MapWidth( pmap->GridX() + pmap->GridW() );
         }
-        if ( pmap->GridY() + pmap->GridH() > Options().Map().Height() )
+        if ( pmap->GridY() + pmap->GridH() > Options().Game().MapHeight() )
         {
-            Options().Map().Height( pmap->GridY() + pmap->GridH() );
+            Options().Game().MapHeight( pmap->GridY() + pmap->GridH() );
         }
     }
     else

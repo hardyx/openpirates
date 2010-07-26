@@ -16,6 +16,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  @section LOCATION
  */
 
 #ifndef CDATE_H
@@ -23,11 +25,8 @@
 
 #include "global.h"
 
-/**
- * @section DESCRIPTION
- * Simple class that holds a date.
+/** @brief A class that contains a date.
  */
-
 class CDate
 {
     public:
@@ -37,18 +36,18 @@ class CDate
         virtual ~CDate();
 
         // Getters
-        uint8_t     Day( void )     { return mDay; }
-        uint8_t     Month( void )   { return mMonth; }
-        uint16_t    Year( void )    { return mYear; }
+        uint8_t     Day( void )     const { return mDay; }      /** Get the day of this date. */
+        uint8_t     Month( void )   const { return mMonth; }    /** Get the month of this date. */
+        uint16_t    Year( void )    const { return mYear; }     /** Get the year of this date. */
         // Setters
-        void        Day( uint8_t v )    { mDay = v; }
-        void        Month( uint8_t v )  { mMonth = v; }
-        void        Year( uint16_t v )  { mYear = v; }
+        void        Day( uint8_t v )    { mDay = v; }           /** Set the day of this date. */
+        void        Month( uint8_t v )  { mMonth = v; }         /** Set the month of this date. */
+        void        Year( uint16_t v )  { mYear = v; }          /** Set the year of this date. */
 
     private:
-        uint8_t     mDay;
-        uint8_t     mMonth;
-        uint16_t    mYear;
+        uint8_t     mDay;                                       /** The day of this date. */
+        uint8_t     mMonth;                                     /** The month of this date. */
+        uint16_t    mYear;                                      /** The year of this date. */
 };
 
 #endif // CDATE_H

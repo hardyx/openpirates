@@ -16,6 +16,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  @section LOCATION
  */
 
 #ifndef CMANAGER_H
@@ -23,11 +25,8 @@
 
 #include "global.h"
 
-/**
- * @section DESCRIPTION
- * A wrapper for managing the vector of objects T
+/** @brief A wrapper for managing the vector of objects T
  */
-
 template <class T>
 class CManager
 {
@@ -39,7 +38,9 @@ class CManager
         {
         }
 
-        /** Constructor with name. */
+        /** @brief Constructor with name.
+         * @param name : name of the collection
+         */
         CManager( const std::string& name ) :
             mName(name),
             mObjects()
@@ -62,6 +63,10 @@ class CManager
             Log( " ...Done.\n" );
         }
 
+        /** @brief Add an object to the collection
+         * @param object : pointer to the object
+         * @param verbose : if true enable log output
+         */
         void Add( T* object, bool verbose = true )
         {
             // Assign a tag
@@ -78,6 +83,10 @@ class CManager
             }
         }
 
+        /** @brief Find an object by tag in the collection
+         * @param tag : the unique numeric tag assigned
+         * @return : pointer to the object
+         */
 		T* Find( uint16_t tag )
 		{
             for ( uint16_t i=0; i<mObjects.size(); i++ )
@@ -90,29 +99,42 @@ class CManager
             return NULL;
 		}
 
+        /** @brief Retreieve an object by index in the collection
+         * @param index : vector index
+         * @return : pointer to the object
+         */
 		T* At( uint16_t index )
 		{
 		    return mObjects.at(index);
 		}
 
+        /** @brief Get the size of the collection vector
+         * @return : integer size
+         */
 		uint16_t Size( void )
 		{
             return mObjects.size();
 		}
 
+        /** @brief Retreieve the last added object in the collection
+         * @return : pointer to the object
+         */
 		T* Back( void )
 		{
 		    return mObjects.back();
 		}
 
+        /** @brief Clear out the collection
+         * @note the manager is not responible for freeing the objects.
+         */
 		void Clear( void )
 		{
             mObjects.clear();
 		}
 
     private:
-        std::string     mName;
-        std::vector<T*> mObjects;
+        std::string     mName;       /** The name of the collection. */
+        std::vector<T*> mObjects;    /** The collection vector of the objects. */
 };
 
 #endif // CMANAGER_H

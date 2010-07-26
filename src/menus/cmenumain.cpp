@@ -20,11 +20,11 @@
 
 CMenumain::CMenumain( CResources& resources, CManagerWindow& winmanager ) :
     mResources      (resources),
-    mScreen         (mResources.Screen()),
-    mPlayer         (mResources.Data().Player()),
+    mManagerwindow  (winmanager),
     mStrings        (mResources.Data().Strings()),
     mGraphics       (mResources.Data().Graphics()),
-    mManagerwindow  (winmanager)
+    mScreen         (mResources.Screen()),
+    mPlayer         (mResources.Data().Player())
 {
 }
 

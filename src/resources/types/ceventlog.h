@@ -16,6 +16,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  @section LOCATION
  */
 
 #ifndef CEVENTLOG_H
@@ -23,26 +25,31 @@
 
 #include "global.h"
 
-#define MAX_LOG_ENTRIES 30
-
-/**
- * @section DESCRIPTION
- * Contains and provides a list of ingame events.
+/** @brief Contains and provides a circluar list of ingame events.
  */
-
 class CEventLog
 {
     public:
+        #define MAX_LOG_ENTRIES 30        /** Limit of number of entries. */
+
         /** Constructor. */
         CEventLog();
         /** Destructor. */
         virtual ~CEventLog();
 
+        /**
+         *  @brief Clears the queue of entries.
+         */
         void Clear( void );
+
+        /**
+         *  @brief Adds an entry to the queue.
+         *  @param newentry : string entry to add
+         */
         void AddEntry( const std::string& newentry );
 
     private:
-        std::queue<std::string> mEntries;
+        std::queue<std::string> mEntries;   /** The queue of entries. */
 };
 
 #endif // CEVENTLOG_H

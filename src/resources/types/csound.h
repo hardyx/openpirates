@@ -16,6 +16,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  @section LOCATION
  */
 
 #ifndef CSOUND_H
@@ -23,11 +25,8 @@
 
 #include "global.h"
 
-/**
- * @section DESCRIPTION
- * Container for sound data
+/** @brief Container for sound data
  */
-
 class CSound
 {
 	public:
@@ -37,8 +36,8 @@ class CSound
 		virtual ~CSound();
 
         // Getters
-        uint16_t        Tag( void )         { return mTag; }
-        std::string&    Path( void )        { return mPath; }
+        uint16_t        Tag( void )         const { return mTag; }
+        std::string&    Path( void )              { return mPath; }
         // Setters
         void            Tag( uint16_t v )   { mTag = v; }
 

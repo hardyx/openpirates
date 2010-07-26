@@ -18,7 +18,7 @@
 
 #include "cmenuoptions.h"
 
-#include "resources/keystrings.h"
+#include "resources/controls/keystrings.h"
 
 #define STR_OPT_MAIN    "Select...\\n\\t01Video Options\\s\\t01Sound Options\\s\\t01Keyboard Control Options\\s\\t01Joystick Control Options\\s\\t01Back\\s"
 #define STR_OPT_VIDEO   "Video Options\\n\\t01Resolution:\\u\\c10%1x%2\\u\\c20Change Resolution\\s\\t01Depth:\\u\\c10%3\\u\\c20- \\z +\\s\\t01Fullscreen:\\u\\c10%4\\s\\t01Doublebuffer:\\u\\c10%5\\s \\nApply\\z\\t10Back\\s"
@@ -35,11 +35,11 @@
 
 CMenuOptions::CMenuOptions( CResources& resources, CManagerWindow& winmanager ) :
     mResources      (resources),
-    mScreen         (mResources.Screen()),
-    mPlayer         (mResources.Data().Player()),
+    mManagerwindow  (winmanager),
     mStrings        (mResources.Data().Strings()),
     mGraphics       (mResources.Data().Graphics()),
-    mManagerwindow  (winmanager)
+    mScreen         (mResources.Screen()),
+    mPlayer         (mResources.Data().Player())
 {
 }
 
@@ -55,7 +55,7 @@ int8_t CMenuOptions::Run( void )
     SDL_Color colrMainColor = { 0, 0, 0, 0 };
     SDL_Color colrBackColor = { 0, 0, 0x40, 0 };
     std::string strFormat = STR_OPT_MAIN;
-    bool done;
+    bool done = false;
 
     result = mManagerwindow.LoadResources( mResources.Font(),
                                            mGraphics.Find(GFX_BORDER),
@@ -67,7 +67,6 @@ int8_t CMenuOptions::Run( void )
                                                 strFormat,
                                                 &colrMainColor, NULL );
 
-        done = false;
         while ( done == false && result >= SIG_NONE )
         {
             mManagerwindow.DrawBackgroundColor( colrBackColor );

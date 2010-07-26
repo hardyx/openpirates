@@ -16,6 +16,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  @section LOCATION
  */
 
 #ifndef CTOWNTIMEPERIOD_H
@@ -23,11 +25,8 @@
 
 #include "global.h"
 
-/**
- * @section DESCRIPTION
- * Defines a economy/nation for a town during the assigned timeperiod.
+/** @brief Defines a economy/nation for a town during the assigned timeperiod.
  */
-
 class CTownTimePeriod
 {
     public:
@@ -37,10 +36,10 @@ class CTownTimePeriod
         virtual ~CTownTimePeriod();
 
         // Getters
-        bool    Exists( void )              { return mExists; }
-        uint8_t TimePeriodTag( void )       { return mTimePeriodTag; }
-        uint8_t NationTag( void )           { return mNationTag; }
-        uint8_t EconomyLevel( void )        { return mEconomyLevel; }
+        bool    Exists( void )              const { return mExists; }
+        uint8_t TimePeriodTag( void )       const { return mTimePeriodTag; }
+        uint8_t NationTag( void )           const { return mNationTag; }
+        uint8_t EconomyLevel( void )        const { return mEconomyLevel; }
         // Setters
         void    Exists( bool v )            { mExists = v; }
         void    TimePeriodTag( uint8_t v )  { mTimePeriodTag = v; }

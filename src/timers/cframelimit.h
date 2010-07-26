@@ -16,6 +16,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  @section LOCATION
  */
 
 #ifndef FRAMECTRL_H
@@ -24,11 +26,8 @@
 #include "global.h"
 #include "timers/ctimer.h"
 
-/**
- * @section DESCRIPTION
- * Frame limiter class. A class to handle counting of the frames drawm and when following frames should be skipped.
+/** @brief A class to handle counting and limiting of the frames drawn and when following frames should be skipped.
  */
-
 class CFramelimit
 {
 	public:
@@ -38,27 +37,14 @@ class CFramelimit
 		virtual ~CFramelimit();
 
         // Getters
-        /**
-         * Get if the next frame should be skiped.
-         * @return True then skip the frame, False draw the frame.
-         */
-        bool    FrameSkip( void )       { return mFrameSkip; }
-
-        /**
-         * Get the number of frames drawn at the current point in time.
-         * @return number of frames drawn.
-         */
-        uint8_t FramesDrawn( void )     { return mFps; }
-
-        /**
-         * Get the number of frames skipped at the current point in time.
-         * @return number of frames skipped.
-         */
-        uint8_t FramesSkipped( void )   { return mFskip; }
+        bool        FrameSkip( void )       const { return mFrameSkip; }    /** Get if the next frame should be skipped. */
+        uint8_t     FramesDrawn( void )     const { return mFps; }          /**< Get the number of frames drawn at the current point in time. */
+        uint8_t     FramesSkipped( void )   const { return mFskip; }        /**< Get the number of frames skipped at the current point in time. */
+        uint16_t    LoopTime( void )        const { return mLoopTime; }     /**< Get the last loop time. */
+        uint16_t    LoopTimeAvg( void )     const { return mLoopTimeAvg; }  /**< Get the last loop time average. */
 
         // Functions
-        /**
-         * Controls if the class should limit the framerate and also calculate the FPS.
+        /** @brief Controls if the class should limit the framerate and also calculate the FPS.
          * @param limit : set to true to limit the frame rate
          * @param calc : set to true to calculate the frame rate
          */
@@ -76,6 +62,8 @@ class CFramelimit
         uint8_t     mFrameskipped;  /**< Running count of frames skipped.*/
         uint8_t     mFrameinterval; /**< Represents the frame of the current sync group. */
         uint16_t    mTicksLeft;     /**< Contains the number of ticks the program exceded. */
+        uint16_t    mLoopTime;      /**< Time taken on this loop. */
+        uint16_t    mLoopTimeAvg;   /**< Average loop time. */
 };
 
 #endif // FRAMECTRL_H

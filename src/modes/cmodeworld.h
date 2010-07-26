@@ -16,6 +16,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  @section LOCATION
  */
 
 #ifndef CMODEWORLD_H
@@ -33,15 +35,14 @@
 #include "sim/cwind.h"
 #include "sprites/cdraw.h"
 
-/**
- * @section DESCRIPTION
- * Provides base interfaces for handling the presentation of the world view.
+/** @brief Provides base interfaces for handling the presentation of the world view.
  */
-
 class CModeWorld
 {
     public:
-        /** Constructor. */
+        /** @brief Constructor.
+         * @param resources : reference to the resources object
+         */
         CModeWorld( CResources& resources );
         /** Destructor. */
         virtual ~CModeWorld();
@@ -90,6 +91,8 @@ class CModeWorld
         vec_spritestatic_t     mSpritesSta;
 
         // Frame Count
+        int16_t mLoopTime;
+        int16_t mLoopTimeAvg;
         int8_t  mFps;
         int8_t  mFskip;
         bool    mFpscap;
@@ -111,7 +114,7 @@ class CModeWorld
         void DrawClouds( void );
         void DrawWindCompass( void );
 #ifdef DEBUG
-        void DrawDebugMessage( int16_t y, const std::string& text );
+        void DrawDebugMessage( int16_t x, int16_t y, const std::string& text );
 #endif
 };
 

@@ -16,6 +16,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  @section LOCATION
  */
 
 #ifndef CROLE_H
@@ -31,11 +33,8 @@
 #include "resources/types/ctmap.h"
 #include "resources/types/ceventlog.h"
 
-/**
- * @section DESCRIPTION
- * Defines attributes for a role during a timeperiod.
+/** @brief Defines attributes for a role during a timeperiod.
  */
-
 class CRole
 {
     public:
@@ -45,32 +44,32 @@ class CRole
         virtual ~CRole();
 
         // Getters
-		uint16_t        Tag( void )             { return mTag; }
-        uint8_t         Timeperiod( void )      { return mTimeperiod; }
-        uint8_t         Nationality( void )     { return mNationality; }
-        uint8_t         OverallRep( void )      { return mOverallRep; }
-        uint8_t         FlagShip( void )        { return mFlagShip; }
-        uint8_t         Skill( void )           { return mSkill; }
-        uint8_t         Difficulty( void )      { return mDifficulty; }
-        uint8_t         Health( void )          { return mHealth; }
-        uint8_t         Wounds( void )          { return mWounds; }
-        uint8_t         Age( void )             { return mAge; }
-        uint16_t        Crew( void )            { return mCrew; }
-        uint16_t        CareerLand( void )      { return mCareerLand; }
-        uint32_t        CareerGold( void )      { return mCareerGold; }
-        std::string&    Name( void )            { return mName; }
-        std::string&    Type( void )            { return mType; }
-        CMapLocation&   Location( void )        { return mLocation; }
-        CDate&          Date( void )            { return mDate; }
-        CCargo&         Cargo( void )           { return mCargo; }
-        CTMap&          NormalMap( void )       { return mMapNormal; }
-        CTMap&          FamilyMap( void )       { return mMapFamily; }
-        CTMap&          FortuneMap( void )      { return mMapFortune; }
-        CEventLog&      ShipLog( void )         { return mShipLog; }
-        vec_uint8_t&    NationTitles( void )    { return mNationTitles; }
-        vec_uint8_t&    NationReps( void )      { return mNationReps; }
-        CPlayerShip&    Ships( uint8_t v )      { return mShips[v]; }
-        vec_prisoner_t& Prisoners( void )       { return mPrisoners; }
+		uint16_t        Tag( void )             const { return mTag; }
+        uint8_t         Timeperiod( void )      const { return mTimeperiod; }
+        uint8_t         Nationality( void )     const { return mNationality; }
+        uint8_t         OverallRep( void )      const { return mOverallRep; }
+        uint8_t         FlagShip( void )        const { return mFlagShip; }
+        uint8_t         Skill( void )           const { return mSkill; }
+        uint8_t         Difficulty( void )      const { return mDifficulty; }
+        uint8_t         Health( void )          const { return mHealth; }
+        uint8_t         Wounds( void )          const { return mWounds; }
+        uint8_t         Age( void )             const { return mAge; }
+        uint16_t        Crew( void )            const { return mCrew; }
+        uint16_t        CareerLand( void )      const { return mCareerLand; }
+        uint32_t        CareerGold( void )      const { return mCareerGold; }
+        std::string&    Name( void )                  { return mName; }
+        std::string&    Type( void )                  { return mType; }
+        CMapLocation&   Location( void )              { return mLocation; }
+        CDate&          Date( void )                  { return mDate; }
+        CCargo&         Cargo( void )                 { return mCargo; }
+        CTMap&          NormalMap( void )             { return mMapNormal; }
+        CTMap&          FamilyMap( void )             { return mMapFamily; }
+        CTMap&          FortuneMap( void )            { return mMapFortune; }
+        CEventLog&      ShipLog( void )               { return mShipLog; }
+        vec_uint8_t&    NationTitles( void )          { return mNationTitles; }
+        vec_uint8_t&    NationReps( void )            { return mNationReps; }
+        CPlayerShip&    Ships( uint8_t v )            { return mShips[v]; }
+        vec_prisoner_t& Prisoners( void )             { return mPrisoners; }
 
         // Setters
         void            Tag( uint8_t v )                    { mTag = v; }
@@ -93,7 +92,7 @@ class CRole
         void            NormalMap( const CTMap& v )         { mMapNormal = v; }
         void            FamilyMap( const CTMap& v )         { mMapFamily = v; }
         void            FortuneMap( const CTMap& v )        { mMapFortune = v; }
-        // Inc
+         // Increment/Decrement
         void            Timeperiod_Inc( uint8_t v )         { mTimeperiod += v; }
         void            Nationality_Inc( uint8_t v )        { mNationality += v; }
         void            OverallRep_Inc( uint8_t v )         { mOverallRep += v; }

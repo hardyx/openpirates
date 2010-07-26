@@ -16,6 +16,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  @section LOCATION
  */
 
 #ifndef CNATION_H
@@ -24,32 +26,29 @@
 #include "global.h"
 #include "resources/types/cnationeconomy.h"
 
-enum nation_relations_t {
-    NATION_PEACE=0  ,
-    NATION_WAR      ,
-    NATION_ALLIED
-};
-
-/**
- * @section DESCRIPTION
- * Defines attributes for the a nation.
+/** @brief Defines attributes for the a nation.
  */
-
 class CNation
 {
     public:
+        enum nation_relations_t {
+            NATION_PEACE=0  ,
+            NATION_WAR      ,
+            NATION_ALLIED
+        };
+
         /** Constructor. */
         CNation();
         /** Destructor. */
         virtual ~CNation();
 
         // Getters
-        uint8_t         Tag( void )                 { return mTag; }
-        bool            Amnesty( void )             { return mAmnesty; }
-        std::string&    Name( void )                { return mName; }
-        std::string&    GraphicPath( void )         { return mGraphicPath; }
-        vec_natecon_t&  EconomySettings( void )     { return mEconomySettings; }
-        vec_uint8_t&    Relations( void )           { return mRelations; }
+        uint8_t         Tag( void )                 const { return mTag; }
+        bool            Amnesty( void )             const { return mAmnesty; }
+        std::string&    Name( void )                      { return mName; }
+        std::string&    GraphicPath( void )               { return mGraphicPath; }
+        vec_natecon_t&  EconomySettings( void )           { return mEconomySettings; }
+        vec_uint8_t&    Relations( void )                 { return mRelations; }
         // Setters
         void Tag( uint8_t v )                       { mTag = v; }
         void Amnesty( bool v )                      { mAmnesty = v; }

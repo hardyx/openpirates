@@ -16,6 +16,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  @section LOCATION
  */
 
 #ifndef CSHIP_H
@@ -24,11 +26,8 @@
 #include "global.h"
 #include "resources/types/cshipnation.h"
 
-/**
- * @section DESCRIPTION
- * Defines attributes for a ship.
+/** @brief Defines attributes for a ship.
  */
-
 class CShip
 {
     public:
@@ -38,17 +37,17 @@ class CShip
         virtual ~CShip();
 
         // Getters
-        uint8_t         Tag( void )         { return mTag; }
-        uint8_t         Cannon( void )      { return mCannon; }
-        uint8_t         Speed( void )       { return mSpeed; }
-        uint8_t         SailType( void )    { return mSailType; }
-        uint16_t        Crew( void )        { return mCrew; }
-        uint16_t        CargoSpace( void )  { return mCargoSpace; }
-        uint16_t        HP( void )          { return mHP; }
-        uint16_t        Value( void )       { return mValue; }
-        std::string&    Name( void )        { return mName; }
-        std::string&    GraphicPath( void ) { return mGraphicPath; }
-        vec_shipnat_t&  ShipNations( void ) { return mShipNations; }
+        uint8_t         Tag( void )         const { return mTag; }
+        uint8_t         Cannon( void )      const { return mCannon; }
+        uint8_t         Speed( void )       const { return mSpeed; }
+        uint8_t         SailType( void )    const { return mSailType; }
+        uint16_t        Crew( void )        const { return mCrew; }
+        uint16_t        CargoSpace( void )  const { return mCargoSpace; }
+        uint16_t        HP( void )          const { return mHP; }
+        uint16_t        Value( void )       const { return mValue; }
+        std::string&    Name( void )              { return mName; }
+        std::string&    GraphicPath( void )       { return mGraphicPath; }
+        vec_shipnat_t&  ShipNations( void )       { return mShipNations; }
         // Setters
         void Tag( uint8_t v )                       { mTag = v; }
         void Cannon( uint8_t v )                    { mCannon = v; }

@@ -20,8 +20,8 @@
 
 CTavern::CTavern( CResources& resources, CManagerWindow& winmanager, CDyntown* dyntown ) :
     mResources      (resources),
-    mStrings        (mResources.Data().Strings()),
     mManagerwindow  (winmanager),
+    mStrings        (mResources.Data().Strings()),
     mpDynTown       (dyntown)
 {
 }
@@ -33,36 +33,36 @@ CTavern::~CTavern()
 int8_t CTavern::Run( void )
 {
     int8_t result = SIG_NONE;
-    int8_t state  = 1;
-    bool done;
+    int8_t state;
+    bool done = false;
 
+    state = 1;
     if (result==SIG_NONE)
     {
-        done = false;
         while ( done == false && result == SIG_NONE )
         {
             switch ( state )
             {
-                case 1:
-                    result = Sailors();
-                    break;
-                case 2:
-                    result = Traveler();
-                    break;
-                case 3:
-                    result = TreasureMap();
-                    break;
-                case 4:
-                    result = BartenderNews();
-                    break;
-                case 5:
-                    done = true;
-                    result = SIG_NONE;
-                    break;
-                default:
-                    Error( true, __FILE__, __LINE__, "state out of range\n" );
-                    result = SIG_FAIL;
-                    break;
+            case 1:
+                result = Sailors();
+                break;
+            case 2:
+                result = Traveler();
+                break;
+            case 3:
+                result = TreasureMap();
+                break;
+            case 4:
+                result = BartenderNews();
+                break;
+            case 5:
+                done = true;
+                result = SIG_NONE;
+                break;
+            default:
+                Error( true, __FILE__, __LINE__, "state out of range\n" );
+                result = SIG_FAIL;
+                break;
             }
             state++;
         }

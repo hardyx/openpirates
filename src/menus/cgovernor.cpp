@@ -20,8 +20,8 @@
 
 CGovernor::CGovernor( CResources& resources, CManagerWindow& winmanager, CDyntown* dyntown ) :
     mResources      (resources),
-    mStrings        (resources.Data().Strings()),
     mManagerwindow  (winmanager),
+    mStrings        (resources.Data().Strings()),
     mpDynTown       (dyntown)
 {
 }
@@ -87,10 +87,10 @@ int8_t CGovernor::StateOfWar( void )
     {
         switch (mResources.Data().Nations().At(nation)->Relations().at(t))
         {
-            case NATION_WAR:
+            case CNation::NATION_WAR:
                 enemies += mResources.Data().Nations().At(t)->Name() + ' ';
                 break;
-            case NATION_ALLIED:
+            case CNation::NATION_ALLIED:
                 allies += mResources.Data().Nations().At(t)->Name()  + ' ';
                 break;
             default:
@@ -268,7 +268,7 @@ int8_t CGovernor::Daughter( void )
     return result;
 }
 
-uint16_t CGovernor::RewardLand( uint8_t reputation )
+uint16_t CGovernor::RewardLand( const uint8_t reputation )
 {
     //uint8_t rep_per_land;
 

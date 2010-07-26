@@ -16,6 +16,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  @section LOCATION
  */
 
 #ifndef CAILOGIC_H
@@ -24,38 +26,35 @@
 #include "global.h"
 #include "resources/types/cbattleshipstats.h"
 
-enum aitype_t {
-    AI_MERCHANT=0   ,
-    AI_HUNTER       ,
-    AI_PIRATE
-};
-
-enum aicontrols_t {
-    AI_NONE=0   ,
-    AI_UP       ,
-    AI_DOWN     ,
-    AI_RIGHT    ,
-    AI_LEFT     ,
-    AI_FIRE
-};
-
-/**
- * @section DESCRIPTION
- * Computer AI and logic for battle/fencing modes.
+/** @brief Computer AI and logic for battle/fencing modes.
  */
-
 class CAILogic
 {
     public:
+        enum aitype_t {
+            AI_MERCHANT=0   ,
+            AI_HUNTER       ,
+            AI_PIRATE
+        };
+
+        enum aicontrols_t {
+            AI_NONE=0   ,
+            AI_UP       ,
+            AI_DOWN     ,
+            AI_RIGHT    ,
+            AI_LEFT     ,
+            AI_FIRE
+        };
+
         /** Constructor. */
         CAILogic();
         /** Destructor. */
         virtual ~CAILogic();
 
         int8_t Ship( CBattleShipStats* shipp1, CBattleShipStats* shipai,  uint16_t windangle, uint8_t difficulty );
-        int8_t ShipRunAway( void );
-        int8_t ShipRam( void );
-        int8_t ShipAttack( void );
+        int8_t ShipRunAway( void ) const;
+        int8_t ShipRam( void ) const;
+        int8_t ShipAttack( void ) const;
 
     private:
         uint8_t mDifficulty;

@@ -16,6 +16,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  @section LOCATION
  */
 
 #ifndef CMODEFENCING_H
@@ -24,20 +26,17 @@
 #include "global.h"
 #include "sprites/cspritedynamic.h"
 
-enum fencing_list_t {
-    FENCING_WIN=0    ,
-    FENCING_ESCAPE   ,
-    FENCING_LOSE
-};
-
-/**
- * @section DESCRIPTION
- * The fencing mode loop
+/** @brief The fencing mode loop
  */
-
 class CModeFencing
 {
     public:
+        enum fencing_list_t {
+            FENCING_WIN=0    ,
+            FENCING_ESCAPE   ,
+            FENCING_LOSE
+        };
+
         /** Constructor. */
         CModeFencing();
         /** Destructor. */

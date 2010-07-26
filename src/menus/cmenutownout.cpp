@@ -20,11 +20,11 @@
 
 CMenutownout::CMenutownout( CResources& resources, CManagerWindow& winmanager ) :
     mResources      (resources),
-    mScreen         (mResources.Screen()),
+    mManagerwindow  (winmanager),
     mStrings        (mResources.Data().Strings()),
     mGraphics       (mResources.Data().Graphics()),
-    mManagerwindow  (winmanager),
-    mpDyntown       (NULL),
+    mScreen         (mResources.Screen()),
+    mpDynTown       (NULL),
     mpTown          (NULL),
     mpMenutownin    (NULL),
     mEntertype      (0)
@@ -52,9 +52,9 @@ int8_t CMenutownout::Run( int8_t entertype, int16_t town_index )
     if (result==SIG_NONE)
     {
         mEntertype      = entertype;
-        mpDyntown       = mResources.Data().TownsDyn().At(town_index);
-        mpTown          = mResources.Data().Towns().At( mpDyntown->DataTag() );
-        mpMenutownin    = new CMenutownin( mResources, mManagerwindow, mpDyntown, mpTown );
+        mpDynTown       = mResources.Data().TownsDyn().At(town_index);
+        mpTown          = mResources.Data().Towns().At( mpDynTown->DataTag() );
+        mpMenutownin    = new CMenutownin( mResources, mManagerwindow, mpDynTown, mpTown );
 
         mManagerwindow.DrawBackgroundColor( colrBackColor );
 
@@ -121,9 +121,9 @@ int8_t CMenutownout::EnterTown( void )
     allowedin = true;
 
     // Hostile town
-    if ( 0 < mResources.Data().Player().NationReps().at( mpDyntown->NationTag() ) )
+    if ( 0 < mResources.Data().Player().NationReps().at( mpDynTown->NationTag() ) )
     {
-        if ( 0 < mpDyntown->Forts() )
+        if ( 0 < mpDynTown->Forts() )
         {
             if ( mEntertype == ENTER_BY_SEA )
             {

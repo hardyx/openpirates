@@ -16,6 +16,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  @section LOCATION
  */
 
 #ifndef CMENUTOWNOUT_H
@@ -25,37 +27,52 @@
 #include "managers/cmanagerwindow.h"
 #include "menus/cmenutownin.h"
 
-/**
- * @section DESCRIPTION
- * The menu for the outside of town window dialogs
+/** @brief The menu for the outside of town window dialogs
  */
-
 class CMenutownout
 {
     public:
-        /** Constructor. */
+        /** @brief Constructor.
+         * @param resources : reference to the resources object
+         * @param winmanager : reference to the window manager object
+         */
         CMenutownout( CResources& resources, CManagerWindow& winmanager );
         /** Destructor. */
         virtual ~CMenutownout();
 
+        /** @brief Main loop for the menu and logic.
+         * @return value of type result_signal_t.
+         */
         int8_t Run( int8_t entertype, int16_t town_index );
 
     private:
-        CMenutownout(const CMenutownout&);
-        CMenutownout& operator=(const CMenutownout&);
+        CResources&         mResources;         /** Reference to the resources object. */
+        CManagerWindow&     mManagerwindow;     /** Reference to the window manager. */
+        CManager<CString>&  mStrings;           /** Reference to the strings manager. */
+        CManager<CGraphic>& mGraphics;          /** Reference to the graphics manager. */
+        CGraphic&           mScreen;            /** Reference to the screen object. */
+        CDyntown*           mpDynTown;          /** Reference to the current town's dynamic data. */
+        CTown*              mpTown;             /** Reference to the current town's static data. */
+        CMenutownin*        mpMenutownin;       /** Reference to the in-town menu. */
+        int8_t              mEntertype;         /** How the player intends to enter the town. */
+
+        /** @brief Handles window interaction for entering a town.
+         * @return value of type result_signal_t.
+         */
         int8_t EnterTown( void );
+
+        /** @brief Handles window interaction for attacking a town.
+         * @return value of type result_signal_t.
+         */
         int8_t AttackTown( void );
+
+        /** @brief Handles window interaction for sneaking into a town.
+         * @return value of type result_signal_t.
+         */
         int8_t SneakTown( void );
 
-        CResources&         mResources;
-        CGraphic&           mScreen;
-        CManager<CString>&  mStrings;
-        CManager<CGraphic>& mGraphics;
-        CManagerWindow&     mManagerwindow;
-        CDyntown*           mpDyntown;
-        CTown*              mpTown;
-        CMenutownin*        mpMenutownin;
-        int8_t              mEntertype;
+        CMenutownout(const CMenutownout&);
+        CMenutownout& operator=(const CMenutownout&);
 };
 
 #endif // CMENUTOWNOUT_H

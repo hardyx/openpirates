@@ -16,6 +16,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  @section LOCATION
  */
 
 #ifndef CGOVERNOR_H
@@ -25,35 +27,63 @@
 #include "managers/cmanagerwindow.h"
 #include "resources/types/cdyntown.h"
 
-/**
- * @section DESCRIPTION
- * The menu for the governor window dialogs
+/** @brief The menu for the governor window dialogs
  */
-
 class CGovernor
 {
     public:
-        /** Constructor. */
+        /** @brief Constructor.
+         * @param resources : reference to the resources object
+         * @param winmanager : reference to the window manager object
+         * @param dyntown : reference to the current dynamic town
+         */
         CGovernor( CResources& resources, CManagerWindow& winmanager, CDyntown* dyntown );
         /** Destructor. */
         virtual ~CGovernor();
 
+        /** @brief Main loop for the menu and logic.
+         * @return value of type result_signal_t.
+         */
         int8_t Run( void );
 
     private:
-        CResources&         mResources;
-        CManager<CString>&  mStrings;
-        CManagerWindow&    mManagerwindow;
-        CDyntown*           mpDynTown;
+        CResources&         mResources;         /** Reference to the resources object. */
+        CManagerWindow&     mManagerwindow;     /** Reference to the window manager. */
+        CManager<CString>&  mStrings;           /** Reference to the strings manager. */
+        CDyntown*           mpDynTown;          /** Reference to the current town's dynamic data. */
+
+        /** @brief Check references are valid.
+         * @return value of type result_signal_t.
+         */
+        int8_t VerifyPointers( void );
+
+        /** @brief Handles window interaction for displaying current nation relations.
+         * @return value of type result_signal_t.
+         */
+        int8_t StateOfWar( void );
+
+        /** @brief Handles window interaction for player prisoners.
+         * @return value of type result_signal_t.
+         */
+        int8_t Prisoner( void );
+
+        /** @brief Handles window interaction for player promotions.
+         * @return value of type result_signal_t.
+         */
+        int8_t Title( void );
+
+        /** @brief Handles window interaction for player/ gov-daughter.
+         * @return value of type result_signal_t.
+         */
+        int8_t Daughter( void );
+
+        /** @brief Handles window interaction for player land rewards.
+         * @return value of type result_signal_t.
+         */
+        uint16_t RewardLand( uint8_t reputation );
 
         CGovernor(const CGovernor &);
         CGovernor& operator=(const CGovernor&);
-        int8_t VerifyPointers( void );
-        int8_t StateOfWar( void );
-        int8_t Prisoner( void );
-        int8_t Title( void );
-        int8_t Daughter( void );
-        uint16_t RewardLand( uint8_t reputation );
 };
 
 #endif // CGOVERNOR_H

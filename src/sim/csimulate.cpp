@@ -183,17 +183,17 @@ void CSimulate::NationEvents( const std::string& date )
         // War
         if (getProbability(EVENT_PROB_WAR))
         {
-            mResources.Data().Nations().At(nation1)->Relations().at(nation2) = NATION_WAR;
+            mResources.Data().Nations().At(nation1)->Relations().at(nation2) = CNation::NATION_WAR;
             StoreEvent( date,
                         mStrings.Find( STR_EVENT_WAR )->Text(),
                         variables );
         }
         // Peace
-        if (mResources.Data().Nations().At(nation1)->Relations().at(nation2) == NATION_WAR)
+        if (mResources.Data().Nations().At(nation1)->Relations().at(nation2) == CNation::NATION_WAR)
         {
             if (getProbability(EVENT_PROB_PEACE))
             {
-                mResources.Data().Nations().At(nation1)->Relations().at(nation2) = NATION_PEACE;
+                mResources.Data().Nations().At(nation1)->Relations().at(nation2) = CNation::NATION_PEACE;
                 StoreEvent( date,
                             mStrings.Find( STR_EVENT_PEACE )->Text(),
                             variables );
@@ -225,11 +225,11 @@ void CSimulate::NationEvents( const std::string& date )
             }
         }
         // Alliance
-        if ( mResources.Data().Nations().At(nation1)->Relations().at(nation2) == NATION_PEACE)
+        if ( mResources.Data().Nations().At(nation1)->Relations().at(nation2) == CNation::NATION_PEACE)
         {
             if (getProbability(EVENT_PROB_ALLIANCE))
             {
-                mResources.Data().Nations().At(nation1)->Relations().at(nation2) = NATION_ALLIED;
+                mResources.Data().Nations().At(nation1)->Relations().at(nation2) = CNation::NATION_ALLIED;
                 StoreEvent( date,
                             mStrings.Find( STR_EVENT_ALLIANCE )->Text(),
                             variables );
@@ -237,7 +237,7 @@ void CSimulate::NationEvents( const std::string& date )
         }
 
         // Capture City
-        if ( mResources.Data().Nations().At(nation1)->Relations().at(nation2) == NATION_WAR)
+        if ( mResources.Data().Nations().At(nation1)->Relations().at(nation2) == CNation::NATION_WAR)
         {
             if (getProbability(EVENT_PROB_CAPCITY))
             {
@@ -247,7 +247,7 @@ void CSimulate::NationEvents( const std::string& date )
     }
 }
 
-bool CSimulate::CalcCrewMorale( void )
+bool CSimulate::CalcCrewMorale( void ) const
 {
     bool result = false;
 

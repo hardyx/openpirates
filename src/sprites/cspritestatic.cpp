@@ -37,12 +37,12 @@ CSpriteStatic::~CSpriteStatic()
 {
 }
 
-void CSpriteStatic::Open( int16_t x, int16_t y, uint8_t anitype, uint8_t speedmax, uint8_t divisor )
+void CSpriteStatic::Open( int16_t x, int16_t y, uint8_t anitype, uint8_t frame_speed_max, uint8_t divisor )
 {
     mXpos           = x;
     mYpos           = y;
     mAnimationType  = anitype;
-    mFrame.speedmax = speedmax;
+    mFrame.speedmax = frame_speed_max;
     mDivisor        = divisor;
 }
 
@@ -132,13 +132,13 @@ bool CSpriteStatic::CheckRectCollision( const SDL_Rect& box )
     int16_t topA, topB;
     int16_t bottomA, bottomB;
 
-    // Calculate the sides of rec mCollisionbox
+    // Calculate the sides of rect mCollisionbox
     leftA   = mCollisionbox.x;
     rightA  = mCollisionbox.x + mCollisionbox.w;
     topA    = mCollisionbox.y;
     bottomA = mCollisionbox.y + mCollisionbox.h;
 
-    // Calculate the sides of rec box
+    // Calculate the sides of rect box
     leftB   = box.x;
     rightB  = box.x + box.w;
     topB    = box.y;

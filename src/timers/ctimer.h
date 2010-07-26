@@ -1,4 +1,4 @@
-/***
+/**
  *  @section LICENSE
  *
  *  openPirates
@@ -16,6 +16,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  @section LOCATION
  */
 
 #ifndef CTIMER_H
@@ -23,11 +25,8 @@
 
 #include "global.h"
 
-/**
- * @section DESCRIPTION
- * SDL based timer class. A class to handle timer measurement through the SDL timer API
+/** @brief A class to handle timer measurement through the SDL timer API
  */
-
 class CTimer
 {
 	public:
@@ -36,46 +35,38 @@ class CTimer
         /** Destructor. */
 		virtual ~CTimer();
 
-        /**
-         * Starts the timer at the current SDL tick count.
+        /** @brief Starts the timer at the current SDL tick count.
          */
 	    void start( void );
 
-        /**
-         * Stops the timer.
+        /** @brief Stops the timer.
          */
 	    void stop( void );
 
-        /**
-         * Delays the program until the number of ticks has elapsed. Note: if SDL_DELAY is not defined then the delay is done be
+        /** @brief Delays the program until the number of ticks has elapsed. Note: if SDL_DELAY is not defined then the delay is done be
          * @param ticks : the number of ticks (milliseconds) to delay
          */
 	    void delay( int16_t ticks );
 
-        /**
-         * Pause the timer. Stores the number of ticks since the timer was last started/unpaused.
+        /** @brief Pause the timer. Stores the number of ticks since the timer was last started/unpaused.
          */
 	    void pause( void );
 
-        /**
-         * Unpause the timer. Restarts the start ticks to the current ticks.
+        /** @brief Unpause the timer. Restarts the start ticks to the current ticks.
          */
 	    void unpause( void );
 
-        /**
-         * Will return the amount of ticks since the timer was started. If the timer is paused the tick count at the time of being paused is returned.
+        /** @brief Will return the amount of ticks since the timer was started. If the timer is paused the tick count at the time of being paused is returned.
          * @return the number of SDL ticks.
          */
 	    int16_t get_ticks( void );
 
-        /**
-         * Determine if the timer has already been started.
+        /** @brief Determine if the timer has already been started.
          * @return boolean True : timer is started. False : the timer is not started.
          */
 	    bool is_started( void );
 
-        /**
-         * Determine if the timer has already been paused.
+        /** @brief Determine if the timer has already been paused.
          * @return boolean True : timer is paused. False : the timer is not paused.
          */
 	    bool is_paused( void );

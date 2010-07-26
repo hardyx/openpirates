@@ -16,6 +16,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  @section LOCATION
  */
 
 #ifndef CGOOD_H
@@ -23,11 +25,8 @@
 
 #include "global.h"
 
-/**
- * @section DESCRIPTION
- * Defines attributes for the a good.
+/** @brief Defines attributes for the a good.
  */
-
 class CGood
 {
     public:
@@ -37,24 +36,24 @@ class CGood
         virtual ~CGood();
 
         // Getters
-        uint32_t        Count( void )   { return mCount; }
-        uint8_t         Price( void )   { return mPrice; }
-        std::string&    Name( void )    { return mName; }
-        std::string&    Unit( void )    { return mUnit; }
+        uint32_t        Count( void ) const { return mCount; }  /** Get the count. */
+        uint8_t         Price( void ) const { return mPrice; }  /** Get the price. */
+        std::string&    Name( void )        { return mName; }   /** Get refernce to the name string. */
+        std::string&    Unit( void )        { return mUnit; }   /** Get refernce to the unit string. */
         // Setters
-        void Count( uint32_t v )            { mCount = v; }
-        void Price( uint8_t v )             { mPrice = v; }
-        void Name( const std::string& v )   { mName = v; }
-        void Unit( const std::string& v )   { mUnit = v; }
-        // Inc
-        void Count_Inc( uint32_t v )        { mCount += v; }
-        void Price_Inc( uint8_t v )         { mPrice += v; }
+        void Count( uint32_t v )            { mCount = v; }     /** Set the count. */
+        void Price( uint8_t v )             { mPrice = v; }     /** Set the price. */
+        void Name( const std::string& v )   { mName = v; }      /** Set the name. */
+        void Unit( const std::string& v )   { mUnit = v; }      /** Set the unit. */
+         // Increment/Decrement
+        void Count_Inc( uint32_t v )        { mCount += v; }    /** Increment/Decrement the count. */
+        void Price_Inc( uint8_t v )         { mPrice += v; }    /** Increment/Decrement the price. */
 
     private:
-        uint32_t    mCount;
-        uint8_t     mPrice;
-        std::string mName;
-        std::string mUnit;
+        uint32_t    mCount; /** The count. */
+        uint8_t     mPrice; /** The price. */
+        std::string mName;  /** The name. */
+        std::string mUnit;  /** The unit. */
 };
 
 #endif // CGOOD_H

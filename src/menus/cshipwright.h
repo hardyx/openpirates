@@ -16,6 +16,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  @section LOCATION
  */
 
 #ifndef CSHIPWRIGHT_H
@@ -24,33 +26,54 @@
 #include "global.h"
 #include "managers/cmanagerwindow.h"
 
-/**
- * @section DESCRIPTION
- * The menu for the shipwroght window dialogs
+/** @brief The menu for the shipwroght window dialogs
  */
-
 class CShipwright
 {
     public:
-        /** Constructor. */
+        /** @brief Constructor.
+         * @param resources : reference to the resources object
+         * @param winmanager : reference to the window manager object
+         */
         CShipwright( CResources& resources, CManagerWindow& winmanager );
         /** Destructor. */
         virtual ~CShipwright();
 
+        /** @brief Main loop for the menu and logic.
+         * @return value of type result_signal_t.
+         */
         int8_t Run( void );
 
     private:
-        CResources&         mResources;
-        CManager<CString>&  mStrings;
-        CManagerWindow&     mManagerwindow;
-        vec_string_t        mShips;
-        vec_uint8_t         mIndices;
-        vec_uint16_t        mPrices;
+        CResources&         mResources;         /** Reference to the resources object. */
+        CManagerWindow&     mManagerwindow;     /** Reference to the window manager. */
+        CManager<CString>&  mStrings;           /** Reference to the strings manager. */
+        vec_string_t        mShips;             /** List of players ship names. */
+        vec_uint8_t         mIndices;           /** List of ship tags. */
+        vec_uint16_t        mPrices;            /** List of ship prices. */
 
+        /** @brief Handles window interaction for repairing a ship.
+         * @return value of type result_signal_t.
+         */
         int8_t RepairShip( void );
+
+        /** @brief Determines how much the repairs will cost.
+         * @return value of type result_signal_t.
+         */
         bool CheckRepairs( void );
+
+        /** @brief Handles window interaction for selling a ship.
+         * @return value of type result_signal_t.
+         */
         int8_t SellShip( void );
+
+        /** @brief Determines how much the the ship is worth.
+         * @return value of type result_signal_t.
+         */
         bool CheckSales( void );
+
+        /** @brief Clears the ship lists.
+         */
         void ClearShips( void );
 };
 

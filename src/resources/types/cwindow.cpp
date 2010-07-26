@@ -31,6 +31,8 @@ CWindow::CWindow( CControls& controls ) :
     mSelectableParagraphs(),
     mFontFadeColor  (),
     mDimensions     (),
+    mLoopTime       (0),
+    mLoopTimeAvg    (0),
     mFontFadeSpeed  (0),
     mFps            (0),
     mFskip          (0),
@@ -55,6 +57,8 @@ CWindow::CWindow(SDL_Rect& size, CControls& controls,
     mSelectableParagraphs(),
     mFontFadeColor  (),
     mDimensions     (),
+    mLoopTime       (0),
+    mLoopTimeAvg    (0),
     mFontFadeSpeed  (0),
     mFps            (0),
     mFskip          (0),
@@ -90,6 +94,8 @@ CWindow::CWindow(SDL_Rect& size, CControls& controls,
     mSelectableParagraphs(),
     mFontFadeColor  (),
     mDimensions     (),
+    mLoopTime       (0),
+    mLoopTimeAvg    (0),
     mFontFadeSpeed  (0),
     mFps            (0),
     mFskip          (0),
@@ -126,6 +132,8 @@ CWindow::CWindow(SDL_Rect& size, CControls& controls,
     mSelectableParagraphs(),
     mFontFadeColor  (),
     mDimensions     (),
+    mLoopTime       (0),
+    mLoopTimeAvg    (0),
     mFontFadeSpeed  (0),
     mFps            (0),
     mFskip          (0),
@@ -306,6 +314,11 @@ int8_t CWindow::Activate( CResources& resources, CGraphic* border_gfx, CSpriteDy
                     debug_message.AssignImage(TTF_RenderText_Solid( font, debug_caption, *fontoptions.Color() ));  //Draw the text
                     debug_message.ApplyImage( 0, 0, screen.Image() ); //FPS
                     debug_message.ReleaseImage();
+
+                    snprintf( debug_caption, SIZE, "Loop Time %.4d Average %.4d", mLoopTime, mLoopTimeAvg );
+                    debug_message.AssignImage(TTF_RenderText_Solid( font, debug_caption, *fontoptions.Color() ));  //Draw the text
+                    debug_message.ApplyImage( 300, 0, screen.Image() ); //FPS
+                    debug_message.ReleaseImage();
 #endif
 
                     // Send the final frame to the screen
@@ -318,8 +331,10 @@ int8_t CWindow::Activate( CResources& resources, CGraphic* border_gfx, CSpriteDy
                 }
                 mFrameControl.ControlFPS( DEF_FRAME_LIMIT, DEF_FRAME_CALC );
 #ifdef DEBUG
-                mFps   = mFrameControl.FramesDrawn();
-                mFskip = mFrameControl.FramesSkipped();
+                mFps            = mFrameControl.FramesDrawn();
+                mFskip          = mFrameControl.FramesSkipped();
+                mLoopTime       = mFrameControl.LoopTime();
+                mLoopTimeAvg    = mFrameControl.LoopTimeAvg();
 #endif
             }
             else
@@ -347,159 +362,169 @@ int8_t CWindow::Activate( CResources& resources, CGraphic* border_gfx, CSpriteDy
 
 void CWindow::ProcessText( void )
 {
-    uint8_t index = 0;
-    uint8_t paragraph = 0;
+    uint8_t index;
+    uint8_t paragraph ;
     std::string::iterator text_iterator;
     CWord* current_word = NULL;
 
+    index       = 0;
+    paragraph   = 0;
+
     // Process each character
-    for ( text_iterator = mpText->begin(); text_iterator < mpText->end(); text_iterator++ )
+    if (mpText!=NULL)
     {
-        if ( current_word == NULL )
+        for ( text_iterator = mpText->begin(); text_iterator < mpText->end(); text_iterator++ )
         {
-            current_word = new CWord();
-            current_word->mParagraph  = paragraph;
-            current_word->mNewline    = false;
-            current_word->mTabAlign      = 0;
-        }
+            if ( current_word == NULL )
+            {
+                current_word = new CWord();
+                current_word->mParagraph  = paragraph;
+                current_word->mNewline    = false;
+                current_word->mTabAlign      = 0;
+            }
 
-        switch ( *text_iterator )
-        {
-            case '\\':  // Formatting
-                text_iterator++;
-                if ( text_iterator != mpText->end() )
-                {
-                    switch ( *text_iterator )
+            switch ( *text_iterator )
+            {
+                case '\\':  // Formatting
+                    text_iterator++;
+                    if ( text_iterator != mpText->end() )
                     {
-                        case 'u':   //  end section on the current line (not selectable)
-                            mSelectableParagraphs.resize( mSelectableParagraphs.size()+1, false );
-                            mWords.resize( mWords.size()+1, current_word );
-                            current_word = NULL;
-                            paragraph++;
-                            break;
-                        case 'n':   // end section on a new line (not selectable)
-                            mSelectableParagraphs.resize( mSelectableParagraphs.size()+1, false );
-                            current_word->mNewline = true;
-                            mWords.resize( mWords.size()+1, current_word );
-                            current_word = NULL;
-                            paragraph++;
-                            break;
-                        case 'z':   // end section on the current line and preceding line text is selectable
-                            mSelectableParagraphs.resize( mSelectableParagraphs.size()+1, true );
-                            mWords.resize( mWords.size()+1, current_word );
-                            current_word = NULL;
-                            paragraph++;
-                            break;
-                        case 's':   // end section on a new line and preceding line text is selectable
-                            mSelectableParagraphs.resize( mSelectableParagraphs.size()+1, true );
-                            current_word->mNewline = true;
-                            mWords.resize( mWords.size()+1, current_word );
-                            current_word = NULL;
-                            paragraph++;
-                            break;
-                        case 't':
-                            // First digit
-                            text_iterator++;
-                            current_word->mTabAlign = (*text_iterator-0x30)*10;
-                            // Second digit
-                            text_iterator++;
-                            current_word->mTabAlign += (*text_iterator-0x30);
-                            break;
-                        case 'c':
-                            // First digit
-                            text_iterator++;
-                            current_word->mColAlign = (*text_iterator-0x30)*10;
-                            // Second digit
-                            text_iterator++;
-                            current_word->mColAlign += (*text_iterator-0x30);
-                            break;
-                        case '\\':
-                            current_word->mRawword += *text_iterator;
-                            break;
-                        default:
-                            Error( true, __FILE__, __LINE__, "CWindow: unknown text iterator %c\n", *text_iterator );
-                            break;
-                    }
-                }
-                break;
-            case '%':   // Variables
-                text_iterator++;
-                if ( mpVariables != NULL )
-                {
-                    if ( mpVariables->size() > 0 )
-                    {
-                        if ( text_iterator != mpText->end() )
+                        switch ( *text_iterator )
                         {
-                            if ( *text_iterator == 'a' || *text_iterator == 'A' )
-                            {
-                                for ( uint8_t v=0; v<mpVariables->size(); v++ )
-                                {
-                                    current_word = new CWord();
-                                    current_word->mParagraph = paragraph;
-                                    current_word->mNewline   = true;
-                                    current_word->mTabAlign     = 1;
-                                    current_word->mRawword  += mpVariables->at(v)->c_str();
-                                    mSelectableParagraphs.resize( mSelectableParagraphs.size()+1, true );
-                                    mWords.resize( mWords.size()+1, current_word );
-
-                                    paragraph++;    // Make the current paragraph line selectable
-                                }
+                            case 'u':   //  end section on the current line (not selectable)
+                                mSelectableParagraphs.resize( mSelectableParagraphs.size()+1, false );
+                                mWords.resize( mWords.size()+1, current_word );
                                 current_word = NULL;
-                            }
-                            else
-                            {
-                                // Get the variable text
-                                if ( (*text_iterator >= 0x30) && (*text_iterator <= 0x39) )
-                                {
-                                    index = *text_iterator - 0x30;
-                                }
-
+                                paragraph++;
+                                break;
+                            case 'n':   // end section on a new line (not selectable)
+                                mSelectableParagraphs.resize( mSelectableParagraphs.size()+1, false );
+                                current_word->mNewline = true;
+                                mWords.resize( mWords.size()+1, current_word );
+                                current_word = NULL;
+                                paragraph++;
+                                break;
+                            case 'z':   // end section on the current line and preceding line text is selectable
+                                mSelectableParagraphs.resize( mSelectableParagraphs.size()+1, true );
+                                mWords.resize( mWords.size()+1, current_word );
+                                current_word = NULL;
+                                paragraph++;
+                                break;
+                            case 's':   // end section on a new line and preceding line text is selectable
+                                mSelectableParagraphs.resize( mSelectableParagraphs.size()+1, true );
+                                current_word->mNewline = true;
+                                mWords.resize( mWords.size()+1, current_word );
+                                current_word = NULL;
+                                paragraph++;
+                                break;
+                            case 't':
+                                // First digit
                                 text_iterator++;
-                                if ( (*text_iterator >= 0x30) && (*text_iterator <= 0x39) )
+                                current_word->mTabAlign = (*text_iterator-0x30)*10;
+                                // Second digit
+                                text_iterator++;
+                                current_word->mTabAlign += (*text_iterator-0x30);
+                                break;
+                            case 'c':
+                                // First digit
+                                text_iterator++;
+                                current_word->mColAlign = (*text_iterator-0x30)*10;
+                                // Second digit
+                                text_iterator++;
+                                current_word->mColAlign += (*text_iterator-0x30);
+                                break;
+                            case '\\':
+                                current_word->mRawword += *text_iterator;
+                                break;
+                            default:
+                                Error( true, __FILE__, __LINE__, "CWindow: unknown text iterator %c\n", *text_iterator );
+                                break;
+                        }
+                    }
+                    break;
+                case '%':   // Variables
+                    text_iterator++;
+                    if ( mpVariables != NULL )
+                    {
+                        if ( mpVariables->size() > 0 )
+                        {
+                            if ( text_iterator != mpText->end() )
+                            {
+                                if ( *text_iterator == 'a' || *text_iterator == 'A' )
                                 {
-                                    index *= 10;
-                                    index += *text_iterator - 0x30;
-                                }
-                                else
-                                {
-                                    text_iterator--;
-                                }
-                                index--;
+                                    for ( uint8_t v=0; v<mpVariables->size(); v++ )
+                                    {
+                                        current_word = new CWord();
+                                        current_word->mParagraph = paragraph;
+                                        current_word->mNewline   = true;
+                                        current_word->mTabAlign     = 1;
+                                        current_word->mRawword  += mpVariables->at(v)->c_str();
+                                        mSelectableParagraphs.resize( mSelectableParagraphs.size()+1, true );
+                                        mWords.resize( mWords.size()+1, current_word );
 
-                                if (index <= mpVariables->size()-1 )
-                                {
-                                    current_word->mRawword += mpVariables->at(index)->c_str();
+                                        paragraph++;    // Make the current paragraph line selectable
+                                    }
+                                    current_word = NULL;
                                 }
                                 else
                                 {
-                                    Error( true, __FILE__, __LINE__, "CWindow: requested to replace a text variable, \
-                                                                but not enough variables exist. index: %d total: %d\n", index, mpVariables->size() );
+                                    // Get the variable text
+                                    if ( (*text_iterator >= 0x30) && (*text_iterator <= 0x39) )
+                                    {
+                                        index = *text_iterator - 0x30;
+                                    }
+
+                                    text_iterator++;
+                                    if ( (*text_iterator >= 0x30) && (*text_iterator <= 0x39) )
+                                    {
+                                        index *= 10;
+                                        index += *text_iterator - 0x30;
+                                    }
+                                    else
+                                    {
+                                        text_iterator--;
+                                    }
+                                    index--;
+
+                                    if (index <= mpVariables->size()-1 )
+                                    {
+                                        current_word->mRawword += mpVariables->at(index)->c_str();
+                                    }
+                                    else
+                                    {
+                                        Error( true, __FILE__, __LINE__, "CWindow: requested to replace a text variable, \
+                                                                    but not enough variables exist. index: %d total: %d\n", index, mpVariables->size() );
+                                    }
                                 }
                             }
                         }
                     }
-                }
-                else if ( mpVariable != NULL )
-                {
-                    current_word->mRawword += mpVariable->c_str();
-                }
-                else
-                {
-                    current_word->mRawword += "VARERR!";
-                }
-                break;
-            case ' ':   // Separate Words by spaces
-                current_word->mRawword += *text_iterator;
-                if ( current_word->mRawword.length() > 1 )
-                {
-                    mWords.resize( mWords.size()+1, current_word );
-                    current_word = NULL;
-                }
-                break;
-            default:    // Any other character
-                current_word->mRawword += *text_iterator;
-                break;
+                    else if ( mpVariable != NULL )
+                    {
+                        current_word->mRawword += mpVariable->c_str();
+                    }
+                    else
+                    {
+                        current_word->mRawword += "VARERR!";
+                    }
+                    break;
+                case ' ':   // Separate Words by spaces
+                    current_word->mRawword += *text_iterator;
+                    if ( current_word->mRawword.length() > 1 )
+                    {
+                        mWords.resize( mWords.size()+1, current_word );
+                        current_word = NULL;
+                    }
+                    break;
+                default:    // Any other character
+                    current_word->mRawword += *text_iterator;
+                    break;
+            }
         }
+    }
+    else
+    {
+        Error( true, __FILE__, __LINE__, "CWindow: reference to text was null\n" );
     }
 }
 
@@ -555,7 +580,6 @@ int8_t CWindow::DrawText( SDL_Surface* screen, TTF_Font* font, SDL_Color* fontco
     int16_t x = 0;
     int16_t y = 0;
     int8_t MaxCharHeight       = TTF_FontHeight(font);
-    int8_t paragraph_current   = 0;
     int8_t hover_paragraph     = -1;
     int8_t paragraph_result    = SIG_NONE;
 
@@ -637,7 +661,6 @@ int8_t CWindow::DrawText( SDL_Surface* screen, TTF_Font* font, SDL_Color* fontco
             {
                 x = 0;
                 y += MaxCharHeight;
-                paragraph_current = mWords.at(t)->mParagraph;
 
                 // If the words go beyond the bottom of the window, expand the window to fit
                 if ( y >= mDimensions.h )
@@ -881,19 +904,20 @@ int8_t CWindow::HandleEvents( CResources& resources, CSpriteDynamic& pointer )
     return result;
 }
 
+#define DELTA 5
 void CWindow::FadeFontColor( void )
 {
     static uint8_t speed = 0;
-    int8_t delta = 5;
+
     if ( speed == mFontFadeSpeed )
     {
         speed = 0;
         // Blue fade
-        FadeColor( mFontFadeColor.b, delta );
+        FadeColor( mFontFadeColor.b, DELTA );
         // Green fade
-        FadeColor( mFontFadeColor.g, delta );
+        FadeColor( mFontFadeColor.g, DELTA );
         // Red fade
-        FadeColor( mFontFadeColor.r, delta );
+        FadeColor( mFontFadeColor.r, DELTA );
     }
     speed++;
 }

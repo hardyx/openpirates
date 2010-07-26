@@ -16,6 +16,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  @section LOCATION
  */
 
 #ifndef CSTRING_H
@@ -23,11 +25,8 @@
 
 #include "global.h"
 
-/**
- * @section DESCRIPTION
- * Wrapper class for string data.
+/** @brief Wrapper class for string data.
  */
-
 class CString
 {
 	public:
@@ -37,8 +36,8 @@ class CString
 		virtual ~CString();
 
         // Getters
-		uint16_t        Tag( void )     { return mTag; }
-		std::string&    Text( void )    { return mText; }
+		uint16_t        Tag( void )     const { return mTag; }
+		std::string&    Text( void )          { return mText; }
         // Setters
         void Tag( uint8_t v )           { mTag = v; }
 

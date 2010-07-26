@@ -16,6 +16,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  @section LOCATION
  */
 
 #ifndef CSIM_H
@@ -26,21 +28,20 @@
 #include "modes/cmodebattle.h"
 #include "sim/ccalander.h"
 
-/**
- * @section DESCRIPTION
- * Contains the logic to simulate random player/town/nation events.
+/** @brief Contains the logic to simulate random player/town/nation events.
  */
-
-enum sim_events_list_t {
-    SIM_EVENT_NONE=0    ,
-    SIM_EVENT_SHIP      ,
-    SIM_EVENT_MUTINY
-};
-
 class CSimulate
 {
     public:
-        /** Constructor. */
+        enum sim_events_list_t {
+            SIM_EVENT_NONE=0    ,
+            SIM_EVENT_SHIP      ,
+            SIM_EVENT_MUTINY
+        };
+
+        /** @brief Constructor.
+         * @param resources : reference to the resources object
+         */
         CSimulate( CResources& resources );
         /** Destructor. */
         virtual ~CSimulate();
@@ -57,7 +58,7 @@ class CSimulate
         uint8_t PlayerEvents ( const std::string& date );
         void TownEvents( const  std::string& date );
         void NationEvents( const  std::string& date );
-        bool CalcCrewMorale( void );
+        bool CalcCrewMorale( void ) const;
         void StoreEvent( const std::string& date, const std::string& event );
         void StoreEvent( const std::string& date, const std::string& event, vec_string_t& variables );
         void ProcessText( vec_string_t& variables, std::string& text );

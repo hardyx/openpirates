@@ -16,6 +16,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  @section LOCATION
  */
 
 #ifndef CTRANSFERWINDOW_H
@@ -26,36 +28,35 @@
 #include "ccargo.h"
 #include "resources/cresources.h"
 
-#define TRANSFER_TRADE      0
-#define TRANSFER_PLUNDER    1
-#define UNLIMITED_SPACE     -1
-#define TRANSER_ALL         0
-#define TRANSER_ONE         1
-
-#define COLUMN_SPACES       10
-#define ARROW_SIDE_SPACES   5
-#define DIGITS              7
-
-#define BACKSLASH_n     "\\n" // end section on a new line (not selectable)
-#define BACKSLASH_u     "\\u" // end section on the current line (not selectable)
-#define BACKSLASH_s     "\\s" // end section on a new line and preceding line text is selectable
-#define BACKSLASH_z     "\\z" // end section on the current line and preceding line text is selectable
-#define BACKSLASH_t04   "\\t04"  // align the current word
-#define BACKSLASH_t08   "\\t08"
-#define BACKSLASH_t12   "\\t12"
-#define BACKSLASH_t16   "\\t16"
-#define BACKSLASH_t20   "\\t20"
-#define BACKSLASH_t24   "\\t24"
-
-/**
- * @section DESCRIPTION
- * This class represents a special interactive window which is only used to transfer items.
+/** @brief This class represents a special interactive window which is only used to transfer items.
  */
-
 class CTransferWindow : public CWindow
 {
     public:
-        /** Constructor. */
+        #define TRANSFER_TRADE      0
+        #define TRANSFER_PLUNDER    1
+        #define UNLIMITED_SPACE     -1
+        #define TRANSER_ALL         0
+        #define TRANSER_ONE         1
+
+        #define COLUMN_SPACES       10
+        #define ARROW_SIDE_SPACES   5
+        #define DIGITS              7
+
+        #define BACKSLASH_n     "\\n" // end section on a new line (not selectable)
+        #define BACKSLASH_u     "\\u" // end section on the current line (not selectable)
+        #define BACKSLASH_s     "\\s" // end section on a new line and preceding line text is selectable
+        #define BACKSLASH_z     "\\z" // end section on the current line and preceding line text is selectable
+        #define BACKSLASH_t04   "\\t04"  // align the current word
+        #define BACKSLASH_t08   "\\t08"
+        #define BACKSLASH_t12   "\\t12"
+        #define BACKSLASH_t16   "\\t16"
+        #define BACKSLASH_t20   "\\t20"
+        #define BACKSLASH_t24   "\\t24"
+
+        /** @brief Constructor.
+         * @param resources : reference to the resources object
+         */
         CTransferWindow( CResources& resources );
         /** Destructor. */
         virtual ~CTransferWindow();

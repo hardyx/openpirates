@@ -18,6 +18,9 @@
 
 #include "managers/cmanagerwindow.h"
 
+/** @brief Constructor.
+ * @param resources : reference to the resources object
+ */
 CManagerWindow::CManagerWindow( CResources& resources ) :
     mResources  (resources),
     mEvents     (mResources.Options().Controls()),
@@ -29,6 +32,7 @@ CManagerWindow::CManagerWindow( CResources& resources ) :
     mWindows.clear();
 }
 
+/** Destructor. */
 CManagerWindow::~CManagerWindow()
 {
     CloseWindows();

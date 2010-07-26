@@ -16,6 +16,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  @section LOCATION
  */
 
 #ifndef CNATIONECONOMY_H
@@ -23,11 +25,8 @@
 
 #include "global.h"
 
-/**
- * @section DESCRIPTION
- * Defines attributes for the a nation's overall economy during a timeperiod.
+/** @brief Defines attributes for the a nation's overall economy during a timeperiod.
  */
-
 class CNationEconomy
 {
     public:
@@ -37,8 +36,8 @@ class CNationEconomy
         virtual ~CNationEconomy();
 
         // Getters
-        uint8_t TimePeriodTag( void )        { return mTimePeriodTag; }
-        uint8_t EconomyTag( void )           { return mEconomyTag; }
+        uint8_t TimePeriodTag( void )        const { return mTimePeriodTag; }
+        uint8_t EconomyTag( void )           const { return mEconomyTag; }
         // Setters
         void    TimePeriodTag( uint8_t v )   { mTimePeriodTag = v; }
         void    EconomyTag( uint8_t v )      { mEconomyTag = v; }

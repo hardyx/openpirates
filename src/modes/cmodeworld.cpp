@@ -46,6 +46,8 @@ CModeWorld::CModeWorld( CResources& resources ) :
     mSpritesAng     (),
     mSpritesDyn     (),
     mSpritesSta     (),
+    mLoopTime       (0),
+    mLoopTimeAvg    (0),
     mFps            (0),
     mFskip          (0),
     mFpscap         (DEF_FRAME_LIMIT),
@@ -179,8 +181,10 @@ int8_t CModeWorld::DrawWorld( void )
 
     mFrameControl.ControlFPS( mFpscap, mFpscalc );
 #ifdef DEBUG
-    mFps   = mFrameControl.FramesDrawn();
-    mFskip = mFrameControl.FramesSkipped();
+    mFps            = mFrameControl.FramesDrawn();
+    mFskip          = mFrameControl.FramesSkipped();
+    mLoopTime       = mFrameControl.LoopTime();
+    mLoopTimeAvg    = mFrameControl.LoopTimeAvg();
 #endif
 
     return result;
@@ -192,9 +196,9 @@ int8_t CModeWorld::LoadEffects( void )
     CSpriteAngular* cloud   = NULL;
     CSpriteStatic*  wave    = NULL;
 
-    if ( mResources.Options().Cloud().Count() > 0 )
+    if ( mResources.Options().Game().CloudCount() > 0 )
     {
-        for ( uint16_t t=0; t<mResources.Options().Cloud().Count(); t++ )
+        for ( uint16_t t=0; t<mResources.Options().Game().CloudCount(); t++ )
         {
             cloud = new CSpriteAngular();
             if (cloud!=NULL)
@@ -213,15 +217,15 @@ int8_t CModeWorld::LoadEffects( void )
         }
     }
 
-    if ( mResources.Options().Wave().Count() > 0 )
+    if ( mResources.Options().Game().WaveCount() > 0 )
     {
-        for ( uint16_t t=0; t<mResources.Options().Wave().Count(); t++ )
+        for ( uint16_t t=0; t<mResources.Options().Game().WaveCount(); t++ )
         {
             wave = new CSpriteStatic();
             if (wave!=NULL)
             {
                 wave->AssignGraphic( mResources.Data().Graphics().Find(GFX_NAVWAVE) );
-                wave->Open( 0, 0, ANI_CONT, mResources.Options().Wave().Speed(), 1 );
+                wave->Open( 0, 0, ANI_CONT, mResources.Options().Game().WaveSpeed(), 1 );
                 mWaves.resize( mWaves.size()+1, wave );
             }
             else
@@ -377,8 +381,8 @@ void CModeWorld::MoveCameras( void )
     }
 
     // Entire size of the map in tiles
-    level_tile_w = mResources.Options().Map().Width();
-    level_tile_h = mResources.Options().Map().Height();
+    level_tile_w = mResources.Options().Game().MapWidth();
+    level_tile_h = mResources.Options().Game().MapHeight();
 
     // The size of the tile camera area in pixels
     level_w = mTileCamera.TileW() * mTilewidth;
@@ -676,13 +680,13 @@ void CModeWorld::DrawWindCompass( void )
 }
 
 #ifdef DEBUG
-void CModeWorld::DrawDebugMessage( int16_t y, const std::string& text )
+void CModeWorld::DrawDebugMessage( int16_t x, int16_t y, const std::string& text )
 {
     SDL_Surface* screen;
 
     screen = mScreen.Image();
     mDebugMessage.AssignImage( TTF_RenderText_Solid( mResources.Font(), text.c_str(), *mResources.Options().Font().Color() ) );  //Draw the text
-    mDebugMessage.ApplyImage( 0, y, screen );
+    mDebugMessage.ApplyImage( x, y, screen );
     mDebugMessage.ReleaseImage();
 }
 
@@ -693,11 +697,14 @@ void CModeWorld::DrawDebugMessages( void )
     char debug_caption[SIZE];
 
     snprintf( debug_caption, SIZE, "FPS Total: %d Drawn: %d Skipped: %d", mFps+mFskip, mFps, mFskip );
-    DrawDebugMessage( 0, debug_caption );
+    DrawDebugMessage( 0, 0, debug_caption );
+
+    snprintf( debug_caption, SIZE, "Loop Time %.4d Average %.4d", mLoopTime, mLoopTimeAvg );
+    DrawDebugMessage( 300, 0, debug_caption );
 
     for ( uint8_t t=0; t<mDebugStrings.size(); t++ )
     {
-        DrawDebugMessage( pos, mDebugStrings.at(t) );
+        DrawDebugMessage( 0, pos, mDebugStrings.at(t) );
         pos+=15;
     }
 }

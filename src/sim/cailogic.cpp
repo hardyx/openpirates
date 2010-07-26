@@ -84,7 +84,7 @@ int8_t CAILogic::Ship( CBattleShipStats* shipp1, CBattleShipStats* shipai,  uint
     return state;
 }
 
-int8_t CAILogic::ShipRunAway( void )
+int8_t CAILogic::ShipRunAway( void ) const
 {
     int8_t state = AI_NONE;
 
@@ -101,14 +101,14 @@ int8_t CAILogic::ShipRunAway( void )
     return state;
 }
 
-int8_t CAILogic::ShipRam( void )
+int8_t CAILogic::ShipRam( void ) const
 {
     int8_t state = AI_NONE;
 
     return state;
 }
 
-int8_t CAILogic::ShipAttack( void )
+int8_t CAILogic::ShipAttack( void ) const
 {
     int8_t state = AI_NONE;
 

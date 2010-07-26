@@ -16,6 +16,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  @section LOCATION
  */
 
 #ifndef CBATTLESHIPSTATS_H
@@ -23,11 +25,8 @@
 
 #include "global.h"
 
-/**
- * @section DESCRIPTION
- * Defines attributes for a ship used in the battle mode.
+/** @brief Defines attributes for a ship used in the battle mode.
  */
-
 class CBattleShipStats
 {
     public:
@@ -37,16 +36,16 @@ class CBattleShipStats
         virtual ~CBattleShipStats();
 
         // Getters
-        uint8_t         ShipTag( void )     { return mShipTag; }
-        uint8_t         AIType( void )      { return mAIType; }
-        uint8_t         Damage( void )      { return mAIType; }
-        uint16_t        Sailors( void )     { return mSailors; }
-        uint16_t        Cannon( void )      { return mCannon; }
-        uint16_t        Angle( void )       { return mAngle; }
-        uint16_t        X( void )           { return mX; }
-        uint16_t        Y( void )           { return mY; }
-        uint16_t        Reload( void )      { return mReload; }
-        std::string&    Title( void )       { return mTitle; }
+        uint8_t         ShipTag( void )     const { return mShipTag; }
+        uint8_t         AIType( void )      const { return mAIType; }
+        uint8_t         Damage( void )      const { return mAIType; }
+        uint16_t        Sailors( void )     const { return mSailors; }
+        uint16_t        Cannon( void )      const { return mCannon; }
+        uint16_t        Angle( void )       const { return mAngle; }
+        uint16_t        X( void )           const { return mX; }
+        uint16_t        Y( void )           const { return mY; }
+        uint16_t        Reload( void )      const { return mReload; }
+        std::string&    Title( void )             { return mTitle; }
         // Setters
         void ShipTag( uint8_t v )           { mShipTag = v; }
         void AIType( uint8_t v )            { mAIType = v; }

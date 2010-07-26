@@ -16,6 +16,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  @section LOCATION
  */
 
 #ifndef CPLUNDER_H
@@ -24,31 +26,45 @@
 #include "global.h"
 #include "managers/cmanagerwindow.h"
 
-#define RETIRE 1
-#define REFIT  2
-
-/**
- * @section DESCRIPTION
- * The menu for the plunder window dialogs
+/** @brief The menu for the plunder window dialogs
  */
-
 class CPlunder
 {
     public:
-        /** Constructor. */
+        #define RETIRE 1
+        #define REFIT  2
+
+        /** @brief Constructor.
+         * @param resources : reference to the resources object
+         * @param winmanager : reference to the window manager object
+         */
         CPlunder( CResources& resources, CManagerWindow& winmanager );
         /** Destructor. */
         virtual ~CPlunder();
 
+        /** @brief Main loop for the menu and logic.
+         * @return value of type result_signal_t.
+         */
         int8_t Run( void );
 
     private:
-        CResources&         mResources;
-        CManagerWindow&     mManagerwindow;
-        CManager<CString>&  mStrings;
+        CResources&         mResources;         /** Reference to the resources object. */
+        CManagerWindow&     mManagerwindow;     /** Reference to the window manager. */
+        CManager<CString>&  mStrings;           /** Reference to the strings manager. */
 
+        /** @brief Handles window interaction for dividing the plunder.
+         * @return value of type result_signal_t.
+         */
         int8_t DividePlunder( void );
+
+        /** @brief Handles window interaction for deciding to refit or retire (end the career).
+         * @return value of type result_signal_t.
+         */
         int8_t RefitOrRetire( void );
+
+        /** @brief Handles window interaction for assuring the player wants to retire (end the career).
+         * @return value of type result_signal_t.
+         */
         bool VerifyRetire( void );
 };
 

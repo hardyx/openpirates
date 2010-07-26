@@ -20,12 +20,13 @@
 
 CMenustart::CMenustart( CResources& resources, CManagerWindow& winmanager ) :
     mResources      (resources),
-    mScreen         (mResources.Screen()),
-    mPlayer         (mResources.Data().Player()),
+    mManagerwindow  (winmanager),
     mStrings        (mResources.Data().Strings()),
     mGraphics       (mResources.Data().Graphics()),
-    mManagerwindow  (winmanager),
+    mScreen         (mResources.Screen()),
+    mPlayer         (mResources.Data().Player()),
     mMenuOptions    (mResources, mManagerwindow),
+    mGameSlot       (0),
     mAutoselect     (false)
 {
 }
@@ -39,7 +40,7 @@ int8_t CMenustart::Run( void )
 {
     int8_t result = SIG_NONE;
     int8_t index;
-    bool done;
+    bool done = false;
     SDL_Rect rectMain = { 20, 20, 400, 110 };
     SDL_Color colrMainColor = { 0, 0, 0, 0 };
     SDL_Color colrBackColor = { 0, 0, 0x50, 0 };
@@ -54,7 +55,6 @@ int8_t CMenustart::Run( void )
                                                 mStrings.Find( STR_INTRO )->Text(),
                                                 &colrMainColor, NULL );
 
-        done = false;
         while ( done == false && result >= SIG_NONE )
         {
             mManagerwindow.DrawBackgroundColor( colrBackColor );
@@ -429,6 +429,8 @@ int8_t CMenustart::GetSkill( void )
 int8_t CMenustart::LoadCareer( void )
 {
     int8_t result = SIG_NONE;
+
+    mGameSlot = 0;
 /*
     int8_t index;
     SDL_Rect rectMain = { 50, 50, 200, 200 };

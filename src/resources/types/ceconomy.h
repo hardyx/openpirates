@@ -16,6 +16,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  @section LOCATION
  */
 
 #ifndef CECONOMY_H
@@ -23,11 +25,8 @@
 
 #include "global.h"
 
-/**
- * @section DESCRIPTION
- * Defines attributes for the a economy level.
+/** @brief Defines attributes for a economy level.
  */
-
 class CEconomy
 {
     public:
@@ -37,27 +36,27 @@ class CEconomy
         virtual ~CEconomy();
 
         // Getters
-        uint8_t         Tag( void )         { return mTag; }
-        uint8_t         Forts( void )       { return mForts; }
-        uint16_t        Population( void )  { return mPopulation; }
-        uint16_t        Soldiers( void )    { return mSoldiers; }
-        uint16_t        Gold( void )        { return mGold; }
-        std::string&    Name( void )        { return mName; }
+        uint8_t         Tag( void )         const { return mTag; }          /** Get the tag. */
+        uint8_t         Forts( void )       const { return mForts; }        /** Get the forts. */
+        uint16_t        Population( void )  const { return mPopulation; }   /** Get the population. */
+        uint16_t        Soldiers( void )    const { return mSoldiers; }     /** Get the soldiers. */
+        uint16_t        Gold( void )        const { return mGold; }         /** Get the gold. */
+        std::string&    Name( void )              { return mName; }         /** Get reference to the name string. */
         // Setters
-        void Tag( uint8_t v )               { mTag = v; }
-        void Forts( uint8_t v )             { mForts = v; }
-        void Population( uint16_t v )       { mPopulation = v; }
-        void Soldiers( uint16_t v )         { mSoldiers = v; }
-        void Gold( uint16_t v )             { mGold = v; }
-        void Name( const std::string& v )   { mName = v; }
+        void Tag( uint8_t v )                     { mTag = v; }             /** Set the tag. */
+        void Forts( uint8_t v )                   { mForts = v; }           /** Set the forts. */
+        void Population( uint16_t v )             { mPopulation = v; }      /** Set the population. */
+        void Soldiers( uint16_t v )               { mSoldiers = v; }        /** Set the soldiers. */
+        void Gold( uint16_t v )                   { mGold = v; }            /** Set the gold. */
+        void Name( const std::string& v )         { mName = v; }            /** Set the name string. */
 
     private:
-        uint8_t     mTag;
-        uint8_t     mForts;
-        uint16_t    mPopulation;
-        uint16_t    mSoldiers;
-        uint16_t    mGold;
-        std::string mName;
+        uint8_t     mTag;           /** The tag. */
+        uint8_t     mForts;         /** The forts. */
+        uint16_t    mPopulation;    /** The population. */
+        uint16_t    mSoldiers;      /** The soldiers. */
+        uint16_t    mGold;          /** The gold. */
+        std::string mName;          /** The name. */
 };
 
 #endif // CECONOMY_H

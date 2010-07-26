@@ -33,7 +33,7 @@ int8_t CInformation::Run( void )
 {
     int8_t result = SIG_NONE;
     int8_t index, selection;
-    bool quit;
+    bool quit = false;
     SDL_Rect rectMain = { 20, 20, 400, 400 };
     SDL_Color colrMainColor = { 0, 0, 0, 0 };
 
@@ -43,7 +43,6 @@ int8_t CInformation::Run( void )
                                                 mStrings.Find( STR_INFORMATION )->Text(),
                                                 &colrMainColor, NULL );
 
-        quit = false;
         while ( quit == false && result >= SIG_NONE )
         {
             selection = mManagerwindow.ActivateWindow( index );

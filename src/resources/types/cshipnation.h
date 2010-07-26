@@ -16,6 +16,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  @section LOCATION
  */
 
 #ifndef CSHIPNATION_H
@@ -23,11 +25,8 @@
 
 #include "global.h"
 
-/**
- * @section DESCRIPTION
- * Defines if a nation uses a ship
+/** @brief Defines if a nation uses a ship
  */
-
 class CShipNation
 {
     public:
@@ -37,8 +36,8 @@ class CShipNation
         virtual ~CShipNation();
 
         // Getters
-        bool    NationUsed( void )      { return mNationUsed; }
-        uint8_t NationTag( void )       { return mNationTag; }
+        bool    NationUsed( void )      const { return mNationUsed; }
+        uint8_t NationTag( void )       const { return mNationTag; }
         // Setters
         void    NationUsed( bool v )    { mNationUsed = v; }
         void    NationTag( uint8_t v )  { mNationTag = v; }

@@ -16,6 +16,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  @section LOCATION
  */
 
 #ifndef CSPRITESTATIC_H
@@ -25,11 +27,8 @@
 #include "resources/types/cgraphic.h"
 #include "sprites/cdraw.h"
 
-/**
- * @section DESCRIPTION
- * A simple sprite that does not move, but can be animated.
+/** @brief A simple sprite that does not move, but can be animated.
  */
-
 class CSpriteStatic
 {
 	public:
@@ -39,18 +38,18 @@ class CSpriteStatic
 		virtual ~CSpriteStatic();
 
         // Getters
-		int16_t         XPos( void )                { return mXpos; }                       /**< Get X position (pixels). */
-		int16_t         YPos( void )                { return mYpos; }                       /**< Get Y position (pixels). */
-        const SDL_Rect& CollisionBox( void )        { return mCollisionbox; }               /**< Get ref to collision box. */
-        uint16_t        FrameRow( void )            { return mFrame.row; }                  /**< Get frame row. */
-        uint16_t        FrameColumn( void )         { return mFrame.column; }               /**< Get frame column. */
-        uint8_t         FrameSpeed( void )          { return mFrame.speed; }                /**< Get frame speed. */
-        uint8_t         FrameSpeedMax( void )       { return mFrame.speedmax; }             /**< Get frame max speed. */
-        const SDL_Rect& ClipBox( void )             { return mpGraphic->ClipBox(); }        /**< Get ref to slip box. */
-        uint16_t        FrameCount( void )          { return mpGraphic->FrameCount(); }     /**< Get frame total. */
-        uint16_t        FrameWidth( void )          { return mpGraphic->FrameWidth(); }     /**< Get frame width (pixels). */
-        uint16_t        FrameHeight( void )         { return mpGraphic->FrameHeight(); }    /**< Get frame height (pixels). */
-        bool            GetRender( void )           { return mRender; }                     /**< Get render state. */
+		int16_t         XPos( void )                const { return mXpos; }                       /**< Get X position (pixels). */
+		int16_t         YPos( void )                const { return mYpos; }                       /**< Get Y position (pixels). */
+        SDL_Rect& CollisionBox( void )                    { return mCollisionbox; }               /**< Get ref to collision box. */
+        uint16_t        FrameRow( void )            const { return mFrame.row; }                  /**< Get frame row. */
+        uint16_t        FrameColumn( void )         const { return mFrame.column; }               /**< Get frame column. */
+        uint8_t         FrameSpeed( void )          const { return mFrame.speed; }                /**< Get frame speed. */
+        uint8_t         FrameSpeedMax( void )       const { return mFrame.speedmax; }             /**< Get frame max speed. */
+        SDL_Rect& ClipBox( void )                         { return mpGraphic->ClipBox(); }        /**< Get ref to slip box. */
+        uint16_t        FrameCount( void )          const { return mpGraphic->FrameCount(); }     /**< Get frame total. */
+        uint16_t        FrameWidth( void )          const { return mpGraphic->FrameWidth(); }     /**< Get frame width (pixels). */
+        uint16_t        FrameHeight( void )         const { return mpGraphic->FrameHeight(); }    /**< Get frame height (pixels). */
+        bool            GetRender( void )           const { return mRender; }                     /**< Get render state. */
         // Setters
 		void        XPos( int16_t x )               { mXpos = x; mCollisionbox.x = mXpos + mXCollisionOffset; }         /**< Set X position (pixels). */
 		void        YPos( int16_t y )               { mYpos = y; mCollisionbox.y = mYpos + mYCollisionOffset; }         /**< Set Y position (pixels). */
@@ -64,57 +63,55 @@ class CSpriteStatic
         void        DecFrameSpeedMax( void )        { mFrame.speedmax--; }                  /**< Decrement (by 1) frame max speed. */
         void        SetRender( bool v )             { mRender = v; }                        /**< Set render state. */
         // Functions
-        /**
-         * Initalize and configure the sprite.
-         * @param x : X position (pixels)
-         * @param y : Y position (pixels)
+        /** @brief Initalize and configure the sprite.
+         * @param x : initial X position (pixels)
+         * @param y : initial Y position (pixels)
          * @param anitype : the type of animation
-         * @param speedmax : the max speed allowed
+         * @param frame_speed_max : the max speed allowed
          * @param divisor : decreases the collision area
          */
-        virtual void Open( int16_t x, int16_t y, uint8_t anitype, uint8_t speedmax, uint8_t divisor );
+        virtual void Open( int16_t x, int16_t y, uint8_t anitype, uint8_t frame_speed_max, uint8_t divisor );
 
-        /**
-         * Reset the sprite.
+        /** @brief Reset the sprite.
          */
         void ResetFrame( void );
-        /**
-         * Select the a frame by row and column.
+
+        /** @brief Select the a frame by row and column.
          * @param column : the frame column to select
          * @param row : the frame row select
          */
         void SetFrame( uint16_t column, uint16_t row );
-        /**
-         * Select the a frame by number.
+
+        /** @brief Select the a frame by number.
          * @param frame : the frame to select
          */
         void SetFrame( uint16_t frame );
-        /**
-         * Select the next frame from the current frame.
+
+        /** @brief Select the next frame from the current frame.
          */
         void IncFrameCurrent( void );
-        /**
-         * Select the previous frame from the current frame.
+
+        /** @brief Select the previous frame from the current frame.
          */
         void DecFrameCurrent( void );
-        /**
-         * Calculate if the referenced box has collided with the sprite collision box
+
+        /** @brief Calculate if the referenced box has collided with the sprite collision box
          * @return true if collision occured else false
          */
         bool CheckRectCollision( const SDL_Rect& box );
-        /**
-         * Draw the sprite to the screen
+
+        /** @brief Draw the sprite to the screen
          * @param screen : a pointer to the screen surface
          * @param camera : the camera size and position
          */
         void Draw( SDL_Surface* screen, SDL_Rect* camera = NULL );
-        /**
-         * Get the animation status
+
+        /** @brief Get the animation status
          * @return true if animation is enabled
          */
         bool IsAnimated( void );
-        /**
-         * Assign a new graphic to the sprite
+
+        /** @brief Assign a new graphic to the sprite
          */
         void AssignGraphic( CGraphic* graphic );
 
@@ -136,8 +133,7 @@ class CSpriteStatic
             uint8_t     speed;      /**< The speed the frame is animated. */
         } mFrame;                   /**< Current frame information. */
 
-        /**
-         * Perform sprite anitmation and drawing to screen.
+        /** @brief Perform sprite anitmation and drawing to screen.
          */
         virtual void Animate( void );
 
@@ -146,8 +142,7 @@ class CSpriteStatic
         CSpriteStatic& operator=(const CSpriteStatic&);
 };
 
-/**
- * A vector of static sprites
+/** @brief A collection vector of static sprites
  */
 typedef std::vector<CSpriteStatic*> vec_spritestatic_t;
 

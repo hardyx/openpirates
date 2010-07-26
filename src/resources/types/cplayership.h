@@ -16,6 +16,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  @section LOCATION
  */
 
 #ifndef CPLAYERSHIP_H
@@ -23,11 +25,8 @@
 
 #include "global.h"
 
-/**
- * @section DESCRIPTION
- * Defines attributes for the player's ship(s).
+/** @brief Defines attributes for the player's ship(s).
  */
-
 class CPlayerShip
 {
     public:
@@ -37,8 +36,8 @@ class CPlayerShip
         virtual ~CPlayerShip();
 
         // Getters
-        uint8_t Tag( void )         { return mTag; }
-        uint8_t Damage( void )      { return mDamage; }
+        uint8_t Tag( void )         const { return mTag; }
+        uint8_t Damage( void )      const { return mDamage; }
         // Setters
         void    Tag( uint8_t v )    { mTag = v; }
         void    Damage( uint8_t v ) { mDamage = v; }

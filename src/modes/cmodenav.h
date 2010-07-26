@@ -16,6 +16,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  @section LOCATION
  */
 
 #ifndef CNAVMODE_H
@@ -24,21 +26,22 @@
 #include "global.h"
 #include "modes/cmodeworld.h"
 #include "modes/cmodefencing.h"
-#include "resources/ccontrols.h"
+#include "resources/controls/ccontrols.h"
 #include "sim/csimulate.h"
 #include "menus/cmenumain.h"
 #include "menus/cmenutownout.h"
 #include "menus/csailho.h"
 
-/**
- * @section DESCRIPTION
- * Provides interfaces for handling the presentation of the world map view.
+/** @brief Provides interfaces for handling the presentation of the world map view.
  */
-
 class CModeNav : public CModeWorld
 {
 	public:
-        /** Constructor. */
+        /** @brief Constructor.
+         * @param resources : reference to the resources object
+         * @param winmanager : reference to the window manager object
+         * @param mainmenu : reference to the main window object
+         */
         CModeNav( CResources& resources, CManagerWindow& winmanager, CMenumain& mainmenu );
         /** Destructor. */
 		virtual ~CModeNav();

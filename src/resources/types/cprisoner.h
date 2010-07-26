@@ -16,6 +16,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  @section LOCATION
  */
 
 #ifndef CPRISONER_H
@@ -24,11 +26,8 @@
 #include "global.h"
 #include "resources/types/cdate.h"
 
-/**
- * @section DESCRIPTION
- * Defines attributes for a prisoner captured by the player.
+/** @brief Defines attributes for a prisoner captured by the player.
  */
-
 class CPrisoner
 {
     public:
@@ -38,13 +37,13 @@ class CPrisoner
         virtual ~CPrisoner();
 
         // Getters
-        std::string&    Name( void )        { return mName; }
-        uint8_t         Nation( void )      { return mNation; }
-        bool            Pirate( void )      { return mPirate; }
+        uint8_t         Nation( void )      const { return mNation; }
+        bool            Pirate( void )      const { return mPirate; }
+        std::string&    Name( void )              { return mName; }
         // Setters
-        void Name( const std::string& v )   { mName = v; }
         void Nation( uint8_t v )            { mNation = v; }
         void Pirate( bool v )               { mPirate = v; }
+        void Name( const std::string& v )   { mName = v; }
 
         uint16_t RewardReputation( void );
         uint16_t RewardRansom( const CDate& current_date );

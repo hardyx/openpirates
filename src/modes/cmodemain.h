@@ -16,6 +16,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  @section LOCATION
  */
 
 #ifndef CMODEMAIN_H
@@ -26,11 +28,8 @@
 #include "menus/cmenumain.h"
 #include "modes/cmodenav.h"
 
-/**
- * @section DESCRIPTION
- * The main mode loop handles loading and init of the application.
+/** @brief The main mode loop handles loading and init of the application.
  */
-
 class CModeMain
 {
     public:

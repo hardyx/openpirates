@@ -16,6 +16,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  @section LOCATION
  */
 
 #ifndef CMERCHANT_H
@@ -25,25 +27,28 @@
 #include "managers/cmanagerwindow.h"
 #include "resources/types/ctransferwindow.h"
 
-/**
- * @section DESCRIPTION
- * The menu for the merchant window dialogs
+/** @brief The menu for the merchant window dialogs
  */
-
 class CMerchant
 {
     public:
-        /** Constructor. */
+        /** @brief Constructor.
+         * @param resources : reference to the resources object
+         * @param dyntown : reference to the current dynamic town dataa
+         */
         CMerchant( CResources& resources, CDyntown* dyntown );
         /** Destructor. */
         virtual ~CMerchant();
 
+        /** @brief Main loop for the menu and logic.
+         * @return value of type result_signal_t.
+         */
         int8_t Run( void );
 
     private:
-        CResources&         mResources;
-        CDyntown*           mpDynTown;
-        CTransferWindow     mTransferWindow;
+        CResources&         mResources;         /** Reference to the resources object. */
+        CDyntown*           mpDynTown;          /** Reference to the current town's dynamic data. */
+        CTransferWindow     mTransferWindow;    /** The transfer window for trading goods a for gold. */
 
         CMerchant(const CMerchant&);
         CMerchant& operator=(const CMerchant&);

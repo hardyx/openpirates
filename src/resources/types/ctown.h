@@ -16,6 +16,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  @section LOCATION
  */
 
 #ifndef CTOWN_H
@@ -25,11 +27,8 @@
 #include "resources/types/ctowntimeperiod.h"
 #include "resources/types/cmaplocation.h"
 
-/**
- * @section DESCRIPTION
- * Defines attributes for a town.
+/** @brief Defines attributes for a town.
  */
-
 class CTown
 {
     public:
@@ -39,11 +38,11 @@ class CTown
         virtual ~CTown();
 
         // Getters
-        uint8_t             Tag( void )                 { return mTag; }
-        std::string&        Name( void )                { return mName; }
-        CTownTimePeriod&    TimePeriodDefault( void )   { return mTimePeriodDefault; }
-        CMapLocation&       Location( void )            { return mLocation; }
-        vec_towntimep_t&    TownTimePeriods( void )     { return mTownTimePeriods; }
+        uint8_t             Tag( void )                 const { return mTag; }
+        std::string&        Name( void )                      { return mName; }
+        CTownTimePeriod&    TimePeriodDefault( void )         { return mTimePeriodDefault; }
+        CMapLocation&       Location( void )                  { return mLocation; }
+        vec_towntimep_t&    TownTimePeriods( void )           { return mTownTimePeriods; }
         // Setters
         void Tag( uint8_t v )                               { mTag = v; }
         void Name( const std::string& v )                   { mName = v; }

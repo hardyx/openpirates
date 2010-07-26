@@ -21,7 +21,8 @@
 CTMap::CTMap() :
     mMapIndex   (1),
     mTileX      (1),
-    mTileY      (1)
+    mTileY      (1),
+    mPieces     ()
 {
 }
 
@@ -44,8 +45,8 @@ bool CTMap::IsLocation( int16_t map, int16_t tilex, int16_t tiley )
 
 bool CTMap::IsMissingPiece( void )
 {
-    if ( pieces[0] == false || pieces[1] == false ||
-         pieces[2] == false || pieces[3] == false    )
+    if ( mPieces[0] == false || mPieces[1] == false ||
+         mPieces[2] == false || mPieces[3] == false    )
     {
         return true;
     }
@@ -58,16 +59,16 @@ void CTMap::AddPiece( void )
 {
     int piece1, piece2;
 
+    piece1 = getRandomValue( 0, 3 );
+    piece2 = -1;
+
     if ( IsMissingPiece() == true )
     {
-        piece1 = getRandomValue( 0, 3 );
-        piece2  = -1;
-
         while ( piece1 != piece2 )
         {
-            if ( pieces[piece1] == false )
+            if ( mPieces[piece1] == false )
             {
-                pieces[piece1] = true;
+                mPieces[piece1] = true;
                 piece2 = piece1;    // End the loop
             }
             else

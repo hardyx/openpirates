@@ -36,7 +36,8 @@ CModeBattle::CModeBattle( CResources& resources, CMenumain mainmenu ) :
     mCalvaryAI      (),
     mFortAI         (),
     mCannonP1       (),
-    mCannonAI       ()
+    mCannonAI       (),
+    mAILogic        ()
 {
 }
 
@@ -383,13 +384,13 @@ void CModeBattle::MoveAI( void )
         //result = AILogic.Ship();
         switch(result)
         {
-            case AI_RIGHT:
+            case CAILogic::AI_RIGHT:
                 break;
 
-            case AI_LEFT:
+            case CAILogic::AI_LEFT:
                 break;
 
-            case AI_FIRE:
+            case CAILogic::AI_FIRE:
                 break;
 
             default:
@@ -401,7 +402,7 @@ void CModeBattle::MoveAI( void )
         //result = AILogic.SeaFort();
         switch(result)
         {
-            case AI_FIRE:
+            case CAILogic::AI_FIRE:
                 break;
 
             default:
@@ -413,19 +414,19 @@ void CModeBattle::MoveAI( void )
         //result = AILogic.Armies();
         switch(result)
         {
-            case AI_UP:
+            case CAILogic::AI_UP:
                 break;
 
-            case AI_DOWN:
+            case CAILogic::AI_DOWN:
                 break;
 
-            case AI_RIGHT:
+            case CAILogic::AI_RIGHT:
                 break;
 
-            case AI_LEFT:
+            case CAILogic::AI_LEFT:
                 break;
 
-            case AI_FIRE:
+            case CAILogic::AI_FIRE:
                 break;
 
             default:

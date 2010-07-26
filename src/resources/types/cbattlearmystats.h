@@ -16,6 +16,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  @section LOCATION
  */
 
 #ifndef CBATTLEARMYSTATS_H
@@ -23,11 +25,8 @@
 
 #include "global.h"
 
-/**
- * @section DESCRIPTION
- * Defines attributes for a army used in the battle mode.
+/** @brief Defines attributes for a army used in the battle mode.
  */
-
 class CBattleArmyStats
 {
     public:

@@ -16,6 +16,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  @section LOCATION
  */
 
 #ifndef CWIND_H
@@ -25,15 +27,7 @@
 #include "sprites/cspriteangular.h"
 #include "resources/types/cship.h"
 
-
-
-enum sails_t {
-    SAIL_SQUARE=0   ,
-    SAIL_FOREAFT    ,
-    SAIL_TOTAL
-};
-
-
+#define SAIL_TOTAL  2
 #define SAIL_ANGLES 16
 const uint16_t sail_angles[SAIL_ANGLES] = {   0,  22,  45,  67,
                                              90, 112, 135, 157,
@@ -49,24 +43,28 @@ const uint16_t sail_effects[SAIL_TOTAL][SAIL_ANGLES] = {{ 10,  20, 30, 40,      
                                                           90, 100, 70, 80,
                                                           90, 100, 10, 20 }};
 
-/**
- * @section DESCRIPTION
- * Simulates a wind (angle and magnitude) for navgation and ship battle modes.
+/** @brief Simulates a wind (angle and magnitude) for navgation and ship battle modes.
  */
-
 class CWind
 {
 	public:
+        enum sails_t {
+            SAIL_SQUARE=0   ,
+            SAIL_FOREAFT
+        };
+
         /** Constructor. */
 		CWind();
         /** Destructor. */
 		virtual ~CWind();
 
+        // Getters
+        int16_t Angle( void )               const { return mAngle; }
+        int8_t  AngleMag( void )            const { return mAngleMag; }
+        // Setters
         void    Angle( int16_t angle )      { mAngle = CheckAngle(angle); }
-        int16_t Angle( void )               { return mAngle; }
         void    AngleMag( int8_t anglemag ) { mAngleMag = anglemag; }
-        int8_t  AngleMag( void )            { return mAngleMag; }
-
+        // Functions
         void Open( int16_t angle, int8_t anglemag, int8_t anglemagmax, int8_t angleminorchangemax );
 		void Run( void );
 		void Apply( uint8_t sailtype, uint8_t speed_max, CSpriteAngular* sprite );

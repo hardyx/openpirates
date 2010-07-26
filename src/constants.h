@@ -16,87 +16,68 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  @section LOCATION
  */
 
-/**
- * @section DESCRIPTION
- * This file contains constant definitions and enumerations available to all classes.
+/** @file constants.h
+ * @brief This file contains constant definitions and enumerations available to all classes.
  */
 
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
-#define TITLE           "openPirates"
-#define FILE_OPTIONS    "options.conf"
-#define FILE_RESOURCES  "data.conf"
-
-
-// Function/Window Signals
-// 1,2,3+... is reserved to window feedback
-#define SIG_NONE         0  // operation has finished with no errors
-#define SIG_END         -1  // operation has requested to start over (back to start menu)
-#define SIG_QUIT        -2  // operation has resulted in a request to shutdown
-#define SIG_FAIL        -3  // operation has detected an error
-
-// Event Signals
-#define EVENT_NONE      0
-#define EVENT_PRESSED   1
-#define EVENT_RELEASED  2
+#define TITLE           "openPirates"   /**< Set to the title of the application. */
+#define FILE_OPTIONS    "options.conf"  /**< Name of the file where options are read and stored. */
+#define FILE_RESOURCES  "data.conf"     /**< Name of the file where game data is read. */
 
 // Game Control/Defaults
-#define DEF_SCREEN_VMODE    2       // 640x480
-#define DEF_SCREEN_BPP      1       // 16 bpp
-#define DEF_FULLSCREEN      false
-#define DEF_DOUBLEBUF       true
-#define DEF_FRAME_LIMIT     true
-#define DEF_FRAME_CALC      true
-#define DEF_SOUND_FREQ      2       // 44100 Hz
-#define DEF_SOUND_CHAN      1       // 2 channels
-#define DEF_SOUND_SAMPLE    5       // 4096 samples
-#define DEF_FONT_PATH       "data/font/monotype_corsiva.ttf"
-#define DEF_FONT_SIZE       18
-#define DEF_FONTCOLOR_R     255
-#define DEF_FONTCOLOR_G     255
-#define DEF_FONTCOLOR_B     255
-#define DEF_CLOUD_COUNT     5
-#define DEF_WAVE_COUNT      40
-#define DEF_WAVE_SPEED      15
-#define DEF_P1_NAV_SPEED    1
-#define DEF_P1_BATTLE_SPEED 1
-#define DEF_POINTER_SPEED   5
-#define DEF_CLOUD_ANGLE_CHG 50
-#define DEF_CLOUD_MAG_CHG   20
+#define DEF_SCREEN_VMODE    2       /**< Default screen video mode. (2 = 640x480) */
+#define DEF_SCREEN_BPP      1       /**< Default screen depth mode. (1 = 16 bpp) */
+#define DEF_FULLSCREEN      false   /**< Default fullscreen mode. (false = window mode) */
+#define DEF_DOUBLEBUF       true    /**< Default double buffer mode. (true = enabled) */
+#define DEF_FRAME_LIMIT     true    /**< Default frame limit. (true = enabled) */
+#define DEF_FRAME_CALC      true    /**< Default frame calculation. (true = enabled) */
+#define DEF_SOUND_FREQ      2       /**< Default mixer frequency. (2 = 44100 Hz) */
+#define DEF_SOUND_CHAN      1       /**< Default mixer channels. (1 = 2 channels) */
+#define DEF_SOUND_SAMPLE    5       /**< Default mixer samples. (5 = 4096) */
+#define DEF_FONT_PATH       "data/font/monotype_corsiva.ttf"    /**< Relative path to ttf font file. */
+#define DEF_FONT_SIZE       18      /**< Default font size. */
+#define DEF_FONTCOLOR_R     255     /**< Default font color, component red. */
+#define DEF_FONTCOLOR_G     255     /**< Default font color, component green. */
+#define DEF_FONTCOLOR_B     255     /**< Default font color, component blue. */
+#define DEF_CLOUD_COUNT     5       /**< Default cloud number. */
+#define DEF_WAVE_COUNT      40      /**< Default wave number. */
+#define DEF_WAVE_SPEED      15      /**< Default wave speed. */
+#define DEF_P1_NAV_SPEED    1       /**< Default player navagation speed. */
+#define DEF_P1_BATTLE_SPEED 1       /**< Default player battle speed. */
+#define DEF_POINTER_SPEED   5       /**< Default mouse pointer speed. */
+#define DEF_CLOUD_ANGLE_CHG 50      /**< Default max cloud angle change. */
+#define DEF_CLOUD_MAG_CHG   20      /**< Default max cloud magnitude change. */
 
 
 // Frame Control/Defaults
-#define SYNC_FRAME          3
-#define FRAMES_PER_SECOND   60
-#define MS_PER_SECOND       1000
-#define MS_PER_FRAME        MS_PER_SECOND / FRAMES_PER_SECOND
-#define MS_PER_SYNC         ((MS_PER_SECOND*SYNC_FRAME) / FRAMES_PER_SECOND)
+#define SYNC_FRAME          3                                                   /**< How many frames the engine should sync at. (3 = 50 ms) */
+#define FRAMES_PER_SECOND   60                                                  /**< How many frames the engine should render per second. */
+#define MS_PER_SECOND       1000                                                /**< How many milliseconds per second. */
+#define MS_PER_FRAME        MS_PER_SECOND / FRAMES_PER_SECOND                   /**< Macro for how many milliseconds per frame. */
+#define MS_PER_SYNC         ((MS_PER_SECOND*SYNC_FRAME) / FRAMES_PER_SECOND)    /**< Macro for how many milliseconde per sync group */
 
 // Generic Constants
-#define TRUE  "True"
-#define FALSE "False"
+#define TRUE  "True"        /**< String form for TRUE */
+#define FALSE "False"       /**< String form for FALSE */
 
-#define PI 3.14159265
-#define XAXIS 1
-#define YAXIS 2
-
-// Animation methods for animated sprites
-#define ANI_NONE    0
-#define ANI_CONT    1
-#define ANI_BYROW   2
+#define PI 3.14159265       /**< The PI constant */
 
 // Player Control/Defaults
-#define DEFAULT_NAME        "Incognito"
-#define MAX_LENGTH_NAME     15
-#define DEFAULT_AGE         23
-#define DEFAULT_HEALTH      100
-#define HEALTH_CUTOFF       10
-#define GAME_MAXDIFFS       4
-#define GAME_MAXSHIPS       8
-#define GAME_MAXCOMMODITIES 4
+#define DEFAULT_NAME        "Incognito" /**< Default name for the player if nothing was given */
+#define MAX_LENGTH_NAME     15          /**< Max length of the name allowed */
+#define DEFAULT_AGE         23          /**< Age of the player at the beginning */
+#define DEFAULT_HEALTH      100         /**< Health of the player at the beginning (percent) */
+#define HEALTH_CUTOFF       10          /**< Health cutoff when the game will force retirement of the player */
+#define GAME_MAXSHIPS       8           /**< Max ships allowed in the players fleet */
+#define GAME_MAXDIFFS       4           /**< Max difficulty levels */
+#define GAME_MAXCOMMODITIES 4           /**< Max commdoities (goods) */
 
 // Config file identifiers
 #define CFG_SCREEN_VMODE    "*screen_videomode"
@@ -150,6 +131,95 @@
 #define CFG_SRTLOC          "|srtloc"
 
 #define TILE_CAMERA_OFFSET  8  // Must be a factor of 2 ( and no smaller than 2)
+
+#define JOYBUTTON_UP            0
+#define JOYBUTTON_DOWN          1
+#define JOYBUTTON_LEFT          2
+#define JOYBUTTON_RIGHT         3
+#define JOYBUTTON_ACTION        4
+#define JOYBUTTON_ESCAPE        5
+
+#define DAYS_IN_YEAR            365
+#define SIMLOOPS_PER_DAY        120
+
+#define ENTER_BY_SEA            0
+#define ENTER_BY_LAND           1
+
+#define PRISONER_FACTOR         100     // Factor effects ransom over time imprisioned
+#define REP_PERCENT_LAND        10
+#define LAND_ACRE_UNIT          50      // Number of acres given
+#define TREASUREMAP_PRICE       500     // Cost for part of a map
+#define CITIZENS_GOVERNOR       600     // Number of citizens needed to have a governor
+
+#define PROB_TRAVELER           70      // Percent chance traveller is at tavern
+#define PROB_TREASUREMAP        10      // Percent chance map seller is at tavern
+
+#define PLUNDER_PATRONS         10      // Percent of plunder goes to investors
+#define PLUNDER_OFFICERS        20      // Percent of plunder goes to officers and captain
+#define PLUNDER_DIFF1           5       // Percent of plunder to the captain
+#define PLUNDER_DIFF2           10
+#define PLUNDER_DIFF3           15
+#define PLUNDER_DIFF4           20
+
+#define EVENT_PROB_SPOTSHIP     50
+#define EVENT_PROB_MUTINY       20
+#define EVENT_PROB_TOWN         10
+#define EVENT_PROB_INDIANS      10
+#define DIV_INDIANS_SOLDIERS    4   // 1/4
+#define EVENT_PROB_PIRATES      10
+#define DIV_PIRATES_SOLDIERS    2   // 1/2
+#define DIV_PIRATES_GOODS       2   // 1/2
+#define EVENT_PROB_GOLDMINE     10
+#define DIV_GOLDMINE            2   // 1/2
+#define EVENT_PROB_NEWGOV       10
+
+#define EVENT_PROB_NATION       1
+#define EVENT_PROB_WAR          10
+#define EVENT_PROB_PEACE        10
+#define EVENT_PROB_ALLIANCE     10
+#define EVENT_PROB_AMNESTY      50
+#define EVENT_PROB_CAPCITY      5
+
+#define WIND_PROB_ANGLE_MAJOR   1
+#define WIND_PROB_ANGLE_MINOR   5
+#define WIND_PROB_MAGNITUDE     5
+
+
+#define PERCENTOF(P,T) (T*P)/100
+#define VERIFY_RANGE(val,cur,max) (val<max) ? val : cur
+
+
+/** @brief Function/Window Signals where 1,2,3+... is reserved to window feedback
+ */
+enum result_signal_t {
+    SIG_NONE = 0    ,   /**< Operation has finished with no errors. */
+    SIG_END  =-1    ,   /**< Operation has requested to start over (back to start menu). */
+    SIG_QUIT =-2    ,   /**< Operation has resulted in a request to shutdown. */
+    SIG_FAIL =-3        /**< Operation has detected an error. */
+};
+
+/** @brief Event Control Signals
+ */
+enum event_signal_t {
+    EVENT_NONE=0    ,   /**< An event has done nothing. */
+    EVENT_PRESSED   ,   /**< An event has been triggered by a key/button press. */
+    EVENT_RELEASED      /**< An event has been triggered by a key/button release. */
+};
+
+/** @brief Represents the xaxis/yaxis directions
+ */
+enum axis_types_t {
+    XAXIS=1     ,   /**< Horizontal movement */
+    YAXIS=2         /**< Vertical movement */
+};
+
+/** @brief Animation methods for animated sprites. Sprite sheets are usually one row of frames or mutiple rows.
+ */
+enum animation_types_t {
+    ANI_NONE=0  ,   /**< No animation */
+    ANI_CONT    ,   /**< Will animate the frames in order as they are arranged (left to right) in rows */
+    ANI_BYROW       /**< Will only animate the frames in order as they are arranged (left to right) in the row selected */
+};
 
 enum graphics_list_t
 {
@@ -275,61 +345,5 @@ enum diffs_list_t
     DIFF_ADVENTURER     ,
     DIFF_SWASHBUCKLER
 };
-
-
-#define JOYBUTTON_UP            0
-#define JOYBUTTON_DOWN          1
-#define JOYBUTTON_LEFT          2
-#define JOYBUTTON_RIGHT         3
-#define JOYBUTTON_ACTION        4
-#define JOYBUTTON_ESCAPE        5
-
-#define DAYS_IN_YEAR            365
-#define SIMLOOPS_PER_DAY        120
-
-#define ENTER_BY_SEA            0
-#define ENTER_BY_LAND           1
-
-#define PRISONER_FACTOR         100     // Factor effects ransom over time imprisioned
-#define REP_PERCENT_LAND        10
-#define LAND_ACRE_UNIT          50      // Number of acres given
-#define TREASUREMAP_PRICE       500     // Cost for part of a map
-#define CITIZENS_GOVERNOR       600     // Number of citizens needed to have a governor
-
-#define PROB_TRAVELER           70      // Percent chance traveller is at tavern
-#define PROB_TREASUREMAP        10      // Percent chance map seller is at tavern
-
-#define PLUNDER_PATRONS         10      // Percent of plunder goes to investors
-#define PLUNDER_OFFICERS        20      // Percent of plunder goes to officers and captain
-#define PLUNDER_DIFF1           5       // Percent of plunder to the captain
-#define PLUNDER_DIFF2           10
-#define PLUNDER_DIFF3           15
-#define PLUNDER_DIFF4           20
-
-#define EVENT_PROB_SPOTSHIP     50
-#define EVENT_PROB_MUTINY       20
-#define EVENT_PROB_TOWN         10
-#define EVENT_PROB_INDIANS      10
-#define DIV_INDIANS_SOLDIERS    4   // 1/4
-#define EVENT_PROB_PIRATES      10
-#define DIV_PIRATES_SOLDIERS    2   // 1/2
-#define DIV_PIRATES_GOODS       2   // 1/2
-#define EVENT_PROB_GOLDMINE     10
-#define DIV_GOLDMINE            2   // 1/2
-#define EVENT_PROB_NEWGOV       10
-
-#define EVENT_PROB_NATION       1
-#define EVENT_PROB_WAR          10
-#define EVENT_PROB_PEACE        10
-#define EVENT_PROB_ALLIANCE     10
-#define EVENT_PROB_AMNESTY      50
-#define EVENT_PROB_CAPCITY      5
-
-#define WIND_PROB_ANGLE_MAJOR   1
-#define WIND_PROB_ANGLE_MINOR   5
-#define WIND_PROB_MAGNITUDE     5
-
-
-#define PERCENTOF(P,T) (T*P)/100
 
 #endif // CONSTANTS_H

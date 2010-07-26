@@ -16,6 +16,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  @section LOCATION
  */
 
 #ifndef CTMAP_H
@@ -23,11 +25,8 @@
 
 #include "global.h"
 
-/**
- * @section DESCRIPTION
- * Defines attributes for a treasure map.
+/** @brief Defines attributes for a treasure map.
  */
-
 class CTMap
 {
     public:
@@ -45,7 +44,7 @@ class CTMap
         int16_t mMapIndex;
         int16_t mTileX;
         int16_t mTileY;
-        bool pieces[4];
+        bool    mPieces[4];
 };
 
 #endif // CTMAP_H

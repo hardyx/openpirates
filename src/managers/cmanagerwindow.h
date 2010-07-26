@@ -16,6 +16,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  @section LOCATION
  */
 
 #ifndef CMANAGERWINDOW_H
@@ -24,15 +26,14 @@
 #include "global.h"
 #include "resources/types/cwindow.h"
 
-/**
- * @section DESCRIPTION
- * Manages the menu windows.
+/** @brief Manages the menu windows.
  */
-
 class CManagerWindow
 {
 	public:
-        /** Constructor. */
+        /** @brief Constructor.
+         * @param resources : reference to the resources object
+         */
         CManagerWindow( CResources& resources );
         /** Destructor. */
         virtual ~CManagerWindow();
@@ -66,9 +67,6 @@ class CManagerWindow
         void UpdateWindowBackGroundColor( uint8_t index, SDL_Color* bkgnd_color );
         void DrawBackgroundColor( const SDL_Color& color );
 
-        CManagerWindow(const CManagerWindow&);
-        CManagerWindow& operator=(const CManagerWindow&);
-
     private:
         CResources&     mResources;
         CControls&      mEvents;
@@ -76,6 +74,9 @@ class CManagerWindow
         TTF_Font*       mpFont;
         CSpriteDynamic  mPointer;
         vec_window_t    mWindows;
+
+        CManagerWindow(const CManagerWindow&);
+        CManagerWindow& operator=(const CManagerWindow&);
 };
 
 #endif // CMANAGERWINDOW_H

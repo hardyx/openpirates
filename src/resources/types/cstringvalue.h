@@ -16,6 +16,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  @section LOCATION
  */
 
 #ifndef CSTRINGVALUE_H
@@ -24,11 +26,8 @@
 #include "global.h"
 #include "resources/types/cstring.h"
 
-/**
- * @section DESCRIPTION
- * Defines a integer vlaue to a string name.
+/** @brief Defines a integer vlaue to a string name.
  */
-
 class CStringValue : public CString
 {
     public:
@@ -38,7 +37,7 @@ class CStringValue : public CString
         virtual ~CStringValue();
 
         // Getters
-        uint16_t    Value( void )       { return mValue; }
+        uint16_t    Value( void )       const { return mValue; }
         // Setters
         void        Value( uint16_t v ) { mValue = v; }
 

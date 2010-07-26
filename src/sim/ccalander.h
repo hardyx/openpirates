@@ -16,6 +16,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  @section LOCATION
  */
 
 #ifndef CCALANDER_H
@@ -26,11 +28,8 @@
 #include "resources/types/cstringvalue.h"
 #include "resources/types/cdate.h"
 
-/**
- * @section DESCRIPTION
- * Provides date/time calculation and logic.
+/** @brief Provides date/time calculation and logic.
  */
-
 class CCalander
 {
     public:
